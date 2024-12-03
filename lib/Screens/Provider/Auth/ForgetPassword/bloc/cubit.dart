@@ -1,42 +1,45 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/Provider/Auth/ForgetPassword/bloc/state.dart';
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class OwnerResetCubit extends Cubit<OwnerResetState>{
+class OwnerResetCubit extends Cubit<OwnerResetState> {
   OwnerResetCubit() : super(OwnerResetInitState());
 
   static OwnerResetCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
+  // Dio dio = Dio();
   late String phone;
 
   Future<void> ownerResetPassword() async {
     emit(OwnerResetLoadingState());
 
-    try{
-      final SharedPreferences _pref = await SharedPreferences.getInstance();
-
+    try {
       print("phone: $phone");
 
       FormData formData = FormData.fromMap({
-        "phone" : "966$phone",
+        "phone": "966$phone",
       });
 
-      final Response response = await dio.post(ApiUtl.owner_reset_password, data: formData);
+      // final Response response = await dio.post(ApiUtl.owner_reset_password, data: formData);
+      final Response response = await NetworkHelper().request(
+          ApiUtl.owner_reset_password,
+          method: ServerMethods.POST,
+          body: formData);
 
-      if(response.statusCode == 200 && response.data["status"] == "success"){
-        _pref.setString("phone", response.data["phone"]);
-        _pref.setInt("owner_id", response.data["owner_id"]);
+      if (response.statusCode == 200 && response.data["status"] == "success") {
+        CacheHelper.instance!.setData("phone", value: response.data["phone"]);
+        CacheHelper.instance!
+            .setData("owner_id", value: response.data["owner_id"]);
         print(response.data);
         emit(OwnerResetSuccessState());
-      }else if(response.statusCode == 200 && response.data["status"] != "success"){
+      } else if (response.statusCode == 200 &&
+          response.data["status"] != "success") {
         print(":::::::: owner reset password state error :::::::::::");
         emit(OwnerResetErrorState(response.data["message"]));
       }
-    }
-    catch(e){
+    } catch (e) {
       print("User reset password catch error ::::::::: ${e.toString()}");
       emit(OwnerResetErrorState(e.toString()));
     }

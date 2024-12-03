@@ -1,18 +1,18 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/Provider/Auth/SignUp/bloc/state.dart';
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class OwnerSignUpCubit extends Cubit<OwnerSignUpState>{
+class OwnerSignUpCubit extends Cubit<OwnerSignUpState> {
   OwnerSignUpCubit() : super(OwnerSignUpInitState());
 
   static OwnerSignUpCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
-  GetStorage box =GetStorage();
+
+  GetStorage box = GetStorage();
   String? phone;
   String? name;
   String? email;
@@ -33,9 +33,9 @@ class OwnerSignUpCubit extends Cubit<OwnerSignUpState>{
   Future<void> ownerSignUp() async {
     emit(OwnerSignUpLoadingState());
 
-    try{
-      final SharedPreferences _pref = await SharedPreferences.getInstance();
-      final googleToken = _pref.getString("owner_google_token");
+    try {
+      final googleToken = CacheHelper.instance!
+          .getData(key: "owner_google_token", valueType: ValueType.string);
 
       print("phone: $phone");
       print("name: $name");
@@ -56,40 +56,41 @@ class OwnerSignUpCubit extends Cubit<OwnerSignUpState>{
       print("google Token: $googleToken");
 
       FormData formData = FormData.fromMap({
-        "phone" : "966$phone",
-        "name" : name,
-        "email" : email,
-        "service_id" : serviceId,
-        "password" : password,
-        "confirm_password" : confirmPassword,
-        "city_id" : cityId,
-        "address" : address,
-        "min_salary" : minSalary,
-        "commerical" : commercial,
-        "image_owner" : await MultipartFile.fromFile(image!.path),
-        "from" : from,
-        "to" : to,
-        "bank_account_owner" : bankAccountOwner,
-        "bank_name" : bankName,
-        "account_number" : accountNumber,
-        "google_token" : googleToken,
+        "phone": "966$phone",
+        "name": name,
+        "email": email,
+        "service_id": serviceId,
+        "password": password,
+        "confirm_password": confirmPassword,
+        "city_id": cityId,
+        "address": address,
+        "min_salary": minSalary,
+        "commerical": commercial,
+        "image_owner": await MultipartFile.fromFile(image!.path),
+        "from": from,
+        "to": to,
+        "bank_account_owner": bankAccountOwner,
+        "bank_name": bankName,
+        "account_number": accountNumber,
+        "google_token": googleToken,
       });
 
-      final Response response = await dio.post(ApiUtl.owner_register, data: formData);
+      final Response response =
+          await NetworkHelper().request(ApiUtl.owner_register, body: formData);
 
-      if(response.statusCode == 200 && response.data["status"] == "success"){
-        _pref.setString("owner_token", response.data["access_token"]);
-        _pref.setInt("owner_id", response.data["owner_id"]);
+      if (response.statusCode == 200 && response.data["status"] == "success") {
+        CacheHelper.instance!.setData("owner_token",value: response.data["access_token"]);
+        CacheHelper.instance!.setData("owner_id",value: response.data["owner_id"]);
         box.write("id", response.data["owner_id"]);
-        _pref.setString("type", response.data["type"]);
+        CacheHelper.instance!.setData("type",value: response.data["type"]);
         print(response.data);
         emit(OwnerSignUpSuccessState());
-      }else if(response.statusCode == 200 && response.data["status"] != "success"){
+      } else if (response.statusCode == 200 &&
+          response.data["status"] != "success") {
         print("::::::::::: User Sign up error ::::::::::::::");
         emit(OwnerSignUpErrorState(response.data["message"]));
       }
-
-    }catch(e){
+    } catch (e) {
       print("SignUp catch error ::::::::::::::${e.toString()}");
       emit(OwnerSignUpErrorState(e.toString()));
     }

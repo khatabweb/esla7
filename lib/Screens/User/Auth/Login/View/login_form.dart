@@ -1,3 +1,4 @@
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:esla7/Theme/color.dart';
 import 'package:esla7/Screens/User/Auth/ForgetPassword/View/ForgetPassword_page.dart';
 import 'package:esla7/Screens/User/Auth/Login/Bloc/cubit.dart';
@@ -202,10 +203,9 @@ class _SkipButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 5, bottom: 10),
       child: InkWell(
-        onTap: () async {
-          SharedPreferences _pref = await SharedPreferences.getInstance();
-          _pref.setBool("skip", true);
-          print("skip case :::::::::::: ${_pref.get("skip")}");
+        onTap: () {
+          CacheHelper.instance!.setData("skip",value: true);
+          print("skip case :::::::::::: ${CacheHelper.instance!.getData(key:"skip",valueType: ValueType.bool)}");
           Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));
         },
         child: Row(

@@ -26,7 +26,10 @@ class ConfirmCodeForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _PinCode(onDone:(on){confirmSignUpCubit.code = on;}),
+          Text(confirmSignUpCubit.code ?? "null"),
+          _PinCode(onDone: (on) {
+            confirmSignUpCubit.code = on;
+          }),
           BlocConsumer<ConfirmCodeCubit, ConfirmCodeState>(
             listener: (_, state) {
               if (state is ConfirmCodeErrorState) {
@@ -41,7 +44,8 @@ class ConfirmCodeForm extends StatelessWidget {
                   ),
                 );
                 confirmSignUp == true
-                    ? print(":::::::::::: congratulations!! Your account is activated now.")
+                    ? print(
+                        ":::::::::::: congratulations!! Your account is activated now.")
                     : print(":::::::::::: Forget password code confirmed");
               }
             },
@@ -61,7 +65,6 @@ class ConfirmCodeForm extends StatelessWidget {
   }
 }
 
-
 class _PinCode extends StatelessWidget {
   final void Function(String)? onDone;
   const _PinCode({Key? key, this.onDone}) : super(key: key);
@@ -69,13 +72,14 @@ class _PinCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: PinCodeTextField(
+        maskCharacter: ConfirmCodeCubit.get(context).code ?? "0000",
+        controller: TextEditingController(text: ConfirmCodeCubit.get(context).code),
         autofocus: false,
         highlight: true,
-        pinTextStyle:TextStyle(fontSize:14, color: Theme.of(context).primaryColor),
+        pinTextStyle: TextStyle(fontSize: 14, color: Theme.of(context).primaryColor),
         pinBoxHeight: screenHeight * .08,
         pinBoxWidth: screenHeight * .075,
         pinBoxRadius: 12,

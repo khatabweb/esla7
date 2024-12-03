@@ -71,6 +71,9 @@ class CustomTextField extends StatelessWidget {
             bottom: 2.0),
         height: height,
         child: TextFormField(
+          onTapOutside: (event) {
+            FocusScope.of(context).unfocus();
+          },
           controller: controller != null ? controller : null,
           onFieldSubmitted: onSubmitted,
           onTap: onTab,

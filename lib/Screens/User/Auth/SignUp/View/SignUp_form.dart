@@ -1,14 +1,14 @@
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
-import 'package:esla7/Screens/User/Auth/ConfirmCode/View/ConfirmCode_View.dart';
-import 'package:esla7/Screens/User/Auth/SignUp/Bloc/cubit.dart';
-import 'package:esla7/Screens/User/Auth/SignUp/Bloc/state.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
+import '../../../../../Theme/color.dart';
+import '../../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
+import '../../ConfirmCode/View/ConfirmCode_View.dart';
+import '../Bloc/cubit.dart';
+import '../Bloc/state.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_CountryKey.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,36 +49,40 @@ class _SignUpFormState extends State<SignUpForm> {
                 _ConfirmPasswordTextField(),
                 _AcceptTermsCondition(
                   value: termsChecked,
-                  onChangeCheckbox: (val){
+                  onChangeCheckbox: (val) {
                     setState(() {
                       termsChecked = val as bool;
                     });
                   },
                 ),
-
-                termsChecked ? BlocConsumer<SignUpCubit, SignUpState>(
-                  listener: (_, state){
-                    if(state is SignUpErrorState){
-                      customSnackBar(_, state.error);
-                    }else if(state is SignUpSuccessState){
-                      showCupertinoDialog(context: context, builder: (_) {
-                        return ConfirmCodeForm(confirmSignUp: true);
-                      });
-                      print("============================= تم التسجيل بنجاح =========================");
-                    }
-                  },
-                  builder: (context, state) {
-                    return state is SignUpLoadingState
-                        ? CenterLoading()
-                        : _RegisterButton(
-                            onTap: () {
-                              if(_formKey.currentState!.validate()){
-                                cubit.userSignUp();
-                              }
-                            },
-                          );
-                  },
-                ) : _DisActiveButton(),
+                termsChecked
+                    ? BlocConsumer<SignUpCubit, SignUpState>(
+                        listener: (_, state) {
+                          if (state is SignUpErrorState) {
+                            customSnackBar(_, state.error);
+                          } else if (state is SignUpSuccessState) {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (_) {
+                                  return ConfirmCodeForm(confirmSignUp: true);
+                                });
+                            print(
+                                "============================= تم التسجيل بنجاح =========================");
+                          }
+                        },
+                        builder: (context, state) {
+                          return state is SignUpLoadingState
+                              ? CenterLoading()
+                              : _RegisterButton(
+                                  onTap: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      cubit.userSignUp();
+                                    }
+                                  },
+                                );
+                        },
+                      )
+                    : _DisActiveButton(),
                 _HaveAccount(),
               ],
             ),
@@ -88,7 +92,6 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 }
-
 
 class _PhoneTextField extends StatelessWidget {
   @override
@@ -100,20 +103,20 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = value;
       },
     );
   }
 }
-
 
 class _NameTextField extends StatelessWidget {
   @override
@@ -124,12 +127,13 @@ class _NameTextField extends StatelessWidget {
       secureText: false,
       label: "name".tr(),
       inputType: TextInputType.name,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_name".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.name = value;
       },
     );
@@ -145,14 +149,15 @@ class _EmailTextField extends StatelessWidget {
       secureText: false,
       label: "email".tr(),
       inputType: TextInputType.emailAddress,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_email".tr();
-        }else if(value.contains("@") == false){
+        } else if (value.contains("@") == false) {
           return "incorrect_email".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.email = value;
       },
     );
@@ -168,20 +173,20 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = value;
       },
     );
   }
 }
-
 
 class _ConfirmPasswordTextField extends StatelessWidget {
   @override
@@ -192,14 +197,15 @@ class _ConfirmPasswordTextField extends StatelessWidget {
       secureText: true,
       label: "confirm_password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_confirm_password".tr();
-        }else if(value != cubit.password){
+        } else if (value != cubit.password) {
           return "password_does_not_match".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.confirmPassword = value;
       },
     );
@@ -209,7 +215,8 @@ class _ConfirmPasswordTextField extends StatelessWidget {
 class _AcceptTermsCondition extends StatelessWidget {
   final bool? value;
   final Function(bool?)? onChangeCheckbox;
-  const _AcceptTermsCondition({Key? key, this.value, this.onChangeCheckbox}) : super(key: key);
+  const _AcceptTermsCondition({Key? key, this.value, this.onChangeCheckbox})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +235,6 @@ class _AcceptTermsCondition extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-
         Text(
           "accept_for".tr(),
           style: TextStyle(
@@ -238,7 +244,8 @@ class _AcceptTermsCondition extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
           child: Text(
             "terms_and_condition".tr(),
             style: TextStyle(
@@ -267,7 +274,6 @@ class _RegisterButton extends StatelessWidget {
   }
 }
 
-
 class _DisActiveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -278,13 +284,12 @@ class _DisActiveButton extends StatelessWidget {
       textColor: Colors.grey,
       color: Colors.grey.withOpacity(0.5),
       borderColor: Colors.transparent,
-      onTap: (){
+      onTap: () {
         customSnackBar(context, "please_agree_terms".tr());
       },
     );
   }
 }
-
 
 class _HaveAccount extends StatelessWidget {
   @override
@@ -295,9 +300,7 @@ class _HaveAccount extends StatelessWidget {
         Text(
           "have_account".tr(),
           style: TextStyle(
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -316,4 +319,3 @@ class _HaveAccount extends StatelessWidget {
     );
   }
 }
-

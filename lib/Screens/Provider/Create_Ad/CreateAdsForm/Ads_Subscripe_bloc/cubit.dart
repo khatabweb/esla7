@@ -1,8 +1,9 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'state.dart';
 
@@ -10,15 +11,14 @@ class AdsSubscribeCubit extends Cubit<AdsSubscribeState>{
   AdsSubscribeCubit() : super(AdsSubscribeInitState());
 
   static AdsSubscribeCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
   int? packageId;
 
   Future<void> subscribe() async {
     emit(AdsSubscribeLoadingState());
 
     try{
-      final SharedPreferences _pref = await SharedPreferences.getInstance();
-      final ownerId = _pref.getInt("owner_id");
+      
+      final ownerId = CacheHelper.instance!.getData(key:"owner_id",valueType: ValueType.int);
 
       print("Owner ID: $ownerId");
       print("Package ID: $packageId");
@@ -28,7 +28,8 @@ class AdsSubscribeCubit extends Cubit<AdsSubscribeState>{
         "package_id" : packageId,
       });
 
-      final Response response = await dio.post(ApiUtl.owner_ads_subscribe, data: formData);
+      
+      final Response response = await NetworkHelper().request(ApiUtl.owner_ads_subscribe, body: formData);
 
       if(response.statusCode == 200 && response.data["status"] == "success"){
         print(response.data);

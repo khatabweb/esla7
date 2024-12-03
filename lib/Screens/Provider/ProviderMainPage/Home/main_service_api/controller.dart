@@ -1,20 +1,16 @@
 import 'package:esla7/Screens/Provider/ProviderMainPage/Home/main_service_api/model.dart';
-import 'package:esla7/Screens/Widgets/helper/Network_Utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 
 class OwnerServiceController {
-  NetWork _util = NetWork();
+  // NetWork _util = NetWork();
   OwnerServiceModel _ownerServiceModel = OwnerServiceModel();
 
+
+//TODO: get service Base url 
   Future<OwnerServiceModel> getService() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    final token = _pref.getString("owner_token");
-
-    Map<String, dynamic> header = {
-      "Authorization": "Bearer $token",
-    };
-
-    var data = await _util.getData(url: "owner/ownermainservice", headers: header);
+    var data = await NetworkHelper()
+        .request("owner/ownermainservice", method: ServerMethods.GET);
     print(data);
 
     if (data == null || data == "internet") {

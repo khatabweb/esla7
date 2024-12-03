@@ -1,16 +1,19 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/Provider/Auth/Login/bloc/state.dart';
+import 'package:esla7/Screens/Widgets/helper/Network_Utils.dart';
+import 'package:esla7/Screens/Widgets/helper/app_storg.dart';
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class OwnerLoginCubit extends Cubit<OwnerLoginState>{
   OwnerLoginCubit() : super(OwnerLoginInitState());
 
   static OwnerLoginCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
+  // Dio dio = Dio();
   GetStorage box =GetStorage();
   String? phone, password;
 
@@ -18,7 +21,6 @@ class OwnerLoginCubit extends Cubit<OwnerLoginState>{
     emit(OwnerLoginLoadingState());
 
     try{
-      final SharedPreferences _pref = await SharedPreferences.getInstance();
 
       print("phone: $phone");
       print("password: $password");
@@ -26,17 +28,17 @@ class OwnerLoginCubit extends Cubit<OwnerLoginState>{
       FormData formData = FormData.fromMap({
         "phone" : "966$phone",
         "password" : password,
-        "google_token" : _pref.getString("owner_google_token"),
+        "google_token" : CacheHelper.instance!.getData(key:"owner_google_token", valueType: ValueType.string),
       });
 
-      final Response response = await dio.post(ApiUtl.owner_login, data: formData);
-
+      // final Response response = await dio.post(ApiUtl.owner_login, data: formData);
+      final Response response = await NetworkHelper().request(ApiUtl.owner_login, body: formData);
       if(response.statusCode == 200 && response.data["status"] == "success"){
-        _pref.setString("owner_token", response.data["access_token"]);
-        _pref.setInt("owner_id", response.data["owner_id"]);
-        box.write("owner_id", response.data["owner_id"]);
+        CacheHelper.instance!.setData("owner_token",value: response.data["access_token"]as String);
+        CacheHelper.instance!.setData("owner_id", value :response.data["owner_id"] as int);
+        AppStorage.cacheOwnerId(response.data["owner_id"]);
         print(response.data["owner_id"]);
-        _pref.setString("type", response.data["type"]);
+        CacheHelper.instance!.setData("type",value: response.data["type"] as String);
         print(response.data);
         emit(OwnerLoginSuccessState());
       }else if(response.statusCode == 200 && response.data["status"] != "success"){

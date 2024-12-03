@@ -1,5 +1,6 @@
 import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
 import 'package:esla7/Screens/Widgets/Custom_Button.dart';
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 // import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +43,10 @@ class _ConfirmButtons extends StatelessWidget {
           text: "log_in".tr(),
           width: MediaQuery.of(context).size.width / 3,
           onTap: () async {
-            SharedPreferences _pref = await SharedPreferences.getInstance();
+            // SharedPreferences _pref = await SharedPreferences.getInstance();
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => UserOrProvider()), (route) => false);
-            _pref.setBool("skip", false);
-            print("skip case :::: ${_pref.getBool("skip")}");
+            CacheHelper.instance!.setData("skip",value: false);;
+            
           },
         ),
 
@@ -87,10 +88,10 @@ class LoginAlert extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                SharedPreferences _pref = await SharedPreferences.getInstance();
+                
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => UserOrProvider()), (route) => false);
-                _pref.setBool("skip", false);
-                print("skip case :::: ${_pref.getBool("skip")}");
+                CacheHelper.instance!.setData("skip",value:  false);
+                print("skip case :::: ${CacheHelper.instance!.getData(key:"skip",valueType: ValueType.bool)}");
               },
               child: DrawSingleText(text: "log_in".tr(), textAlign: TextAlign.center),
             ),

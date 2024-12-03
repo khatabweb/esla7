@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/CommonScreen/Slider/API/slider_controller.dart';
-import 'package:esla7/Screens/CommonScreen/Slider/API/slider_models.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/CenterMessage.dart';
-import 'package:esla7/Screens/Widgets/logo.dart';
+import '../../../API/api_utility.dart';
+import 'API/slider_controller.dart';
+import 'API/slider_models.dart';
+import '../../Widgets/CenterLoading.dart';
+import '../../Widgets/CenterMessage.dart';
+import '../../Widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -18,7 +19,7 @@ class ImageSlider extends StatefulWidget {
 }
 
 class _ImageSliderState extends State<ImageSlider> {
-  int _current = 0;
+  int current = 0;
   SliderController _sliderController = SliderController();
   SliderModel _sliderModel = SliderModel();
   bool _isLoading = true;
@@ -44,33 +45,43 @@ class _ImageSliderState extends State<ImageSlider> {
         : _sliderModel.banners?.length == 0
             ? _NoOrdersContainer()
             : CarouselSlider(
-                items: _sliderModel.banners!.map((item) {
-                  return Container(
-                    width: width,
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: NetworkImage("${ApiUtl.main_image_url}${item!.image}"),
-                        fit: BoxFit.cover,
+                items: _sliderModel.banners!.map(
+                  (item) {
+                    return Container(
+                      width: width,
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        // image:
+                        // DecorationImage(
+                        //   image: NetworkImage("${ApiUtl.main_image_url}${item!.image}"),
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                      child: CachedNetworkImage(
+                        imageUrl: "${ApiUtl.main_image_url}${item!.image}",
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    );
+                  },
+                ).toList(),
                 options: CarouselOptions(
                   viewportFraction: 0.9,
                   autoPlay: true,
                   height: MediaQuery.of(context).size.height / 4,
                   onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
+                    setState(
+                      () {
+                        current = index;
+                      },
+                    );
                   },
                 ),
               );
   }
 }
-
 
 class _NoOrdersContainer extends StatelessWidget {
   const _NoOrdersContainer({Key? key}) : super(key: key);
@@ -84,13 +95,12 @@ class _NoOrdersContainer extends StatelessWidget {
       width: width,
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Theme.of(context).primaryColor,
-        image: DecorationImage(
-          image: AssetImage("assets/images/a5.jpg"),
-          fit: BoxFit.cover,
-        )
-      ),
+          borderRadius: BorderRadius.circular(15),
+          color: Theme.of(context).primaryColor,
+          image: DecorationImage(
+            image: AssetImage("assets/images/a5.jpg"),
+            fit: BoxFit.cover,
+          )),
       child: Container(
         height: height / 4,
         width: width,
@@ -122,7 +132,8 @@ class _NoOrdersContainer extends StatelessWidget {
           children: [
             CustomLogo(verticalOffset: 0, size: 100),
             SizedBox(height: 10),
-            CenterMessage("there_are_no_ads_banners_now".tr(), textColor: Colors.white),
+            CenterMessage("there_are_no_ads_banners_now".tr(),
+                textColor: Colors.white),
           ],
         ),
       ),

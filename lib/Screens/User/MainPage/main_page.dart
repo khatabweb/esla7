@@ -18,7 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   GlobalKey _btmNavKey = GlobalKey();
   final String language = translator.currentLanguage;
-  int? _selectedIndex;
+  int? _selectedIndex = 0;
   bool? skip;
 
   var pages = [];
@@ -81,8 +81,7 @@ class _MainPageState extends State<MainPage> {
                       blurRadius: 15,
                     )
                   ]),
-              child: 
-              BottomNavigationBar(
+              child: BottomNavigationBar(
                 key: _btmNavKey,
                 currentIndex: _selectedIndex!,
                 unselectedItemColor: Theme.of(context).colorScheme.secondary,
@@ -92,18 +91,22 @@ class _MainPageState extends State<MainPage> {
                 type: BottomNavigationBarType.fixed,
                 items: [
                   BottomNavigationBarItem(
+                    label: "",
                     icon: _CustomIcon("assets/icons/home.png"),
                     activeIcon: _CustomActiveIcon("assets/icons/home.png"),
                   ),
                   BottomNavigationBarItem(
+                    label: "",
                     icon: _CustomIcon("assets/icons/orders.png"),
                     activeIcon: _CustomActiveIcon("assets/icons/orders.png"),
                   ),
                   BottomNavigationBarItem(
+                    label: "",
                     icon: _CustomIcon("assets/icons/bell.png"),
                     activeIcon: _CustomActiveIcon("assets/icons/bell.png"),
                   ),
                   BottomNavigationBarItem(
+                    label: "",
                     icon: _CustomIcon("assets/icons/chat.png"),
                     activeIcon: _CustomActiveIcon("assets/icons/chat.png"),
                   ),
