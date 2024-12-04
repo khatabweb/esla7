@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/Provider/Auth/Login/bloc/state.dart';
-import 'package:esla7/Screens/Widgets/helper/Network_Utils.dart';
 import 'package:esla7/Screens/Widgets/helper/app_storg.dart';
 import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
@@ -13,7 +12,6 @@ class OwnerLoginCubit extends Cubit<OwnerLoginState>{
   OwnerLoginCubit() : super(OwnerLoginInitState());
 
   static OwnerLoginCubit get(context) => BlocProvider.of(context);
-  // Dio dio = Dio();
   GetStorage box =GetStorage();
   String? phone, password;
 

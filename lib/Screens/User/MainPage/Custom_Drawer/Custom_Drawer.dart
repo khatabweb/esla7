@@ -1,21 +1,22 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/API/profile_controller.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/API/profile_model.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
-import 'package:esla7/Screens/Widgets/login_dialog/custom_login_dialog.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/Language/change_language.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
-import 'package:esla7/Screens/Provider/Auth/SignUp/View/ProviderSignUp_page.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/profile_view.dart';
-import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
+import 'package:esla7/Screens/User/Profile/ProfileView/data/cubit/profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../API/api_utility.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/helper/cach_helper.dart';
+import '../../../Widgets/login_dialog/custom_login_dialog.dart';
+import '../../../../Theme/color.dart';
+import '../../../CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
+import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
+import '../../../CommonScreen/DrawerPages/Views/Language/change_language.dart';
+import '../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
+import '../../../CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
+import '../../../Provider/Auth/SignUp/View/ProviderSignUp_page.dart';
+import '../../Profile/ProfileView/profile_view.dart';
+import '../../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,17 +30,10 @@ class DrawerView extends StatefulWidget {
 
 class _DrawerViewState extends State<DrawerView> {
   final String language = translator.activeLanguageCode;
-  ProfileController _profileController = ProfileController();
-  ProfileModel _profileModel = ProfileModel();
+
+  // ProfileModel _profileModel = ProfileModel();
   bool isLoading = true;
   bool? skip;
-
-  void getData() async {
-    _profileModel = await _profileController.getUserProfile();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   void shared() async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
@@ -51,7 +45,7 @@ class _DrawerViewState extends State<DrawerView> {
 
   @override
   void initState() {
-    getData();
+    BlocProvider.of<ProfileCubit>(context).getUserProfile();
     shared();
     super.initState();
   }
@@ -156,9 +150,11 @@ class _DrawerViewState extends State<DrawerView> {
                       : isLoading
                           ? CenterLoading()
                           : _UserData(
-                              name: _profileModel.name,
+                              name: BlocProvider.of<ProfileCubit>(context)
+                                  .profileModel
+                                  .name,
                               image:
-                                  "${ApiUtl.main_image_url}${_profileModel.image}",
+                                  "${ApiUtl.main_image_url}${BlocProvider.of<ProfileCubit>(context).profileModel.image}",
                             ),
                   SizedBox(height: 5),
                   Divider(),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomRoundedPhoto extends StatelessWidget {
@@ -25,21 +26,27 @@ class CustomRoundedPhoto extends StatelessWidget {
       child: Container(
           padding: EdgeInsets.all(borderWidth ?? 3),
           decoration: BoxDecoration(
-            color: borderColor ?? Colors.white,
-            borderRadius: BorderRadius.circular(radius ?? 65),
-            boxShadow: boxShadow
-          ),
+              color: borderColor ?? Colors.white,
+              borderRadius: BorderRadius.circular(radius ?? 65),
+              boxShadow: boxShadow),
           child: Container(
             decoration: BoxDecoration(
               color: backgroundColor ?? Colors.white,
-              image: image.contains("http")
-                  ? DecorationImage(image: NetworkImage(image), fit: BoxFit.cover)
-                  : DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(radius ?? 65),
             ),
+            child: Center(
+              child: CachedNetworkImage(
+                imageUrl: image,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.error,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
           )
-        // Image.asset(Assets.lib.assets.images.centerAvatar.path),
-      ),
+          // Image.asset(Assets.lib.assets.images.centerAvatar.path),
+          ),
     );
   }
 }

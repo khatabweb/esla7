@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'FinishedOrders/FinishedOrders.dart';
 
-
 class UserOrdersView extends StatefulWidget {
   @override
   _UserOrdersViewState createState() => _UserOrdersViewState();
@@ -53,7 +52,6 @@ class _UserOrdersViewState extends State<UserOrdersView> {
           onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
         ),
         drawer: DrawerView(),
-
         body: CustomBackground(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -112,7 +110,6 @@ class _UserOrdersViewState extends State<UserOrdersView> {
   }
 }
 
-
 class _CustomTap extends StatelessWidget {
   final String? text;
   final Color? color, textColor;
@@ -132,7 +129,8 @@ class _CustomTap extends StatelessWidget {
           color: color ?? Theme.of(context).primaryColor,
         ),
         child: Center(
-          child: Text(text ?? "",
+          child: Text(
+            text ?? "",
             style: TextStyle(
               color: textColor,
               fontSize: 15,

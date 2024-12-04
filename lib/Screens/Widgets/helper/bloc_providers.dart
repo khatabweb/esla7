@@ -1,5 +1,9 @@
 // import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:esla7/Screens/CommonScreen/Slider/data/cubit/slider_cubit.dart';
+import 'package:esla7/Screens/User/MainPage/Home/main_services/data/cubit/our_services_cubit.dart';
+import 'package:esla7/Screens/User/MainPage/Notification/data/cubit/user_notification_cubit.dart';
+import 'package:esla7/Screens/User/MainPage/allChats/data/cubit/allchats_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Bloc/cubit.dart';
@@ -35,7 +39,6 @@ import '../../User/ProviderProfile/SubService/bloc/cubit.dart';
 import '../../User/Search/bloc/cubit.dart';
 import '../../User/SingleSection/owner_bloc/cubit.dart';
 
-
 abstract class BlocProviders {
   static List<BlocProvider> providers = [
     BlocProvider<SignUpCubit>(create: (_) => SignUpCubit()),
@@ -54,6 +57,10 @@ abstract class BlocProviders {
     BlocProvider<CartCubit>(create: (_) => CartCubit()),
     BlocProvider<CheckoutCubit>(create: (_) => CheckoutCubit()),
     BlocProvider<OwnersCubit>(create: (_) => OwnersCubit()),
+    BlocProvider<SliderCubit>(create: (_) => SliderCubit()),
+    BlocProvider<OurServicesCubit>(create: (_) => OurServicesCubit()),
+    BlocProvider<UserNotificationCubit>(create: (_) => UserNotificationCubit()),
+    BlocProvider<AllChatsCubit>(create: (_) => AllChatsCubit()),
 
     ///provider bloc
     BlocProvider<OwnerSignUpCubit>(create: (_) => OwnerSignUpCubit()),
@@ -64,7 +71,8 @@ abstract class BlocProviders {
     BlocProvider<SubServiceCubit>(create: (_) => SubServiceCubit()),
     BlocProvider<ServiceNameCubit>(create: (_) => ServiceNameCubit()),
     BlocProvider<AddServiceCubit>(create: (_) => AddServiceCubit()),
-    BlocProvider<OwnerOrderDetailsCubit>(create: (_) => OwnerOrderDetailsCubit()),
+    BlocProvider<OwnerOrderDetailsCubit>(
+        create: (_) => OwnerOrderDetailsCubit()),
     BlocProvider<AcceptCubit>(create: (_) => AcceptCubit()),
     BlocProvider<RefuseCubit>(create: (_) => RefuseCubit()),
     BlocProvider<SubServiceListCubit>(create: (_) => SubServiceListCubit()),

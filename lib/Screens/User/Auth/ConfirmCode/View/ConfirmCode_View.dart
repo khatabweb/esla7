@@ -1,11 +1,11 @@
-import 'package:esla7/Screens/User/Auth/ConfirmCode/Bloc/cubit.dart';
-import 'package:esla7/Screens/User/Auth/ConfirmCode/Bloc/state.dart';
-import 'package:esla7/Screens/User/Auth/SetNewPassword/View/SetNewPassword_page.dart';
-import 'package:esla7/Screens/User/MainPage/main_page.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import '../Bloc/cubit.dart';
+import '../Bloc/state.dart';
+import '../../SetNewPassword/View/SetNewPassword_page.dart';
+import '../../../MainPage/main_page.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -50,13 +50,15 @@ class ConfirmCodeForm extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              return state is ConfirmCodeLoadingState
-                  ? CenterLoading()
-                  : _ConfirmButtons(
-                      onTapConfirm: () {
-                        confirmSignUpCubit.confirmCodeCubit();
-                      },
-                    );
+              if (state is ConfirmCodeLoadingState) {
+                return CenterLoading();
+              } else {
+                return _ConfirmButtons(
+                  onTapConfirm: () {
+                    confirmSignUpCubit.confirmCodeCubit();
+                  },
+                );
+              }
             },
           )
         ],
@@ -75,11 +77,12 @@ class _PinCode extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: PinCodeTextField(
-        maskCharacter: ConfirmCodeCubit.get(context).code ?? "0000",
-        controller: TextEditingController(text: ConfirmCodeCubit.get(context).code),
+        controller:
+            TextEditingController(text: ConfirmCodeCubit.get(context).code),
         autofocus: false,
         highlight: true,
-        pinTextStyle: TextStyle(fontSize: 14, color: Theme.of(context).primaryColor),
+        pinTextStyle:
+            TextStyle(fontSize: 14, color: Theme.of(context).primaryColor),
         pinBoxHeight: screenHeight * .08,
         pinBoxWidth: screenHeight * .075,
         pinBoxRadius: 12,

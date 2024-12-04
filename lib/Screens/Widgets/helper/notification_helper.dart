@@ -1,5 +1,6 @@
 import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
 import 'package:esla7/Screens/CommonScreen/second_route/view.dart';
+import 'package:esla7/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class FirebaseNotificationHelper {
-  static GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
   static final FirebaseNotificationHelper instance =
       FirebaseNotificationHelper._internal();
 
@@ -172,7 +172,7 @@ class FirebaseNotificationHelper {
   Future onDidReceiveLocalNotification(
       int? id, String? title, String? body, String? payload) async {
     await showDialog(
-      context: navigatorKey!.currentState!.context,
+      context: navigatorState.currentState!.context,
       builder: (context) => CupertinoAlertDialog(
         title: Text(title!),
         content: Text(body!),
@@ -195,7 +195,7 @@ class FirebaseNotificationHelper {
     if (payload?.payload != null) {
       // debugPrint('Notification payload $payload');
     }
-    Navigator.push(navigatorKey!.currentState!.context,
+    Navigator.push(navigatorState.currentState!.context,
         MaterialPageRoute(builder: (context) => UserOrProvider()));
   }
 

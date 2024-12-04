@@ -5,7 +5,6 @@ import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AnimatedWidgets.dart';
 import '../Custom_DrawText.dart';
@@ -32,7 +31,7 @@ import '../Custom_DrawText.dart';
 //   }
 // }
 
-class _ConfirmButtons extends StatelessWidget {
+class ConfirmButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -44,12 +43,14 @@ class _ConfirmButtons extends StatelessWidget {
           width: MediaQuery.of(context).size.width / 3,
           onTap: () async {
             // SharedPreferences _pref = await SharedPreferences.getInstance();
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => UserOrProvider()), (route) => false);
-            CacheHelper.instance!.setData("skip",value: false);;
-            
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => UserOrProvider()),
+                (route) => false);
+            CacheHelper.instance!.setData("skip", value: false);
+            ;
           },
         ),
-
         CustomButton(
           width: MediaQuery.of(context).size.width / 3,
           rightPadding: 5,
@@ -65,7 +66,6 @@ class _ConfirmButtons extends StatelessWidget {
   }
 }
 
-
 class LoginAlert extends StatelessWidget {
   final language = translator.activeLanguageCode;
   @override
@@ -78,22 +78,29 @@ class LoginAlert extends StatelessWidget {
           // title: Image.asset("assets/icons/danger.png",color: Theme.of(context).accentColor, height: 60, width: 60),
           content: Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: DrawHeaderText(text: "you_should_login_first".tr(), textAlign: TextAlign.center),
+            child: DrawHeaderText(
+                text: "you_should_login_first".tr(),
+                textAlign: TextAlign.center),
           ),
 
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: DrawSingleText(text: "cancel".tr(), textAlign: TextAlign.center),
+              child: DrawSingleText(
+                  text: "cancel".tr(), textAlign: TextAlign.center),
             ),
             TextButton(
               onPressed: () async {
-                
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => UserOrProvider()), (route) => false);
-                CacheHelper.instance!.setData("skip",value:  false);
-                print("skip case :::: ${CacheHelper.instance!.getData(key:"skip",valueType: ValueType.bool)}");
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => UserOrProvider()),
+                    (route) => false);
+                CacheHelper.instance!.setData("skip", value: false);
+                print(
+                    "skip case :::: ${CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool)}");
               },
-              child: DrawSingleText(text: "log_in".tr(), textAlign: TextAlign.center),
+              child: DrawSingleText(
+                  text: "log_in".tr(), textAlign: TextAlign.center),
             ),
           ],
         ),

@@ -13,19 +13,15 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   static SignUpCubit get(context) => BlocProvider.of(context);
   GetStorage box = GetStorage();
-  String? phone, name, email, password, confirmPassword;
+  String? phone, name, email, password, confirmPassword, code;
 
   Future<void> userSignUp() async {
     emit(SignUpLoadingState());
 
     try {
-      final googleToken = CacheHelper.instance!.getData(key:"user_google_token",valueType: ValueType.string);
-      print("phone: $phone");
-      print("name: $name");
-      print("email: $email");
-      print("password: $password");
-      print("confirm password: $confirmPassword");
-      print("google Token: $googleToken");
+      final googleToken = CacheHelper.instance!
+          .getData(key: "user_google_token", valueType: ValueType.string);
+      log("phone: $phone , name: $name , email: $email , password: $password , confirmPassword: $confirmPassword , googleToken: $googleToken");
 
       FormData formData = FormData.fromMap({
         "phone": "966$phone",
@@ -37,30 +33,17 @@ class SignUpCubit extends Cubit<SignUpState> {
       });
 
       final Response response = await NetworkHelper().request(
-          ApiUtl.user_register,
-          body: formData,
-          method: ServerMethods.POST);
+        ApiUtl.user_register,
+        body: formData,
+        method: ServerMethods.POST,
+      );
 
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data["status"] == "success") {
         emit(SignUpSuccessState());
-      } else if ((response.statusCode == 200 || response.statusCode == 201) &&
-          response.data["status"] != "success") {
-        CacheHelper.instance!.setData("user_token",
-            value: response.data["access_token"] as String);
-        CacheHelper.instance!.setData(
-          "user_id",
-          value: response.data["user_id"] as int,
-        );
-
-
-        log("user id : ${response.data["user_id"]}");
-        log("CacheHelper user id : ${CacheHelper.instance!.getData(key: "user_id", valueType: ValueType.int)}");
-
-        // box.write("id", response.data["user_id"]);
-        box.write("type", response.data["type"]);
-        CacheHelper.instance!
-            .setData("type", value: response.data["type"] as String);
+        _saveModel(response);
+        code = response.data["code"].toString();
+      } else {
         print("::::::::::: User Sign up error ::::::::::::::");
         emit(SignUpErrorState(response.data["message"]));
       }
@@ -71,14 +54,21 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-  // _saveModel(SharedPreferences _pref, Response response) {
-  //   _pref.setString("user_token", response.data["access_token"]);
-  //   _pref.setInt("user_id", response.data["user_id"]);
-  //   // _pref.setString("user_name", response.data["name"]);
-  //   box.write("id", response.data["user_id"]);
-  //   box.write("type", response.data["type"]);
-  //   _pref.setString("type", response.data["type"]);
-  // }
+  _saveModel(Response response) {
+    CacheHelper.instance!
+        .setData("user_token", value: response.data["access_token"] as String);
+    CacheHelper.instance!.setData(
+      "user_id",
+      value: response.data["user_id"] as int,
+    );
+    log("user id : ${response.data["user_id"]}");
+    log("CacheHelper user id : ${CacheHelper.instance!.getData(key: "user_id", valueType: ValueType.int)}");
+
+    // box.write("id", response.data["user_id"]);
+    box.write("type", response.data["type"]);
+    CacheHelper.instance!
+        .setData("type", value: response.data["type"] as String);
+  }
 }
 
 

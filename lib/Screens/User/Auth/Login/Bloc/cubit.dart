@@ -5,18 +5,15 @@ import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitState());
 
   static LoginCubit get(context) => BlocProvider.of(context);
-  // Dio dio = Dio();
   GetStorage box = GetStorage();
   String? phone, password;
 
   Future<void> userLogin() async {
-    final SharedPreferences _pref = await SharedPreferences.getInstance();
     emit(LoginLoadingState());
 
     try {
@@ -26,19 +23,21 @@ class LoginCubit extends Cubit<LoginState> {
       FormData formData = FormData.fromMap({
         "phone": "966$phone",
         "password": password,
-        "google_token": _pref.getString("user_google_token"),
+        "google_token": CacheHelper.instance!
+            .getData(key: "user_google_token", valueType: ValueType.string),
       });
 
-      // final Response response = await dio.post(ApiUtl.user_login, data: formData);
-      final Response response = await NetworkHelper().request(ApiUtl.user_login,
-          body: formData, method: ServerMethods.POST);
+      final Response response = await NetworkHelper().request(
+        ApiUtl.user_login,
+        body: formData,
+        method: ServerMethods.POST,
+      );
 
       if (response.statusCode == 200 && response.data["status"] == "success") {
-        _saveModel(_pref, response);
+        _saveModel(response);
         print(response.data);
         emit(LoginSuccessState());
-      } else if (response.statusCode == 200 &&
-          response.data["status"] != "success") {
+      } else {
         print("::::::::::: User Login error ::::::::::::::");
         emit(LoginErrorState(response.data["message"]));
       }
@@ -48,14 +47,11 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  _saveModel(SharedPreferences _pref, Response response) {
-    
+  _saveModel(Response response) {
     CacheHelper.instance!
         .setData("user_token", value: response.data["access_token"] as String);
-    
-    CacheHelper.instance!
-        .setData("user_name", value: response.data["name"] as String);
-    
+    // CacheHelper.instance!
+    //     .setData("user_name", value: response.data["name"] as String);
     CacheHelper.instance!
         .setData("user_id", value: response.data["user_id"] as int);
     box.write("id", response.data["user_id"]);

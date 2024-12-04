@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:esla7/Screens/User/MainPage/main_page.dart';
 import 'package:esla7/Screens/User/Profile/EditProfile/bloc/cubit.dart';
 import 'package:esla7/Screens/User/Profile/EditProfile/bloc/state.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/API/profile_model.dart';
+import 'package:esla7/Screens/User/Profile/ProfileView/data/model/profile_model.dart';
 import 'package:esla7/Screens/User/Profile/ProfileView/profile_view.dart';
 import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
 import 'package:esla7/Screens/Widgets/CenterLoading.dart';

@@ -12,7 +12,7 @@ class OwnersController {
       return _ownersModel;
     } else {
       _ownersModel = OwnersModel.fromJson(data);
-      return  _ownersModel;
+      return _ownersModel;
     }
   }
 }

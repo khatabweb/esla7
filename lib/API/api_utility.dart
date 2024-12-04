@@ -47,17 +47,23 @@ class ApiUtl {
 
   static const String owner_login = "${main_owner_api_url}loginowner";
 
-  static const String owner_reset_password = "${main_owner_api_url}resetownerpassword";
+  static const String owner_reset_password =
+      "${main_owner_api_url}resetownerpassword";
 
-  static const String owner_update_password = "${main_owner_api_url}updateownerpassword";
+  static const String owner_update_password =
+      "${main_owner_api_url}updateownerpassword";
 
-  static const String owner_sub_service = "${main_owner_api_url}subserviceslist";
+  static const String owner_sub_service =
+      "${main_owner_api_url}subserviceslist";
 
-  static const String owner_end_service = "${main_owner_api_url}endserviceslist";
+  static const String owner_end_service =
+      "${main_owner_api_url}endserviceslist";
 
-  static const String owner_add_service = "${main_owner_api_url}addendserviceslist";
+  static const String owner_add_service =
+      "${main_owner_api_url}addendserviceslist";
 
-  static const String owner_order_details = "${main_owner_api_url}order_details_owner";
+  static const String owner_order_details =
+      "${main_owner_api_url}order_details_owner";
 
   static const String owner_accept_order = "${main_owner_api_url}accept_order";
 
@@ -67,10 +73,10 @@ class ApiUtl {
 
   static const String owner_update_profile = "${main_owner_api_url}update/";
 
-  static const String owner_delete_end_service = "${main_owner_api_url}deleteendserviceslist/";
-
+  static const String owner_delete_end_service =
+      "${main_owner_api_url}deleteendserviceslist/";
 
   ///========================= common API utilities ==============================
-  static const String complaints_and_suggestions = "${main_api_url}storecomplaints";
-
+  static const String complaints_and_suggestions =
+      "${main_api_url}storecomplaints";
 }

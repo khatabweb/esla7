@@ -1,53 +1,50 @@
+import 'package:esla7/Screens/User/Profile/ProfileView/data/cubit/profile_cubit.dart';
 import 'package:esla7/Theme/color.dart';
 import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
 import 'package:esla7/Screens/Widgets/CenterLoading.dart';
 import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/API/profile_controller.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/API/profile_model.dart';
 
-class ProfileItems extends StatefulWidget {
-  @override
-  State<ProfileItems> createState() => _ProfileItemsState();
-}
+import 'package:esla7/Screens/User/Profile/ProfileView/data/model/profile_model.dart';
 
-class _ProfileItemsState extends State<ProfileItems> {
+class ProfileItems extends StatelessWidget {
+  ProfileItems({super.key});
+
   final String language = translator.activeLanguageCode;
-  ProfileController _profileController = ProfileController();
-  ProfileModel _profileModel = ProfileModel();
-  bool _isLoading = true;
-
-  void _getProfile() async {
-    _profileModel = await _profileController.getUserProfile();
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
-  void initState () {
-    _getProfile();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final ProfileModel profileModel =
+        BlocProvider.of<ProfileCubit>(context).profileModel;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: AnimatedWidgets(
         verticalOffset: 150,
-        child: _isLoading
-            ? CenterLoading()
-            : Column(
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileSuccess) {
+              return Column(
                 children: [
-                  _NameItem(name: "${_profileModel.name}"),
-                  _PhoneItem(phone: "${_profileModel.phone}"),
-                  _EmailItem(email: "${_profileModel.email}"),
+                  _NameItem(name: "${profileModel.name}"),
+                  _PhoneItem(phone: "${profileModel.phone}"),
+                  _EmailItem(email: "${profileModel.email}"),
                   _PasswordItem(),
                 ],
-              ),
+              );
+            } else if (state is ProfileLoading) {
+              return CenterLoading();
+            } else if (state is ProfileError) {
+              return Center(child: Text(state.error));
+            } else {
+              return Center(
+                child: Text("data not found "),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -95,7 +92,6 @@ class _EmailItem extends StatelessWidget {
     );
   }
 }
-
 
 class _PasswordItem extends StatelessWidget {
   @override
@@ -165,7 +161,6 @@ class _PasswordItem extends StatelessWidget {
 //   }
 // }
 
-
 class _SingleItem extends StatelessWidget {
   final String? icon, title, subTitle;
   final TextDirection? subTitleDirection;
@@ -180,24 +175,29 @@ class _SingleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedWidgets(
-      verticalOffset: 50,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(icon!, height: 20, width: 20, fit: BoxFit.contain),
-            SizedBox(width: 15),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DrawHeaderText(text: title ?? "", color: ThemeColor.mainGold, fontSize: 14),
-                DrawSingleText(text: subTitle ?? "", fontSize: 12,textDirection: subTitleDirection),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+        verticalOffset: 50,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(icon!, height: 20, width: 20, fit: BoxFit.contain),
+              SizedBox(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DrawHeaderText(
+                      text: title ?? "",
+                      color: ThemeColor.mainGold,
+                      fontSize: 14),
+                  DrawSingleText(
+                      text: subTitle ?? "",
+                      fontSize: 12,
+                      textDirection: subTitleDirection),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }

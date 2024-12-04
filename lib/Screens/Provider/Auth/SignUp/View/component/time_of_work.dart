@@ -29,7 +29,8 @@ class _TimeOfWorkState extends State<TimeOfWork> {
     );
     if (time == null) {
       cubit.from = _fromTime?.format(context);
-      print("when 'from' time == null the cubit available from is ::::::::: ${cubit.from}");
+      print(
+          "when 'from' time == null the cubit available from is ::::::::: ${cubit.from}");
     } else {
       cubit.from = time.format(context);
       setState(() {
@@ -46,7 +47,8 @@ class _TimeOfWorkState extends State<TimeOfWork> {
     );
     if (time == null) {
       cubit.to = _fromTime?.format(context);
-      print("when 'to' time == null the cubit available to is ::::::::: ${cubit.to}");
+      print(
+          "when 'to' time == null the cubit available to is ::::::::: ${cubit.to}");
     } else {
       cubit.to = time.format(context);
       setState(() {
@@ -57,32 +59,29 @@ class _TimeOfWorkState extends State<TimeOfWork> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = OwnerSignUpCubit.get(context);
+    // final cubit = OwnerSignUpCubit.get(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         DrawHeaderText(text: "from".tr()),
         _pickerContainer(
           context: context,
-          hint: _fromTime == null
-              ? "time".tr()
-              : "${_fromTime!.format(context)}",
+          hint:
+              _fromTime == null ? "time".tr() : "${_fromTime!.format(context)}",
           onTap: _pickTimeFrom,
         ),
         DrawHeaderText(text: "to".tr()),
         _pickerContainer(
           context: context,
-          hint: _toTime == null
-              ? "time".tr()
-              : "${_toTime!.format(context)}",
+          hint: _toTime == null ? "time".tr() : "${_toTime!.format(context)}",
           onTap: _pickTimeTo,
         ),
       ],
     );
   }
 
-
-  Widget _pickerContainer({BuildContext? context, void Function()? onTap, String? hint}){
+  Widget _pickerContainer(
+      {BuildContext? context, void Function()? onTap, String? hint}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

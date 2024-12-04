@@ -1,10 +1,9 @@
+import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'Home/home_page.dart';
-import 'Notification/Notification_page.dart';
+import 'Home/main_services/presentation/screen/home_page.dart';
+import 'Notification/presentation/screen/Notification_page.dart';
 import 'UserOrders/UserOrders_view.dart';
-import 'allChats/view.dart';
+import 'allChats/presentation/screen/view.dart';
 
 class MainPage extends StatefulWidget {
   final int? pageIndex;
@@ -17,7 +16,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   GlobalKey _btmNavKey = GlobalKey();
-  final String language = translator.currentLanguage;
+
   int? _selectedIndex = 0;
   bool? skip;
 
@@ -36,9 +35,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   void skipCase() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
     setState(() {
-      skip = _pref.getBool("skip");
+      skip =
+          CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool);
     });
     print("skip case ::::::::::: $skip");
   }

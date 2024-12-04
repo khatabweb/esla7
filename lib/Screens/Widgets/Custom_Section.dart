@@ -1,5 +1,6 @@
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'AnimatedWidgets.dart';
+import 'Custom_DrawText.dart';
 import 'package:flutter/material.dart';
 
 class CustomSection extends StatelessWidget {
@@ -30,32 +31,44 @@ class CustomSection extends StatelessWidget {
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-                      decoration: BoxDecoration(
-                        image: image.contains("http")
-                            ? DecorationImage(image: NetworkImage(image))
-                            : DecorationImage(image: AssetImage(image)),
+                      child: Center(
+                        child: CachedNetworkImage(
+                            imageUrl: image,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) {
+                              if (!image.contains("http")) {
+                                return Image.asset(image);
+                              } else {
+                                return Icon(Icons.error);
+                              }
+                            }),
                       ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 10),
-                    child: DrawHeaderText(text: title ?? "", color: Theme.of(context).primaryColor, fontSize: 13),
+                    child: DrawHeaderText(
+                        text: title ?? "",
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 13),
                   ),
                 ],
               ),
               Positioned(
                 top: 20,
                 right: 20,
-                child: soon == true ? Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/icons/soon.png"),
-                        fit: BoxFit.contain,
+                child: soon == true
+                    ? Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/icons/soon.png"),
+                          fit: BoxFit.contain,
+                        )),
                       )
-                  ),
-                ) : SizedBox(),
+                    : SizedBox(),
               ),
             ],
           ),

@@ -1,4 +1,6 @@
+import 'package:esla7/Screens/Widgets/helper/bloc_observe.dart';
 import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:esla7/Theme/app_themedate.dart';
 import 'Screens/Widgets/helper/app_storg.dart';
 import 'Screens/Widgets/helper/notification_helper.dart';
@@ -14,6 +16,7 @@ import 'Screens/Provider/ProviderMainPage/main_page.dart';
 import 'Screens/User/MainPage/main_page.dart';
 import 'Screens/Widgets/helper/bloc_providers.dart';
 
+GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -21,6 +24,7 @@ Future<void> main() async {
   await CacheHelper.init();
   FirebaseMessaging.instance.requestPermission();
   FirebaseNotificationHelper.instance.onInt();
+  Bloc.observer = MyBlocObserver();
 
   await translator.init(
     localeType: LocalizationDefaultType.asDefined,
@@ -62,8 +66,6 @@ class Repair extends StatefulWidget {
 class _RepairState extends State<Repair> {
   @override
   void initState() {
-    print("hellllllllllllllllllooooooooooooo");
-
     ///======================== Welcome notification ========================
     FirebaseNotificationHelper.instance.initialize();
     super.initState();
@@ -71,10 +73,11 @@ class _RepairState extends State<Repair> {
 
   @override
   Widget build(BuildContext context) {
+    NetworkHelper.lang = translator.activeLanguageCode;
     return MultiBlocProvider(
       providers: BlocProviders.providers,
       child: MaterialApp(
-        navigatorKey: FirebaseNotificationHelper.navigatorKey,
+        navigatorKey: navigatorState,
         debugShowCheckedModeBanner: false,
         localizationsDelegates: [
           DefaultMaterialLocalizations.delegate,

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-
 class SingleProviderCard extends StatelessWidget {
   final bool? isGolden;
   final VoidCallback? onTap;
@@ -37,20 +36,20 @@ class SingleProviderCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: isGolden == true ? ThemeColor.mainGold : Colors.white, width: 1.5)
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+                color: isGolden == true ? ThemeColor.mainGold : Colors.white,
+                width: 1.5)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomRoundedPhoto(
-              image: "$image", //"assets/images/profile.jpg",
+              image: image ?? "assets/images/profile.jpg",
               radius: 32,
               borderWidth: 1.5,
-              borderColor: isGolden == true
-                  ? ThemeColor.mainGold
-                  : Colors.white,
+              borderColor:
+                  isGolden == true ? ThemeColor.mainGold : Colors.white,
             ),
             SizedBox(width: 10),
             Expanded(

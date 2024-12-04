@@ -21,7 +21,6 @@ import 'component/pick_commercial_image.dart';
 import 'component/select_address.dart';
 import 'component/time_of_work.dart';
 
-
 class ProviderSignUpForm extends StatefulWidget {
   @override
   State<ProviderSignUpForm> createState() => _ProviderSignUpFormState();
@@ -48,10 +47,12 @@ class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
               : cubit.address == null
                   ? customSnackBar(context, "please_select_your_location".tr())
                   : cubit.image == null
-                      ? customSnackBar(context, "image_of_commercial_required".tr())
-                          : (cubit.from == null || cubit.to == null)
-                          ? customSnackBar(context, "check_the_time_of_work".tr())
-                              : cubit.ownerSignUp();
+                      ? customSnackBar(
+                          context, "image_of_commercial_required".tr())
+                      : (cubit.from == null || cubit.to == null)
+                          ? customSnackBar(
+                              context, "check_the_time_of_work".tr())
+                          : cubit.ownerSignUp();
     }
   }
 
@@ -71,7 +72,9 @@ class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
                 _PhoneTextField(),
                 _NameTextField(),
                 _EmailTextField(),
-                ServiceType(), ///from component
+                ServiceType(),
+
+                ///from component
                 _PasswordTextField(),
                 _ConfirmPasswordTextField(),
                 CitiesDropdown(
@@ -79,19 +82,25 @@ class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
                   horizontalPadding: 0,
                   ownerRegister: true,
                 ),
-                AddressTextFieldTap(), ///from component
+                AddressTextFieldTap(),
+
+                ///from component
                 _MinSalaryTextField(),
                 _CommercialNumberTextField(),
-                CommercialImageTextField(), ///from component
+                CommercialImageTextField(),
+
+                ///from component
                 DrawHeaderText(text: "times_of_work".tr()),
-                TimeOfWork(), ///from component
+                TimeOfWork(),
+
+                ///from component
                 Divider(),
                 _BankOwnerNameTextField(),
                 _BankNameTextField(),
                 _BankAccountNumberTextField(),
                 _AcceptTermsCondition(
                   value: termsChecked,
-                  onChangeCheckbox: (val){
+                  onChangeCheckbox: (val) {
                     setState(() {
                       termsChecked = val as bool;
                     });
@@ -103,9 +112,13 @@ class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
                           if (state is OwnerSignUpErrorState) {
                             customSnackBar(_, state.error);
                           } else if (state is OwnerSignUpSuccessState) {
-                            showCupertinoDialog(context: context, builder: (_) => ConfirmCodeForm(confirmSignUp: true));
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (_) =>
+                                    ConfirmCodeForm(confirmSignUp: true));
                             cubit.image = null;
-                            print("================ تم التسجيل بنجاح كمؤسسة =============");
+                            print(
+                                "================ تم التسجيل بنجاح كمؤسسة =============");
                           }
                         },
                         builder: (context, state) {
@@ -140,7 +153,6 @@ class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
 // ),
 // SizedBox(height: 15),
 
-
 class _PhoneTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -151,20 +163,20 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = value;
       },
     );
   }
 }
-
 
 class _NameTextField extends StatelessWidget {
   @override
@@ -175,18 +187,18 @@ class _NameTextField extends StatelessWidget {
       secureText: false,
       label: "company_name".tr(),
       inputType: TextInputType.name,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_name".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.name = value;
       },
     );
   }
 }
-
 
 class _EmailTextField extends StatelessWidget {
   @override
@@ -197,20 +209,20 @@ class _EmailTextField extends StatelessWidget {
       secureText: false,
       label: "email".tr(),
       inputType: TextInputType.emailAddress,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_email".tr();
-        }else if(value.contains("@") == false){
+        } else if (value.contains("@") == false) {
           return "incorrect_email".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.email = value;
       },
     );
   }
 }
-
 
 class _PasswordTextField extends StatelessWidget {
   @override
@@ -221,20 +233,20 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = value;
       },
     );
   }
 }
-
 
 class _ConfirmPasswordTextField extends StatelessWidget {
   @override
@@ -245,20 +257,20 @@ class _ConfirmPasswordTextField extends StatelessWidget {
       secureText: true,
       label: "confirm_password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_confirm_password".tr();
-        }else if(value != cubit.password){
+        } else if (value != cubit.password) {
           return "password_does_not_match".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.confirmPassword = value;
       },
     );
   }
 }
-
 
 class _MinSalaryTextField extends StatelessWidget {
   @override
@@ -271,18 +283,18 @@ class _MinSalaryTextField extends StatelessWidget {
       hint: "salary_when_service_not_done".tr(),
       suffixIcon: CountryCode(countyCode: "sar".tr()),
       inputType: TextInputType.number,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "please_enter_min_salary".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.minSalary = value;
       },
     );
   }
 }
-
 
 class _CommercialNumberTextField extends StatelessWidget {
   @override
@@ -294,18 +306,18 @@ class _CommercialNumberTextField extends StatelessWidget {
       label: "commercial_registration_no".tr(),
       hint: "123456789",
       inputType: TextInputType.number,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "please_enter_commercial_no".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.commercial = value;
       },
     );
   }
 }
-
 
 class _BankOwnerNameTextField extends StatelessWidget {
   @override
@@ -316,18 +328,18 @@ class _BankOwnerNameTextField extends StatelessWidget {
       secureText: false,
       label: "bank_account_owner_name".tr(),
       inputType: TextInputType.name,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "bank_account_owner_name_required".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.bankAccountOwner = value;
       },
     );
   }
 }
-
 
 class _BankNameTextField extends StatelessWidget {
   @override
@@ -339,18 +351,18 @@ class _BankNameTextField extends StatelessWidget {
       label: "bank_name".tr(),
       hint: "بنك فيصل",
       inputType: TextInputType.name,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "bank_name_required".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.bankName = value;
       },
     );
   }
 }
-
 
 class _BankAccountNumberTextField extends StatelessWidget {
   @override
@@ -362,23 +374,24 @@ class _BankAccountNumberTextField extends StatelessWidget {
       label: "bank_account_number".tr(),
       hint: "123456789",
       inputType: TextInputType.number,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "bank_account_num_required".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.accountNumber = value;
       },
     );
   }
 }
 
-
 class _AcceptTermsCondition extends StatelessWidget {
   final bool? value;
   final Function(bool?)? onChangeCheckbox;
-  const _AcceptTermsCondition({Key? key, this.value, this.onChangeCheckbox}) : super(key: key);
+  const _AcceptTermsCondition({Key? key, this.value, this.onChangeCheckbox})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +410,6 @@ class _AcceptTermsCondition extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-
         Text(
           "accept_for".tr(),
           style: TextStyle(
@@ -407,7 +419,8 @@ class _AcceptTermsCondition extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
           child: Text(
             "terms_and_condition".tr(),
             style: TextStyle(
@@ -420,7 +433,6 @@ class _AcceptTermsCondition extends StatelessWidget {
     );
   }
 }
-
 
 class _RegisterButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -437,7 +449,6 @@ class _RegisterButton extends StatelessWidget {
   }
 }
 
-
 class _DisActiveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -448,13 +459,12 @@ class _DisActiveButton extends StatelessWidget {
       textColor: Colors.grey,
       color: Colors.grey.withOpacity(0.5),
       borderColor: Colors.transparent,
-      onTap: (){
+      onTap: () {
         customSnackBar(context, "please_agree_terms".tr());
       },
     );
   }
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // class _NextButton extends StatelessWidget {
@@ -491,7 +501,6 @@ class _DisActiveButton extends StatelessWidget {
 //   }
 // }
 
-
 class _HaveAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -501,9 +510,7 @@ class _HaveAccount extends StatelessWidget {
         Text(
           "have_account".tr(),
           style: TextStyle(
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -522,8 +529,3 @@ class _HaveAccount extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

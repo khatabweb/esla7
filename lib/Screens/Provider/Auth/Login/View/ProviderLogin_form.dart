@@ -11,7 +11,6 @@ import 'package:esla7/Screens/Widgets/Custom_Button.dart';
 import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
 import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
 import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -48,11 +47,14 @@ class _ProviderLoginFormState extends State<ProviderLoginForm> {
                 _ForgetPasswordButton(),
 
                 BlocConsumer<OwnerLoginCubit, OwnerLoginState>(
-                  listener: (_, state){
-                    if(state is OwnerLoginErrorState){
+                  listener: (_, state) {
+                    if (state is OwnerLoginErrorState) {
                       customSnackBar(_, state.error);
-                    }else if(state is OwnerLoginSuccessState){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => ProviderMainPage()), (route) => false);
+                    } else if (state is OwnerLoginSuccessState) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProviderMainPage()),
+                          (route) => false);
                       print("========== تم تسجيل الدخول كمؤسسة بنجاح ========");
                     }
                   },
@@ -84,14 +86,15 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = value;
       },
     );
@@ -107,14 +110,15 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = value;
       },
     );
@@ -131,8 +135,8 @@ class _ForgetPasswordButton extends StatelessWidget {
           language == "ar" ? Alignment.centerLeft : Alignment.centerRight,
       child: TextButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => ProviderForgetPasswordPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => ProviderForgetPasswordPage()));
         },
         child: Text(
           "forget_password".tr(),
@@ -175,8 +179,8 @@ class _HaveAccount extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => ProviderSignUpPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => ProviderSignUpPage()));
           },
           child: Text(
             "create_new_account".tr(),
@@ -198,30 +202,38 @@ class _SkipButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 5, bottom: 10),
       child: InkWell(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ProviderMainPage())),
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => ProviderMainPage())),
         child: Row(
-          mainAxisAlignment: language == "ar" ?  MainAxisAlignment.start : MainAxisAlignment.end,
+          mainAxisAlignment: language == "ar"
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.end,
           children: [
-            language == "ar" ? skipButton(context) : DrawHeaderText(text: "skip".tr()),
+            language == "ar"
+                ? skipButton(context)
+                : DrawHeaderText(text: "skip".tr()),
             SizedBox(width: 8),
-            language == "ar" ? DrawHeaderText(text: "skip".tr()) : skipButton(context),
+            language == "ar"
+                ? DrawHeaderText(text: "skip".tr())
+                : skipButton(context),
           ],
         ),
       ),
     );
   }
 
-  Widget skipButton(BuildContext context){
+  Widget skipButton(BuildContext context) {
     return Container(
       height: 25,
       width: 28,
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5)
-      ),
+          borderRadius: BorderRadius.circular(5)),
       child: Center(
         child: Icon(
-          language == "ar" ? Icons.arrow_back_rounded : Icons.arrow_forward_outlined,
+          language == "ar"
+              ? Icons.arrow_back_rounded
+              : Icons.arrow_forward_outlined,
           color: Theme.of(context).primaryColor,
           size: 20,
         ),

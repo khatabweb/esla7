@@ -16,7 +16,7 @@ class CommercialImageTextField extends StatefulWidget {
 
 class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
   final String language = translator.activeLanguageCode;
-  XFile? _image;
+  // XFile? _image;
   final _picker = ImagePicker();
 
   Future pickImage() async {

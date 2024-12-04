@@ -1,6 +1,6 @@
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderDrawer/ProviderDrawer.dart';
-import 'package:esla7/Screens/CommonScreen/Slider/slider_view.dart';
+import 'package:esla7/Screens/CommonScreen/Slider/presentation/slider_view.dart';
 import 'package:esla7/Screens/Provider/provider_Services/Services/ServiceDetails_view.dart';
 import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
 import 'package:esla7/Screens/Widgets/CenterLoading.dart';

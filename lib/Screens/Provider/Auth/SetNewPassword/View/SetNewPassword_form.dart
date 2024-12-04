@@ -14,16 +14,18 @@ import '../successfully_update_dialog.dart';
 
 class SetProviderNewPasswordForm extends StatefulWidget {
   @override
-  State<SetProviderNewPasswordForm> createState() => _SetProviderNewPasswordFormState();
+  State<SetProviderNewPasswordForm> createState() =>
+      _SetProviderNewPasswordFormState();
 }
 
-class _SetProviderNewPasswordFormState extends State<SetProviderNewPasswordForm> {
+class _SetProviderNewPasswordFormState
+    extends State<SetProviderNewPasswordForm> {
   final formKey = GlobalKey<FormState>();
   final String language = translator.activeLanguageCode;
 
   void _checkValidation() {
     final cubit = OwnerUpdatePassCubit.get(context);
-    if(formKey.currentState!.validate()){
+    if (formKey.currentState!.validate()) {
       cubit.ownerUpdatePassword();
     }
   }
@@ -42,19 +44,20 @@ class _SetProviderNewPasswordFormState extends State<SetProviderNewPasswordForm>
               _PasswordTextField(),
               _ConfirmPasswordTextField(),
               SizedBox(height: 25),
-
               BlocConsumer<OwnerUpdatePassCubit, OwnerUpdatePassState>(
-                listener: (_, state){
-                  if(state is OwnerUpdatePassErrorState){
+                listener: (_, state) {
+                  if (state is OwnerUpdatePassErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is OwnerUpdatePassSuccessState){
-                    showCupertinoDialog(context: context, builder: (_) {
-                      return SuccessfullyUpdatedDialog();
-                    });
+                  } else if (state is OwnerUpdatePassSuccessState) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (_) {
+                          return SuccessfullyUpdatedDialog();
+                        });
                     print("=========== تم تغيير كلمة المرور بنجاح ========");
                   }
                 },
-                builder: (context, state){
+                builder: (context, state) {
                   return state is OwnerUpdatePassLoadingState
                       ? CenterLoading()
                       : CustomButton(text: "set".tr(), onTap: _checkValidation);
@@ -77,14 +80,15 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = "$value";
       },
     );
@@ -100,17 +104,17 @@ class _ConfirmPasswordTextField extends StatelessWidget {
       secureText: true,
       label: "confirm_password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_confirm_password".tr();
-        }else if(value != cubit.password){
+        } else if (value != cubit.password) {
           return "password_does_not_match".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.confirmPassword = "$value";
       },
     );
   }
 }
-

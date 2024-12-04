@@ -3,7 +3,7 @@ import 'package:esla7/Theme/color.dart';
 import 'package:esla7/Screens/User/Auth/ForgetPassword/View/ForgetPassword_page.dart';
 import 'package:esla7/Screens/User/Auth/Login/Bloc/cubit.dart';
 import 'package:esla7/Screens/User/Auth/Login/Bloc/state.dart';
-import 'package:esla7/Screens/User/Auth/SignUp/View/SignUp_page.dart';
+import 'package:esla7/Screens/User/Auth/SignUp/View/screen/SignUp_page.dart';
 import 'package:esla7/Screens/User/MainPage/main_page.dart';
 import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
 import 'package:esla7/Screens/Widgets/CenterLoading.dart';
@@ -16,8 +16,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 
 class LoginForm extends StatefulWidget {
   @override
@@ -45,12 +43,14 @@ class _LoginFormState extends State<LoginForm> {
 
               ///login button bloc
               BlocConsumer<LoginCubit, LoginState>(
-                listener: (_, state){
-                  if(state is LoginErrorState){
+                listener: (_, state) {
+                  if (state is LoginErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is LoginSuccessState){
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));
-                    print("============================= تم تسجيل الدخول بنجاح =========================");
+                  } else if (state is LoginSuccessState) {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => MainPage()));
+                    print(
+                        "============================= تم تسجيل الدخول بنجاح =========================");
                   }
                 },
                 builder: (context, state) {
@@ -86,14 +86,15 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = value;
       },
     );
@@ -109,14 +110,15 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = value;
       },
     );
@@ -204,33 +206,42 @@ class _SkipButton extends StatelessWidget {
       padding: EdgeInsets.only(top: 5, bottom: 10),
       child: InkWell(
         onTap: () {
-          CacheHelper.instance!.setData("skip",value: true);
-          print("skip case :::::::::::: ${CacheHelper.instance!.getData(key:"skip",valueType: ValueType.bool)}");
-          Navigator.push(context, MaterialPageRoute(builder: (_) => MainPage()));
+          CacheHelper.instance!.setData("skip", value: true);
+          print(
+              "skip case :::::::::::: ${CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool)}");
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => MainPage()));
         },
         child: Row(
-          mainAxisAlignment: language == "ar" ?  MainAxisAlignment.start : MainAxisAlignment.end,
+          mainAxisAlignment: language == "ar"
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.end,
           children: [
-            language == "ar" ? skipButton(context) : DrawHeaderText(text: "skip".tr()),
+            language == "ar"
+                ? skipButton(context)
+                : DrawHeaderText(text: "skip".tr()),
             SizedBox(width: 8),
-            language == "ar" ? DrawHeaderText(text: "skip".tr()) : skipButton(context),
+            language == "ar"
+                ? DrawHeaderText(text: "skip".tr())
+                : skipButton(context),
           ],
         ),
       ),
     );
   }
 
-  Widget skipButton(BuildContext context){
+  Widget skipButton(BuildContext context) {
     return Container(
       height: 25,
       width: 28,
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5)
-      ),
+          borderRadius: BorderRadius.circular(5)),
       child: Center(
         child: Icon(
-          language == "ar" ? Icons.arrow_back_rounded : Icons.arrow_forward_outlined,
+          language == "ar"
+              ? Icons.arrow_back_rounded
+              : Icons.arrow_forward_outlined,
           color: Theme.of(context).primaryColor,
           size: 20,
         ),

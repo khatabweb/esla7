@@ -1,7 +1,7 @@
 import 'package:esla7/Screens/Provider/ProviderMainPage/Home/home_page.dart';
 import 'package:esla7/Screens/Provider/ProviderMainPage/Notification/Provider_Notification.dart';
 import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderOrders/ProviderOrders_view.dart';
-import 'package:esla7/Screens/User/MainPage/allChats/view.dart';
+import 'package:esla7/Screens/User/MainPage/allChats/presentation/screen/view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

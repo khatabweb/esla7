@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:esla7/API/api_utility.dart';
 import 'package:esla7/Screens/User/Auth/ConfirmCode/Bloc/state.dart';
@@ -6,7 +6,6 @@ import 'package:esla7/Screens/User/Auth/ConfirmCode/Bloc/state.dart';
 import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
 import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_storage/get_storage.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmCodeCubit extends Cubit<ConfirmCodeState> {
@@ -22,19 +21,15 @@ class ConfirmCodeCubit extends Cubit<ConfirmCodeState> {
 
     try {
       print("confirm code : $code");
-      // SharedPreferences _pref = await SharedPreferences.getInstance();
-      // final userID = _pref.getInt("user_id");
       final userID = CacheHelper.instance!
           .getData(key: "user_id", valueType: ValueType.int);
 
-      GetStorage box = GetStorage();
-
+      log("message confirm code : $userID");
       FormData formData = FormData.fromMap({
-        "user_id": box.read("id"),
+        "user_id": userID,
         "code": code,
       });
 
-      // final Response response = await dio.post(ApiUtl.user_verify_code, data: formData);
       final Response response = await NetworkHelper().request(
           ApiUtl.user_verify_code,
           body: formData,
