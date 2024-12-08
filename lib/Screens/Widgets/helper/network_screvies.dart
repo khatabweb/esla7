@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:esla7/Screens/Widgets/helper/mapper.dart';
-import 'package:esla7/Screens/Widgets/helper/network_logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'cach_helper.dart';
+import 'mapper.dart';
+import 'network_logger.dart';
 
 enum ServerMethods { GET, POST, UPDATE, DELETE, PUT, PATCH }
 
@@ -31,13 +30,15 @@ class NetworkHelper {
     Map<String, dynamic>? query,
     Map<String, dynamic>? header,
     ServerMethods method = ServerMethods.GET,
+    bool isUser = true,
   }) async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
-    //TODO: handdel the token
-    String? _token = _pref.getString("user_token");
+    String? _token = CacheHelper.instance!
+        .getData(key: "user_token", valueType: ValueType.string);
+    String? _ownerToken = CacheHelper.instance!
+        .getData(key: "owner_token", valueType: ValueType.string);
 
     _dio.options.headers = {
-      'Authorization': 'Bearer $_token',
+      'Authorization': 'Bearer ${isUser ? _token : _ownerToken}',
       'Accept': 'application/json',
       "User-Agent": "Dart",
       'Lang': lang,

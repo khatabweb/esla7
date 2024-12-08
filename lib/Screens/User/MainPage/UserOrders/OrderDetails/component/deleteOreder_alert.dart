@@ -1,6 +1,6 @@
-import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/component/success_dialog.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import 'success_dialog.dart';
+import '../../../../../Widgets/Custom_Button.dart';
+import '../../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

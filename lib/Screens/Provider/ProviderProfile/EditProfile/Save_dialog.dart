@@ -1,6 +1,5 @@
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import '../../../Widgets/Custom_Button.dart';
+import '../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -21,7 +20,6 @@ class SaveDialog extends StatelessWidget {
   }
 }
 
-
 class _ConfirmButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,9 +33,8 @@ class _ConfirmButtons extends StatelessWidget {
             rightPadding: 5,
             leftPadding: 5,
             text: "save".tr(),
-            onTap: (){},
+            onTap: () {},
           ),
-
           CustomButton(
             width: MediaQuery.of(context).size.width / 3,
             height: 40,

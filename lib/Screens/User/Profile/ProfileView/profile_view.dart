@@ -1,10 +1,10 @@
-import 'package:esla7/Screens/User/Profile/EditProfile/view/EditProfile.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/data/cubit/profile_cubit.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/profile_items.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
-import 'package:esla7/Screens/Widgets/Custom_ShapeContainer.dart';
+import '../EditProfile/view/EditProfile.dart';
+import 'data/cubit/profile_cubit.dart';
+import 'profile_items.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
+import '../../../Widgets/Custom_ShapeContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

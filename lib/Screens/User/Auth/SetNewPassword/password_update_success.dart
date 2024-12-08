@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:esla7/Screens/User/Auth/Login/View/login_page.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import '../Login/View/login_page.dart';
+import '../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

@@ -1,5 +1,5 @@
 import '../../../../../../API/api_utility.dart';
-import '../../../chat/view.dart';
+import '../../../chat/presentation/screen/view.dart';
 import '../../../../../Widgets/Custom_DrawText.dart';
 import '../../../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';

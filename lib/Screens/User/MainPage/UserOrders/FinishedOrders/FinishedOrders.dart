@@ -1,17 +1,16 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/CenterMessage.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/OrderDetails_View.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
+import 'package:esla7/Screens/User/MainPage/UserOrders/FinishedOrders/data/cubit/user_finished_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../API/api_utility.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/CenterMessage.dart';
+import '../../../../../Theme/color.dart';
+import '../OrderDetails/OrderDetails_View.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'api/controller.dart';
-import 'api/model.dart';
-
 
 class FinishedOrders extends StatefulWidget {
   const FinishedOrders({Key? key}) : super(key: key);
@@ -22,62 +21,64 @@ class FinishedOrders extends StatefulWidget {
 
 class _FinishedOrdersState extends State<FinishedOrders> {
   final String lang = translator.activeLanguageCode;
-  UserFinishedController controller = UserFinishedController();
-  UserFinishedModel model = UserFinishedModel();
-  bool isLoading = true;
-
-  void getFinished() async {
-    model = await controller.getFinished();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getFinished();
+    context.read<UserFinishedCubit>().getFinished();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? CenterLoading()
-        : model.order?.length == 0
-            ? CenterMessage("no_finished_order".tr())
-            : ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: model.order?.length,
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                itemBuilder: (_, index) {
-                  var item = model.order?[index];
-                  print("orderrrrrrrrrr Length ::::::: ${model.order?.length}");
-                  return AnimatedWidgets(
-                    verticalOffset: 150,
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => OrderDetailsView(
-                            orderId: item?.id,
-                            isCompleted: item?.action == "finished" ? true : false,
-                          ),
+    return BlocBuilder<UserFinishedCubit, UserFinishedState>(
+      builder: (context, state) {
+        if (state is UserFinishedLoading) {
+          return CenterLoading();
+        } else if (state is UserFinishedSuccess) {
+          final model = state.userFinishedModel;
+          if (model.order?.length == 0) {
+            return CenterMessage("no_finished_order".tr());
+          } else {
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: model.order?.length,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              itemBuilder: (_, index) {
+                var item = model.order?[index];
+                return AnimatedWidgets(
+                  verticalOffset: 150,
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => OrderDetailsView(
+                          orderId: item?.id,
+                          isCompleted:
+                              item?.action == "finished" ? true : false,
                         ),
                       ),
-                      child: _SingleOrder(
-                        image: "${ApiUtl.main_image_url}${item?.image}",
-                        orderId: item?.id,
-                        address: "${item?.address}",
-                        date: "${item?.resDate}",
-                        state: "${item?.action}",
-                      ),
                     ),
-                  );
-                },
-              );
+                    child: _SingleOrder(
+                      image: "${ApiUtl.main_image_url}${item?.image}",
+                      orderId: item?.id,
+                      address: "${item?.address}",
+                      date: "${item?.resDate}",
+                      state: "${item?.action}",
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        } else if (state is UserFinishedError) {
+          return CenterMessage(state.error);
+        } else {
+          return CenterMessage("no found data");
+        }
+      },
+    );
   }
 }
-
 
 class _SingleOrder extends StatelessWidget {
   final String? image;
@@ -138,15 +139,17 @@ class _SingleOrder extends StatelessWidget {
                                   color: Colors.grey[700],
                                 ),
                                 SizedBox(width: 5),
-                                Expanded(child: DrawSingleText(text: "$date", fontSize: 14, color: Colors.grey[700])),
+                                Expanded(
+                                    child: DrawSingleText(
+                                        text: "$date",
+                                        fontSize: 14,
+                                        color: Colors.grey[700])),
                               ],
                             ),
                           ],
                         ),
                       ),
-
                       Expanded(child: SizedBox()),
-
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +171,9 @@ class _SingleOrder extends StatelessWidget {
                         color: Colors.grey[700],
                       ),
                       SizedBox(width: 5),
-                      Expanded(child: DrawSingleText(text: "$address", color: Colors.grey[700])),
+                      Expanded(
+                          child: DrawSingleText(
+                              text: "$address", color: Colors.grey[700])),
                     ],
                   ),
                 ],
@@ -180,7 +185,6 @@ class _SingleOrder extends StatelessWidget {
     );
   }
 }
-
 
 class _OrderNumber extends StatelessWidget {
   final int? number;
@@ -199,14 +203,13 @@ class _OrderNumber extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           DrawHeaderText(text: "order_number".tr(), fontSize: 12),
-          DrawHeaderText(text: "$number", color: ThemeColor.mainGold, fontSize: 12),
+          DrawHeaderText(
+              text: "$number", color: ThemeColor.mainGold, fontSize: 12),
         ],
       ),
     );
   }
 }
-
-
 
 class _CompleteState extends StatelessWidget {
   @override

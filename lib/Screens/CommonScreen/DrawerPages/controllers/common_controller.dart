@@ -1,7 +1,7 @@
-import 'package:esla7/Screens/CommonScreen/DrawerPages/models/aboutus_model.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/models/helping_model.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/models/terms_model.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../models/aboutus_model.dart';
+import '../models/helping_model.dart';
+import '../models/terms_model.dart';
+import '../../../Widgets/helper/network_screvies.dart';
 
 
 //TODO: Add basUrl 

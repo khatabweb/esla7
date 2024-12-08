@@ -1,12 +1,11 @@
-import 'package:esla7/Screens/Provider/Auth/Login/View/ProviderLogin_page.dart';
-import 'package:esla7/Screens/User/Auth/Login/View/login_page.dart';
-import 'package:esla7/Screens/Widgets/Custom_Section.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
-import 'package:esla7/Screens/Widgets/logo.dart';
+import '../../Provider/Auth/Login/View/ProviderLogin_page.dart';
+import '../../User/Auth/Login/View/login_page.dart';
+import '../../Widgets/Custom_Section.dart';
+import '../../Widgets/helper/cach_helper.dart';
+import '../../Widgets/logo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserOrProvider extends StatelessWidget {
   final String language = translator.activeLanguageCode;

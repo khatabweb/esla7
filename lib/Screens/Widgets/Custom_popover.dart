@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/Widgets/Custom_CheckBox.dart';
+import 'Custom_CheckBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';

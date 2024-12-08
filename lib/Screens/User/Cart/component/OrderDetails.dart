@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:esla7/Screens/User/ProviderProfile/EndService/bloc/cubit.dart';
-import 'package:esla7/Screens/User/ProviderProfile/EndService/model/model.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/Custom_BottomSheet.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RichText.dart';
+import '../../ProviderProfile/EndService/bloc/cubit.dart';
+import '../../ProviderProfile/EndService/model/model.dart';
+import '../../../../Theme/color.dart';
+import '../../../Widgets/Custom_BottomSheet.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_RichText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

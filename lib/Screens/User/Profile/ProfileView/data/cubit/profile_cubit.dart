@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/data/API/profile_controller.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/data/model/profile_model.dart';
+import '../API/profile_controller.dart';
+import '../model/profile_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'profile_state.dart';

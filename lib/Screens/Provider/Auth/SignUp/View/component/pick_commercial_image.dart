@@ -1,7 +1,7 @@
-import 'package:esla7/Screens/Provider/Auth/SignUp/bloc/cubit.dart';
-import 'package:esla7/Screens/Widgets/Custom_BottomSheet.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFieldTap.dart';
+import '../../bloc/cubit.dart';
+import '../../../../../Widgets/Custom_BottomSheet.dart';
+import '../../../../../Widgets/Custom_DrawText.dart';
+import '../../../../../Widgets/Custom_TextFieldTap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

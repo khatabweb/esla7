@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/ProviderProfile/EndService/model/model.dart';
+import '../../../../../API/api_utility.dart';
+import '../model/model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'model.dart';

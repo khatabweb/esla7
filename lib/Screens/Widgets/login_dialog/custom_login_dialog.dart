@@ -1,6 +1,6 @@
-import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import '../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../Custom_Button.dart';
+import '../helper/cach_helper.dart';
 // import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +41,12 @@ class ConfirmButtons extends StatelessWidget {
           leftPadding: 5,
           text: "log_in".tr(),
           width: MediaQuery.of(context).size.width / 3,
-          onTap: () async {
-            // SharedPreferences _pref = await SharedPreferences.getInstance();
+          onTap: () {
+            CacheHelper.instance!.setData("skip", value: false);
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (_) => UserOrProvider()),
                 (route) => false);
-            CacheHelper.instance!.setData("skip", value: false);
-            ;
           },
         ),
         CustomButton(

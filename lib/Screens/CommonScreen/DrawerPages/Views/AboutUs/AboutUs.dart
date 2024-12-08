@@ -1,8 +1,8 @@
-import 'package:esla7/Screens/CommonScreen/DrawerPages/controllers/common_controller.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/models/aboutus_model.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
+import '../../controllers/common_controller.dart';
+import '../../models/aboutus_model.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_AppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

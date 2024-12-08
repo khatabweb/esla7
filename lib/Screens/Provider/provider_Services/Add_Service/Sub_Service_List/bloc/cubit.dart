@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../../../API/api_utility.dart';
+import '../../../../../Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model.dart';
 import 'state.dart';

@@ -1,18 +1,14 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../../../API/api_utility.dart';
+import '../../../../../Widgets/helper/cach_helper.dart';
+import '../../../../../Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'state.dart';
 
 class AddServiceCubit extends Cubit<AddServiceState> {
   AddServiceCubit() : super(AddServiceInitState());
 
   static AddServiceCubit get(context) => BlocProvider.of(context);
-  // Dio dio = Dio();
   int? subServiceId;
   int? serviceNameId;
   int? price;
@@ -39,8 +35,11 @@ class AddServiceCubit extends Cubit<AddServiceState> {
         "description": desc,
       });
 
-      final Response response = await NetworkHelper()
-          .request(ApiUtl.owner_add_service, body: formData);
+      final Response response = await NetworkHelper().request(
+        ApiUtl.owner_add_service,
+        body: formData,
+        method: ServerMethods.POST,
+      );
 
       if (response.statusCode == 200 && response.data["status"] == "success") {
         print(response.data);

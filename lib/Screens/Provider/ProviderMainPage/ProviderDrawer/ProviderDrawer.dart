@@ -1,25 +1,21 @@
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/Language/change_language.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
-import 'package:esla7/Screens/Provider/Account_statement/Account_Statement.dart';
-import 'package:esla7/Screens/Provider/Create_Ad/Create_ad.dart';
-import 'package:esla7/Screens/Provider/ProviderAddresses/ProviderAddresses.dart';
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/profile_view.dart';
-import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
+import '../../ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
+import '../../../Widgets/helper/cach_helper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../../Theme/color.dart';
+import '../../../CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
+import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
+import '../../../CommonScreen/DrawerPages/Views/Language/change_language.dart';
+import '../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
+import '../../../CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
+import '../../Create_Ad/Create_ad.dart';
+import '../../ProviderProfile/Profile/profile_view.dart';
+import '../../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-///================== profile api import ==========================
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/Api/controller.dart';
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/Api/model.dart';
 
 class ProviderDrawerView extends StatefulWidget {
   @override
@@ -28,31 +24,21 @@ class ProviderDrawerView extends StatefulWidget {
 
 class _ProviderDrawerViewState extends State<ProviderDrawerView> {
   final String language = translator.activeLanguageCode;
-  OwnerProfileController _profileController = OwnerProfileController();
-  OwnerProfileModel _profileModel = OwnerProfileModel();
-  bool isLoading = true;
-  
-  void getData() async {
-    _profileModel = await _profileController.getOwnerProfile();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getData();
+    context.read<OwnerProfileCubit>().getOwnerProfile();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     List<Map<String, Object>> listTileData = [
       {
-        "title" : "profile".tr(),
-        "icon" : "assets/icons/profile.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => ProviderProfile())),
+        "title": "profile".tr(),
+        "icon": "assets/icons/profile.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => ProviderProfile())),
       },
       // {
       //   "title" : "my_addresses".tr(),
@@ -60,9 +46,10 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
       //   "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => ProviderAddresses())),
       // },
       {
-        "title" : "create_an_ad".tr(),
-        "icon" : "assets/icons/premium.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => CreateAdvertising())),
+        "title": "create_an_ad".tr(),
+        "icon": "assets/icons/premium.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => CreateAdvertising())),
       },
       // {
       //   "title" : "account_statement".tr(),
@@ -70,48 +57,52 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
       //   "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => AccountStatement())),
       // },
       {
-        "title" : "terms_and_condition".tr(),
-        "icon" : "assets/icons/terms.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
+        "title": "terms_and_condition".tr(),
+        "icon": "assets/icons/terms.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => TermsAndCondition())),
       },
       {
-        "title" : "about_us".tr(),
-        "icon" : "assets/icons/aboutus.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => AboutUs())),
+        "title": "about_us".tr(),
+        "icon": "assets/icons/aboutus.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => AboutUs())),
       },
       {
-        "title" : "help".tr(),
-        "icon" : "assets/icons/help.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => HelpView())),
+        "title": "help".tr(),
+        "icon": "assets/icons/help.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => HelpView())),
       },
       {
-        "title" : "feedback".tr(),
-        "icon" : "assets/icons/review.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComplaintsAndSuggestion())),
+        "title": "feedback".tr(),
+        "icon": "assets/icons/review.png",
+        "onTap": () => Navigator.push(context,
+            MaterialPageRoute(builder: (_) => ComplaintsAndSuggestion())),
       },
       {
-        "title" : "language".tr(),
-        "icon" : "assets/icons/global.png",
-        "onTap" : () => Navigator.push(context, MaterialPageRoute(builder: (_) => ChangeLanguage())),
+        "title": "language".tr(),
+        "icon": "assets/icons/global.png",
+        "onTap": () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => ChangeLanguage())),
       },
       {
-        "title" : "log_out".tr(),
-        "icon" : "assets/icons/logout.png",
-        "onTap" : () async {
-          SharedPreferences pref = await SharedPreferences.getInstance();
-          pref.clear();
-          Navigator.push(context, MaterialPageRoute(builder: (_) => UserOrProvider()));
+        "title": "log_out".tr(),
+        "icon": "assets/icons/logout.png",
+        "onTap": () {
+          CacheHelper.instance!.clear();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => UserOrProvider()));
         },
       },
     ];
 
     final double listHeight = listTileData.length.toDouble();
 
-
     return Directionality(
       textDirection: language == 'ar' ? TextDirection.rtl : TextDirection.ltr,
       child: Container(
-        width: MediaQuery.of(context).size.width/1.6,
+        width: MediaQuery.of(context).size.width / 1.6,
         height: MediaQuery.of(context).size.height,
         child: Drawer(
           elevation: 20,
@@ -126,12 +117,24 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
               child: Column(
                 children: [
                   SizedBox(height: 35),
-                  isLoading
-                      ? CenterLoading()
-                      : _UserData(
-                          name: _profileModel.companyName,
-                          image: "http://www.repaairsa.com/${_profileModel.companyImage}",
-                        ),
+                  BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
+                    builder: (context, state) {
+                      if (state is OwnerProfileLoading) {
+                        return CenterLoading();
+                      } else if (state is OwnerProfileSuccess) {
+                        return _UserData(
+                          name: state.ownerProfileModel.companyName,
+                          image:
+                              "http://www.repaairsa.com/${state.ownerProfileModel.companyImage}",
+                        );
+                      } else {
+                        return Center(
+                          child: Text("no data found "),
+                        );
+                      }
+                    },
+                  ),
+
                   SizedBox(height: 5),
                   Divider(),
 
@@ -140,12 +143,14 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
                     height: 58 * listHeight,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                       itemCount: listTileData.length,
-                      itemBuilder: (context, item){
+                      itemBuilder: (context, item) {
                         return _DrawerItem(
                           title: listTileData[item]["title"] as String?,
-                          onTap: listTileData[item]["onTap"] as void Function()?,
+                          onTap:
+                              listTileData[item]["onTap"] as void Function()?,
                           imgSrc: listTileData[item]["icon"] as String?,
                         );
                       },
@@ -192,7 +197,8 @@ class _UserData extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ProviderProfile())),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => ProviderProfile())),
               child: Column(
                 children: [
                   CustomRoundedPhoto(
@@ -203,15 +209,15 @@ class _UserData extends StatelessWidget {
                     backgroundColor: Color(0xFFEEEEEE),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 5,
-                        spreadRadius: 1,
-                        offset: Offset(1, 1)
-                      )
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 5,
+                          spreadRadius: 1,
+                          offset: Offset(1, 1))
                     ],
                   ),
                   SizedBox(height: 5),
-                  DrawHeaderText(text: "$name",fontSize: 15,color: ThemeColor.mainGold),
+                  DrawHeaderText(
+                      text: "$name", fontSize: 15, color: ThemeColor.mainGold),
                 ],
               ),
             ),
@@ -222,8 +228,6 @@ class _UserData extends StatelessWidget {
     );
   }
 }
-
-
 
 class _DrawerItem extends StatelessWidget {
   final void Function()? onTap;
@@ -240,7 +244,7 @@ class _DrawerItem extends StatelessWidget {
         // trailing: trailing ?? SizedBox(),
         onTap: onTap,
         title: Text(
-          title??"",
+          title ?? "",
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 14,
@@ -260,7 +264,6 @@ class _DrawerItem extends StatelessWidget {
   }
 }
 
-
 class _ShareContact extends StatelessWidget {
   const _ShareContact({Key? key}) : super(key: key);
 
@@ -271,16 +274,22 @@ class _ShareContact extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          DrawHeaderText(text: "share_app".tr(), fontSize: 14,),
+          DrawHeaderText(
+            text: "share_app".tr(),
+            fontSize: 14,
+          ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/icons/greyshare.png",height: 25, width: 25, fit: BoxFit.contain),
+              Image.asset("assets/icons/greyshare.png",
+                  height: 25, width: 25, fit: BoxFit.contain),
               SizedBox(width: 10),
-              Image.asset("assets/icons/whatsapp.png",height: 25, width: 25, fit: BoxFit.contain),
+              Image.asset("assets/icons/whatsapp.png",
+                  height: 25, width: 25, fit: BoxFit.contain),
               SizedBox(width: 10),
-              Image.asset("assets/icons/twitter.png",height: 25, width: 25, fit: BoxFit.contain),
+              Image.asset("assets/icons/twitter.png",
+                  height: 25, width: 25, fit: BoxFit.contain),
             ],
           )
         ],
@@ -288,5 +297,3 @@ class _ShareContact extends StatelessWidget {
     );
   }
 }
-
-

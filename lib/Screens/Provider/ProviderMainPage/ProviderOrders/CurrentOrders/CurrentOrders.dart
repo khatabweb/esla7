@@ -1,16 +1,15 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/CenterMessage.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderOrders/OrderDetails/OrderDetails_View.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'api/controller.dart';
-import 'api/model.dart';
+import '../../../../../API/api_utility.dart';
+import '../../../../../Theme/color.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/CenterMessage.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_RoundedPhoto.dart';
+import '../OrderDetails/OrderDetails_View.dart';
+import 'data/cubit/user_current_cubit.dart';
 
 class CurrentProviderOrders extends StatefulWidget {
   const CurrentProviderOrders({Key? key}) : super(key: key);
@@ -20,49 +19,51 @@ class CurrentProviderOrders extends StatefulWidget {
 }
 
 class _CurrentProviderOrdersState extends State<CurrentProviderOrders> {
-  UserCurrentController controller = UserCurrentController();
-  OwnerCurrentModel model = OwnerCurrentModel();
-  bool isLoading = true;
-
-  void getCurrent() async {
-    model = await controller.getCurrent();
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   void initState() {
-    getCurrent();
+    context.read<UserCurrentCubit>().getCurrent();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? CenterLoading()
-        : model.order?.length == 0
-            ? CenterMessage("no_current_order".tr())
-            : ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: model.order?.length,
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                itemBuilder: (_, index) {
-                  return AnimatedWidgets(
-                    verticalOffset: 150,
-                    child: _SingleOrderItem(
-                      image: "${ApiUtl.main_image_url}${model.order?[index]?.image}",
-                      orderId: model.order?[index]?.id,
-                      address: model.order?[index]?.address,
-                      date: model.order?[index]?.resDate,
-                      state: model.order?[index]?.action,
-                    ),
-                  );
-                },
-              );
+    return BlocBuilder<UserCurrentCubit, UserCurrentState>(
+      builder: (context, state) {
+        if (state is UserCurrentLoading) {
+          return CenterLoading();
+        } else if (state is UserCurrentError) {
+          return CenterMessage(state.message);
+        } else if (state is UserCurrentSuccess) {
+          final model = state.userCurrentModel;
+          if (model.order?.length == 0) {
+            return CenterMessage("no_current_order".tr());
+          } else {
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: model.order?.length,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              itemBuilder: (_, index) {
+                return AnimatedWidgets(
+                  verticalOffset: 150,
+                  child: _SingleOrderItem(
+                    image:
+                        "${ApiUtl.main_image_url}${model.order?[index]?.image}",
+                    orderId: model.order?[index]?.id,
+                    address: model.order?[index]?.address,
+                    date: model.order?[index]?.resDate,
+                    state: model.order?[index]?.action,
+                  ),
+                );
+              },
+            );
+          }
+        } else {
+          return CenterMessage("no_current_order".tr());
+        }
+      },
+    );
   }
 }
-
 
 class _SingleOrderItem extends StatelessWidget {
   final String? image;
@@ -134,20 +135,26 @@ class _SingleOrderItem extends StatelessWidget {
                                     color: Colors.grey[700],
                                   ),
                                   SizedBox(width: 5),
-                                  Expanded(child: DrawSingleText(text: "$date", fontSize: 14, color: Colors.grey[700])),
+                                  Expanded(
+                                      child: DrawSingleText(
+                                          text: "$date",
+                                          fontSize: 14,
+                                          color: Colors.grey[700])),
                                 ],
                               ),
                             ],
                           ),
                         ),
-
                         Expanded(child: SizedBox()),
-
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            state == "wait" ? _WaitingState() : state == "finished" ? _AcceptedState() : _AcceptedState(),
+                            state == "wait"
+                                ? _WaitingState()
+                                : state == "finished"
+                                    ? _AcceptedState()
+                                    : _AcceptedState(),
                           ],
                         ),
                       ],
@@ -163,7 +170,9 @@ class _SingleOrderItem extends StatelessWidget {
                           color: Colors.grey[700],
                         ),
                         SizedBox(width: 5),
-                        Expanded(child: DrawSingleText(text: "$address", color: Colors.grey[700])),
+                        Expanded(
+                            child: DrawSingleText(
+                                text: "$address", color: Colors.grey[700])),
                       ],
                     ),
                   ],
@@ -176,8 +185,6 @@ class _SingleOrderItem extends StatelessWidget {
     );
   }
 }
-
-
 
 class _OrderNumber extends StatelessWidget {
   final int? number;
@@ -196,14 +203,13 @@ class _OrderNumber extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           DrawHeaderText(text: "order_number".tr(), fontSize: 12),
-          DrawHeaderText(text: "$number", color: ThemeColor.mainGold, fontSize: 12),
+          DrawHeaderText(
+              text: "$number", color: ThemeColor.mainGold, fontSize: 12),
         ],
       ),
     );
   }
 }
-
-
 
 class _WaitingState extends StatelessWidget {
   @override
@@ -225,8 +231,6 @@ class _WaitingState extends StatelessWidget {
     );
   }
 }
-
-
 
 class _AcceptedState extends StatelessWidget {
   @override

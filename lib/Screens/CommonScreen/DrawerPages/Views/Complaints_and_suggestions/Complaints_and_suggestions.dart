@@ -26,7 +26,8 @@ class ComplaintsAndSuggestion extends StatefulWidget {
   ComplaintsAndSuggestion({Key? key}) : super(key: key);
 
   @override
-  State<ComplaintsAndSuggestion> createState() => _ComplaintsAndSuggestionState();
+  State<ComplaintsAndSuggestion> createState() =>
+      _ComplaintsAndSuggestionState();
 }
 
 class _ComplaintsAndSuggestionState extends State<ComplaintsAndSuggestion> {
@@ -47,39 +48,41 @@ class _ComplaintsAndSuggestionState extends State<ComplaintsAndSuggestion> {
         key: _formKey,
         child: Scaffold(
           appBar: customAppBar(
-            context: context,
-            appBarTitle: "feedback".tr(),
-            backgroundColor: Colors.white,
-            otherIconWidget: BlocConsumer<ComplaintsCubit, ComplaintsState>(
-              listener: (_, state){
-                if(state is ComplaintsErrorState){
-                  customSnackBar(_, state.error);
-                }else if(state is ComplaintsSuccessState){
-                  Navigator.pop(_);
-                  showCupertinoDialog(context: _, builder: (_){
-                    return SentSuccessfullyDialog();
-                  });
-                  cubit.image = null;
-                  print("::::::::::::::::::::::::: sent successfully ::::::::::::");
-                }
-              },
-              builder: (context, state){
-                return state is ComplaintsLoadingState
+              context: context,
+              appBarTitle: "feedback".tr(),
+              backgroundColor: Colors.white,
+              otherIconWidget: BlocConsumer<ComplaintsCubit, ComplaintsState>(
+                listener: (_, state) {
+                  if (state is ComplaintsErrorState) {
+                    customSnackBar(_, state.error);
+                  } else if (state is ComplaintsSuccessState) {
+                    Navigator.pop(_);
+                    showCupertinoDialog(
+                        context: _,
+                        builder: (_) {
+                          return SentSuccessfullyDialog();
+                        });
+                    cubit.image = null;
+                    print(
+                        "::::::::::::::::::::::::: sent successfully ::::::::::::");
+                  }
+                },
+                builder: (context, state) {
+                  return state is ComplaintsLoadingState
                       ? Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        child: CenterLoading(),
-                      )
+                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          child: CenterLoading(),
+                        )
                       : _SendButton(
                           onTap: () {
-                            if(_formKey.currentState!.validate()){
+                            if (_formKey.currentState!.validate()) {
                               cubit.sendComplaints();
                             }
                           },
                         );
                 },
-            ),
-            fontSize: language == "ar" ? 18 : 15
-          ),
+              ),
+              fontSize: language == "ar" ? 18 : 15),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: AnimatedWidgets(
@@ -101,13 +104,11 @@ class _ComplaintsAndSuggestionState extends State<ComplaintsAndSuggestion> {
               ),
             ),
           ),
-
         ),
       ),
     );
   }
 }
-
 
 class MessageTypeDrop extends StatefulWidget {
   @override
@@ -138,7 +139,6 @@ class _MessageTypeDropState extends State<MessageTypeDrop> {
             text: "complaint".tr(),
           ),
         ),
-
         TextButton(
           onPressed: () {
             setState(() {
@@ -155,7 +155,6 @@ class _MessageTypeDropState extends State<MessageTypeDrop> {
   }
 }
 
-
 class _NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -165,18 +164,18 @@ class _NameTextField extends StatelessWidget {
       secureText: false,
       label: "name".tr(),
       inputType: TextInputType.name,
-      validate: (value){
-        if(value!.isEmpty){
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_name".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.name = value;
       },
     );
   }
 }
-
 
 class _PhoneTextField extends StatelessWidget {
   @override
@@ -188,13 +187,12 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = value;
       },
     );
   }
 }
-
 
 class _OrderNumTextField extends StatelessWidget {
   @override
@@ -205,14 +203,13 @@ class _OrderNumTextField extends StatelessWidget {
       secureText: false,
       label: "order_num".tr(),
       inputType: TextInputType.number,
-      onChanged: (value){
+      onChanged: (value) {
         cubit.orderID = int.parse("$value");
         print("order id :::::::::::::: ${cubit.orderID}");
       },
     );
   }
 }
-
 
 class _MessageTextField extends StatelessWidget {
   @override
@@ -224,26 +221,27 @@ class _MessageTextField extends StatelessWidget {
       lines: 3,
       label: "message".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty){
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_your_comp_or_sug".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.message = value;
       },
     );
   }
 }
 
-
 class ComplaintImageTap extends StatefulWidget {
   @override
   _ComplaintImageTapState createState() => _ComplaintImageTapState();
 }
+
 class _ComplaintImageTapState extends State<ComplaintImageTap> {
   final String language = translator.activeLanguageCode;
-  XFile? _image;
+  // XFile? _image;
   final _picker = ImagePicker();
 
   Future pickImage() async {
@@ -251,7 +249,7 @@ class _ComplaintImageTapState extends State<ComplaintImageTap> {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      if (photo != null){
+      if (photo != null) {
         cubit.image = XFile(photo.path);
       } else {
         print("No image selected!!!!");
@@ -264,7 +262,7 @@ class _ComplaintImageTapState extends State<ComplaintImageTap> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      if (image != null){
+      if (image != null) {
         cubit.image = XFile(image.path);
       } else {
         print("No image selected!!!!");
@@ -276,27 +274,29 @@ class _ComplaintImageTapState extends State<ComplaintImageTap> {
     customSheet(
         context: context,
         widget: Directionality(
-          textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
+          textDirection:
+              language == "ar" ? TextDirection.rtl : TextDirection.ltr,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 ListTile(
                   horizontalTitleGap: 0,
                   title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid, color: Theme.of(context).primaryColor),
+                  leading: Icon(CupertinoIcons.photo_camera_solid,
+                      color: Theme.of(context).primaryColor),
                   onTap: pickImage,
                 ),
                 ListTile(
                   horizontalTitleGap: 0,
                   title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo, color: Theme.of(context).primaryColor),
+                  leading: Icon(CupertinoIcons.photo,
+                      color: Theme.of(context).primaryColor),
                   onTap: getImage,
                 ),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 
   @override
@@ -316,23 +316,22 @@ class _ComplaintImageTapState extends State<ComplaintImageTap> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 image: DecorationImage(
-                  image: FileImage(File(cubit.image!.path)),
-                  fit: BoxFit.cover
-                ),
+                    image: FileImage(File(cubit.image!.path)),
+                    fit: BoxFit.cover),
               ),
             ),
-      icon: Icon(CupertinoIcons.cloud_upload ,color: Theme.of(context).primaryColor),
+      icon: Icon(CupertinoIcons.cloud_upload,
+          color: Theme.of(context).primaryColor),
       onTap: imageBottomSheet,
     );
   }
 }
 
-
 class _FeedBackVector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height/3,
+      height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -341,13 +340,11 @@ class _FeedBackVector extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage("assets/images/feedback.png"),
             fit: BoxFit.contain,
-          )
-      ),
+          )),
       // child: Image.asset("assets/images/map.png", fit: BoxFit.cover),
     );
   }
 }
-
 
 class _SendButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -360,12 +357,13 @@ class _SendButton extends StatelessWidget {
       child: Container(
         width: 75,
         height: 45,
-        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Center(child: DrawHeaderText(text: "send".tr(),color: Colors.white)),
+        child: Center(
+            child: DrawHeaderText(text: "send".tr(), color: Colors.white)),
       ),
     );
   }

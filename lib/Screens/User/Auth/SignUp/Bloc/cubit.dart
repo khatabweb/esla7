@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/Auth/SignUp/Bloc/state.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../../API/api_utility.dart';
+import 'state.dart';
+import '../../../../Widgets/helper/cach_helper.dart';
+import '../../../../Widgets/helper/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 

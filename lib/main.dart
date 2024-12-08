@@ -1,9 +1,3 @@
-import 'package:esla7/Screens/Widgets/helper/bloc_observe.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
-import 'package:esla7/Theme/app_themedate.dart';
-import 'Screens/Widgets/helper/app_storg.dart';
-import 'Screens/Widgets/helper/notification_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +8,13 @@ import 'Screens/CommonScreen/Splash/Splash.dart';
 import 'Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
 import 'Screens/Provider/ProviderMainPage/main_page.dart';
 import 'Screens/User/MainPage/main_page.dart';
+import 'Screens/Widgets/helper/app_storg.dart';
+import 'Screens/Widgets/helper/bloc_observe.dart';
 import 'Screens/Widgets/helper/bloc_providers.dart';
+import 'Screens/Widgets/helper/cach_helper.dart';
+import 'Screens/Widgets/helper/network_screvies.dart';
+import 'Screens/Widgets/helper/notification_helper.dart';
+import 'Theme/app_themedate.dart';
 
 GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
 Future<void> main() async {

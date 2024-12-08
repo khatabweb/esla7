@@ -1,10 +1,10 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/ProviderProfile/OwnerDetails/ProviderProfile.dart';
-import 'package:esla7/Screens/User/SingleSection/owner_bloc/state.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
+import '../../../API/api_utility.dart';
+import '../ProviderProfile/OwnerDetails/ProviderProfile.dart';
+import 'owner_bloc/state.dart';
+import '../../Widgets/AnimatedWidgets.dart';
+import '../../Widgets/CenterLoading.dart';
+import '../../Widgets/Custom_AppBar.dart';
+import '../../Widgets/Custom_Background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

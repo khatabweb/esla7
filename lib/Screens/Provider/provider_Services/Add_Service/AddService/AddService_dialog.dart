@@ -1,9 +1,9 @@
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_CountryKey.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
+import '../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +26,7 @@ class AddServiceDialog extends StatefulWidget {
 class _AddServiceDialogState extends State<AddServiceDialog> {
   final formKey = GlobalKey<FormState>();
 
-  void _checkValidation(){
+  void _checkValidation() {
     final cubit = AddServiceCubit.get(context);
     if (formKey.currentState!.validate()) {
       cubit.subServiceId == null
@@ -37,10 +37,9 @@ class _AddServiceDialogState extends State<AddServiceDialog> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final cubit = AddServiceCubit.get(context);
+    // final cubit = AddServiceCubit.get(context);
     return CustomDialog(
       title: "add_service".tr(),
       contact: SingleChildScrollView(
@@ -56,24 +55,23 @@ class _AddServiceDialogState extends State<AddServiceDialog> {
               ServiceName(),
               _ServicePriceTextField(),
               _ServiceDescTextField(),
-
               BlocConsumer<AddServiceCubit, AddServiceState>(
-                listener: (_, state){
-                  if(state is AddServiceErrorState){
+                listener: (_, state) {
+                  if (state is AddServiceErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is AddServiceSuccessState){
+                  } else if (state is AddServiceSuccessState) {
                     print("========== تم الخدمة بنجاح ========");
                     Navigator.pop(context);
-                    showCupertinoDialog(context: context, builder: (_) => AddSuccessDialog());
+                    showCupertinoDialog(
+                        context: context, builder: (_) => AddSuccessDialog());
                   }
                 },
-                builder: (context, state){
+                builder: (context, state) {
                   return state is AddServiceLoadingState
                       ? CenterLoading()
                       : _ConfirmButtons(onTapConfirm: _checkValidation);
                 },
               ),
-
             ],
           ),
         ),
@@ -81,8 +79,6 @@ class _AddServiceDialogState extends State<AddServiceDialog> {
     );
   }
 }
-
-
 
 class _ServicePriceTextField extends StatelessWidget {
   @override
@@ -95,18 +91,18 @@ class _ServicePriceTextField extends StatelessWidget {
       hint: "20 ${"sar".tr()}",
       suffixIcon: CountryCode(countyCode: "sar".tr()),
       inputType: TextInputType.number,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_service_price".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.price = int.parse("$value");
       },
     );
   }
 }
-
 
 class _ServiceDescTextField extends StatelessWidget {
   @override
@@ -118,18 +114,18 @@ class _ServiceDescTextField extends StatelessWidget {
       lines: 2,
       label: "service_desc".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_service_desc".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.desc = value;
       },
     );
   }
 }
-
 
 class _ConfirmButtons extends StatelessWidget {
   final VoidCallback? onTapConfirm;
@@ -148,7 +144,6 @@ class _ConfirmButtons extends StatelessWidget {
             text: "add".tr(),
             onTap: onTapConfirm,
           ),
-
           CustomButton(
             width: MediaQuery.of(context).size.width / 3,
             height: 40,

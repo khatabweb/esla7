@@ -1,9 +1,9 @@
-import 'package:esla7/Screens/Provider/AddNewAddress/AddNewAddress.dart';
-import 'package:esla7/Screens/Provider/ProviderAddresses/DeleteAddress_alert.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_RichText.dart';
+import '../AddNewAddress/AddNewAddress.dart';
+import 'DeleteAddress_alert.dart';
+import '../../Widgets/AnimatedWidgets.dart';
+import '../../Widgets/Custom_AppBar.dart';
+import '../../Widgets/Custom_Button.dart';
+import '../../Widgets/Custom_RichText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

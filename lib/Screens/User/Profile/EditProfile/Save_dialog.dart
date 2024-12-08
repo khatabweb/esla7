@@ -1,10 +1,10 @@
-import 'package:esla7/Screens/User/Profile/EditProfile/bloc/cubit.dart';
-import 'package:esla7/Screens/User/Profile/EditProfile/bloc/state.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/profile_view.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import 'data/bloc/cubit.dart';
+import 'data/bloc/state.dart';
+import '../ProfileView/profile_view.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_Button.dart';
+import '../../../Widgets/Custom_SnackBar.dart';
+import '../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

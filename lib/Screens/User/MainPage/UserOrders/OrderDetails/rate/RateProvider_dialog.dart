@@ -1,17 +1,17 @@
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/component/success_dialog.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_dialog.dart';
+import '../../../../../Widgets/CenterLoading.dart';
+import '../../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../../../Theme/color.dart';
+import '../component/success_dialog.dart';
+import '../../../../../Widgets/Custom_Button.dart';
+import '../../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import 'bloc/cubit.dart';
-import 'bloc/state.dart';
+import 'data/bloc/cubit.dart';
+import 'data/bloc/state.dart';
 
 class RateProviderDialog extends StatelessWidget {
   final int? ownerId;

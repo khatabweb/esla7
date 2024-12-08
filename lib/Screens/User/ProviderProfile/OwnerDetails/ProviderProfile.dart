@@ -1,23 +1,22 @@
-import 'dart:async';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/ProviderProfile/SubService/SubService.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/login_dialog/custom_login_dialog.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'Bloc/cubit.dart';
-import 'api/model.dart';
+import '../../../../API/api_utility.dart';
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_Background.dart';
+import '../../../Widgets/Custom_Button.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
+import '../../../Widgets/helper/cach_helper.dart';
+import '../../../Widgets/login_dialog/custom_login_dialog.dart';
+import '../SubService/SubService.dart';
+import 'data/Bloc/cubit.dart';
+import 'data/Bloc/state.dart';
 
 class ProviderProfile extends StatefulWidget {
   final int? mainServiceId;
@@ -33,32 +32,16 @@ class ProviderProfile extends StatefulWidget {
 class _ProviderProfileState extends State<ProviderProfile> {
   final String language = translator.activeLanguageCode;
   TimeOfDay? time;
-  OwnerDetailsModel ownerDetailsModel = OwnerDetailsModel();
-  bool isLoading = true;
-
-
-  Future ownerData() async {
-    print("in Service ..........................");
-    final cubit = OwnerDetailsCubit.get(context);
-    cubit.ownerId = widget.ownerId;
-    print("idddddddddddddddddddddd ::::::::::::::::::::::: ${cubit.ownerId}");
-    return cubit.ownerDetails();
-  }
 
   @override
   void initState() {
-    ownerData().then((value){
-      setState(() {
-        isLoading = false;
-      });
-    });
-    time = TimeOfDay.now();
     super.initState();
+    context.read<OwnerDetailsCubit>().ownerDetails();
+    time = TimeOfDay.now();
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = OwnerDetailsCubit.get(context);
     return Directionality(
       textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
@@ -68,9 +51,15 @@ class _ProviderProfileState extends State<ProviderProfile> {
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
         ),
         body: CustomBackground(
-          child: isLoading
-              ? CenterLoading()
-              : AnimatedWidgets(
+          child: BlocBuilder<OwnerDetailsCubit, OwnerDetailsState>(
+            builder: (context, state) {
+              if (state is OwnerDetailsLoadingState) {
+                return CenterLoading();
+              } else if (state is OwnerDetailsErrorState) {
+                return Center(child: Text("${state.error}"));
+              } else if (state is OwnerDetailsSuccessState) {
+                final model = state.ownerDetailsModel;
+                return AnimatedWidgets(
                   verticalOffset: 150,
                   child: Column(
                     children: [
@@ -78,30 +67,34 @@ class _ProviderProfileState extends State<ProviderProfile> {
                       _InformationCard(
                         isGolden: widget.isGolden,
                         time: time,
-                        image: "${ApiUtl.main_image_url}${cubit.ownerDetailsModel.ownerImage}",
-                        ownerName: "${cubit.ownerDetailsModel.ownerName}",
-                        rate: cubit.ownerDetailsModel.rate,
+                        image: "${ApiUtl.main_image_url}${model.ownerImage}",
+                        ownerName: "${model.ownerName}",
+                        rate: model.rate,
                         serviceName: language == "ar"
-                            ? "${cubit.ownerDetailsModel.ownerService?.nameAr}"
-                            : "${cubit.ownerDetailsModel.ownerService?.nameEn}",
+                            ? "${model.ownerService?.nameAr}"
+                            : "${model.ownerService?.nameEn}",
                         city: language == "ar"
-                            ? "${cubit.ownerDetailsModel.ownerCity?.nameAr}"
-                            : "${cubit.ownerDetailsModel.ownerCity?.nameEn}",
-                        minSalary: "${cubit.ownerDetailsModel.minSalary}",
-                        from: "${cubit.ownerDetailsModel.avilableFrom}",
-                        to: "${cubit.ownerDetailsModel.avilableTo}",
+                            ? "${model.ownerCity?.nameAr}"
+                            : "${model.ownerCity?.nameEn}",
+                        minSalary: "${model.minSalary}",
+                        from: "${model.avilableFrom}",
+                        to: "${model.avilableTo}",
                       ),
                       Expanded(child: Container()),
-                      _AddServiceButton(ownerId: cubit.ownerDetailsModel.ownerId),
+                      _AddServiceButton(ownerId: model.ownerId),
                     ],
                   ),
-                ),
+                );
+              } else {
+                return Center(child: Text("No Data"));
+              }
+            },
+          ),
         ),
       ),
     );
   }
 }
-
 
 class _InformationCard extends StatelessWidget {
   final bool? isGolden;
@@ -128,11 +121,8 @@ class _InformationCard extends StatelessWidget {
     this.time,
   }) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-    final cubit = OwnerDetailsCubit.get(context);
     return Container(
       height: MediaQuery.of(context).size.height / 1.8,
       width: MediaQuery.of(context).size.width,
@@ -150,7 +140,10 @@ class _InformationCard extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, -1),
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.5),
                     spreadRadius: 0.2,
                     blurRadius: 15,
                   ),
@@ -166,13 +159,13 @@ class _InformationCard extends StatelessWidget {
                   children: [
                     CustomRoundedPhoto(
                       image: "$image",
-                      borderColor: isGolden == true ? ThemeColor.mainGold : Colors.white,
+                      borderColor:
+                          isGolden == true ? ThemeColor.mainGold : Colors.white,
                     ),
                     Positioned(
                       bottom: 8,
                       right: 16,
-                      child:
-                      CircleAvatar(
+                      child: CircleAvatar(
                         radius: 8,
                         backgroundColor: Colors.green,
                       ),
@@ -180,18 +173,21 @@ class _InformationCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-
                 isGolden == true
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          DrawHeaderText(fontSize: 16, text: "$ownerName", color: ThemeColor.mainGold),
+                          DrawHeaderText(
+                              fontSize: 16,
+                              text: "$ownerName",
+                              color: ThemeColor.mainGold),
                           SizedBox(width: 5),
-                          Image.asset(
-                            "assets/icons/premium.png",
+                          Image.asset("assets/icons/premium.png",
                               color: ThemeColor.mainGold,
-                              height: 20, width: 20, fit: BoxFit.cover),
+                              height: 20,
+                              width: 20,
+                              fit: BoxFit.cover),
                         ],
                       )
                     : DrawHeaderText(
@@ -199,8 +195,6 @@ class _InformationCard extends StatelessWidget {
                         text: "$ownerName",
                         color: Theme.of(context).primaryColor,
                       ),
-
-
                 RatingBar.builder(
                   initialRating: rate?.toDouble() ?? 0,
                   itemSize: 22,
@@ -210,16 +204,15 @@ class _InformationCard extends StatelessWidget {
                   ignoreGestures: true,
                   unratedColor: Colors.grey[300],
                   itemCount: 5,
-                  itemPadding:
-                  EdgeInsets.symmetric(horizontal: 1),
+                  itemPadding: EdgeInsets.symmetric(horizontal: 1),
                   itemBuilder: (context, _) {
-                    return Image.asset("assets/icons/star.png", color: ThemeColor.mainGold);
+                    return Image.asset("assets/icons/star.png",
+                        color: ThemeColor.mainGold);
                   },
                   onRatingUpdate: (rating) {
                     print(rating);
                   },
                 ),
-
                 _ProviderInformation(
                   serviceName: serviceName,
                   city: city,
@@ -235,7 +228,6 @@ class _InformationCard extends StatelessWidget {
     );
   }
 }
-
 
 class _ProviderInformation extends StatelessWidget {
   final String? serviceName;
@@ -272,18 +264,19 @@ class _ProviderInformation extends StatelessWidget {
           ),
           _CustomListTile(
             image: "assets/icons/money.png",
-            text: "${"minimum".tr()} $minSalary ${"sar".tr()}", // الحد الادنى 5 ريال
+            text:
+                "${"minimum".tr()} $minSalary ${"sar".tr()}", // الحد الادنى 5 ريال
           ),
           _CustomListTile(
             image: "assets/icons/time.png",
-            text: "${"times_of_work".tr()} ${"from".tr()} $from ${"to".tr()} $to",
+            text:
+                "${"times_of_work".tr()} ${"from".tr()} $from ${"to".tr()} $to",
           ),
         ],
       ),
     );
   }
 }
-
 
 class _AddServiceButton extends StatelessWidget {
   final int? ownerId;
@@ -300,11 +293,15 @@ class _AddServiceButton extends StatelessWidget {
         topPadding: 20,
         text: "add_service".tr(),
         onTap: () async {
-          SharedPreferences _pref = await SharedPreferences.getInstance();
-          if(_pref.getBool("skip") == true){
+          if (CacheHelper.instance!
+                  .getData(key: "skip", valueType: ValueType.bool) ==
+              true) {
             showCupertinoDialog(context: context, builder: (_) => LoginAlert());
-          }else{
-            Navigator.push(context, MaterialPageRoute(builder: (_) => SubService(ownerId: ownerId)));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => SubService(ownerId: ownerId)));
           }
         },
       ),
@@ -312,10 +309,10 @@ class _AddServiceButton extends StatelessWidget {
   }
 }
 
-
 class _CustomListTile extends StatelessWidget {
   final String text, image;
-  const _CustomListTile({Key? key, required this.text, required this.image}) : super(key: key);
+  const _CustomListTile({Key? key, required this.text, required this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +320,11 @@ class _CustomListTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          Image.asset(image, height: 22, width: 22, fit: BoxFit.contain, color: Theme.of(context).primaryColor),
+          Image.asset(image,
+              height: 22,
+              width: 22,
+              fit: BoxFit.contain,
+              color: Theme.of(context).primaryColor),
           SizedBox(width: 15),
           DrawSingleText(text: text, fontSize: 14),
         ],

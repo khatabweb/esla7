@@ -1,8 +1,9 @@
-import 'package:esla7/Screens/User/Search/Search_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../User/Search/presentation/screen/Search_view.dart';
+import 'helper/cach_helper.dart';
 import 'login_dialog/custom_login_dialog.dart';
 
 PreferredSizeWidget? customAppBar({
@@ -71,8 +72,7 @@ PreferredSizeWidget? customAppBar({
                 ),
               ),
               onTap: () async {
-                SharedPreferences _pref = await SharedPreferences.getInstance();
-                _pref.getBool("skip") == true
+                CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool) == true
                     ? showCupertinoDialog(context: context, builder: (_) => LoginAlert())
                     : Navigator.push(context, MaterialPageRoute(builder: (_) => SearchView()));
               },

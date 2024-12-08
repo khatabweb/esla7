@@ -1,41 +1,34 @@
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/User/ProviderProfile/OwnerDetails/Bloc/state.dart';
-import 'package:esla7/Screens/User/ProviderProfile/OwnerDetails/model/owner_details_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/Bloc/state.dart';
+import '../data/model/owner_details_model.dart';
+import '../data/repo/owner_service_repo.dart';
 
-class OwnerDetailsCubit extends Cubit<OwnerDetailsState>{
+class OwnerDetailsCubit extends Cubit<OwnerDetailsState> {
   OwnerDetailsCubit() : super(OwnerDetailsInitState());
 
   static OwnerDetailsCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
+
   int? ownerId;
-  OwnerDetailsModel ownerDetailsModel = OwnerDetailsModel();
+  late OwnerDetailsModel ownerDetailsModelCubit;
 
   Future<void> ownerDetails() async {
     emit(OwnerDetailsLoadingState());
 
-    try{
-      print("owner ID: $ownerId");
-
+    try {
       FormData formData = FormData.fromMap({
-        "id" : ownerId,
+        "id": ownerId,
       });
 
-      final Response response = await dio.post(ApiUtl.owner_details, data: formData);
+      final response = await OwnerServiceRepo.ownerDetails(formData: formData);
 
-      if(response.statusCode == 200 && response.data["status"] == "success"){
-        print(response.data);
-        ownerDetailsModel = OwnerDetailsModel.fromJson(response.data);
-        print("::::::::::: successsssssssssssssssss ::::::::::::::");
-        emit(OwnerDetailsSuccessState());
-      }else if(response.statusCode == 200 && response.data["status"] != "success"){
-        print("::::::::::: Owner Details error ::::::::::::::");
-        emit(OwnerDetailsErrorState(response.data["message"]));
-      }
-    }catch(e){
-      print("::::::::::: Owner Details catch error ::::::::::::::");
+      response.when(success: (ownerDetailsModel) {
+        ownerDetailsModelCubit = ownerDetailsModel;
+        emit(OwnerDetailsSuccessState(ownerDetailsModel: ownerDetailsModel));
+      }, failure: (error) {
+        emit(OwnerDetailsErrorState(error.apiErrorModel.message!));
+      });
+    } catch (e) {
       emit(OwnerDetailsErrorState(e.toString()));
     }
   }

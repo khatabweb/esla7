@@ -1,7 +1,7 @@
-import 'package:esla7/Screens/Provider/provider_Services/Add_Service/AddService/bloc/cubit.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_popover.dart';
+import '../AddService/bloc/cubit.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_popover.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

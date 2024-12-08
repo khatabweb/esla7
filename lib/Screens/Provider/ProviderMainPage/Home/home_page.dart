@@ -1,12 +1,12 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderDrawer/ProviderDrawer.dart';
-import 'package:esla7/Screens/CommonScreen/Slider/presentation/slider_view.dart';
-import 'package:esla7/Screens/Provider/provider_Services/Services/ServiceDetails_view.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import '../../../../API/api_utility.dart';
+import '../ProviderDrawer/ProviderDrawer.dart';
+import '../../../CommonScreen/Slider/presentation/slider_view.dart';
+import '../../provider_Services/Services/ServiceDetails_view.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_Background.dart';
+import '../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

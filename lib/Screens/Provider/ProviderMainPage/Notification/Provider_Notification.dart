@@ -1,18 +1,16 @@
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/CenterMessage.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderDrawer/ProviderDrawer.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'api/controller.dart';
-import 'api/model.dart';
-
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/CenterMessage.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_Background.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../ProviderDrawer/ProviderDrawer.dart';
+import 'data/cubit/owner_notification_cubit.dart';
 
 class ProviderNotification extends StatefulWidget {
   @override
@@ -22,18 +20,9 @@ class ProviderNotification extends StatefulWidget {
 class _ProviderNotificationState extends State<ProviderNotification> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String language = translator.activeLanguageCode;
-  OwnerNotificationController _controller = OwnerNotificationController();
-  OwnerNotificationModel _model = OwnerNotificationModel();
-  bool _isLoading = true;
-
-  void getNotification() async {
-    _model = await _controller.getNotification();
-    setState(() => _isLoading = false);
-  }
-
   @override
   void initState() {
-    getNotification();
+    context.read<OwnerNotificationCubit>().getNotification();
     super.initState();
   }
 
@@ -43,20 +32,27 @@ class _ProviderNotificationState extends State<ProviderNotification> {
       textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
       child: CustomBackground(
         child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.transparent,
-          appBar: customAppBar(
-            context: context,
-            appBarTitle: "notifications".tr(),
-            showDrawerIcon: true,
-            onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
-          ),
-          drawer: ProviderDrawerView(),
-          body: _isLoading
-              ? CenterLoading()
-              : _model.notification?.length == 0
-                  ? CenterMessage("no_notification_yet".tr())
-                  : Container(
+            key: _scaffoldKey,
+            backgroundColor: Colors.transparent,
+            appBar: customAppBar(
+              context: context,
+              appBarTitle: "notifications".tr(),
+              showDrawerIcon: true,
+              onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
+            ),
+            drawer: ProviderDrawerView(),
+            body: BlocBuilder<OwnerNotificationCubit, OwnerNotificationState>(
+              builder: (context, state) {
+                if (state is OwnerNotificationLoading) {
+                  return CenterLoading();
+                } else if (state is OwnerNotificationError) {
+                  return CenterMessage(state.error);
+                } else if (state is OwnerNotificationSuccess) {
+                  final _model = state.ownerNotificationModel;
+                  if (_model.notification?.length == 0) {
+                    return CenterMessage("no_notification_yet".tr());
+                  } else {
+                    return Container(
                       height: MediaQuery.of(context).size.height,
                       margin: EdgeInsets.only(right: 15, left: 15),
                       child: ListView.builder(
@@ -73,13 +69,17 @@ class _ProviderNotificationState extends State<ProviderNotification> {
                           );
                         },
                       ),
-                    ),
-        ),
+                    );
+                  }
+                } else {
+                  return CenterMessage("no data found ");
+                }
+              },
+            )),
       ),
     );
   }
 }
-
 
 class _NotificationItem extends StatelessWidget {
   final int? orderNumber;
@@ -89,7 +89,6 @@ class _NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedWidgets(
       verticalOffset: 150,
@@ -99,13 +98,14 @@ class _NotificationItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(CupertinoIcons.bell_solid, color: Theme.of(context).primaryColor,size: 25),
+            Icon(CupertinoIcons.bell_solid,
+                color: Theme.of(context).primaryColor, size: 25),
             SizedBox(width: 10),
             Expanded(
               child: Container(
@@ -116,7 +116,6 @@ class _NotificationItem extends StatelessWidget {
                 ),
               ),
             ),
-
             orderNumber == null
                 ? SizedBox()
                 : Container(
@@ -130,7 +129,10 @@ class _NotificationItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DrawSingleText(text: "order_number".tr(), fontSize: 12),
-                        DrawSingleText(text: "$orderNumber", color: ThemeColor.mainGold, fontSize: 12),
+                        DrawSingleText(
+                            text: "$orderNumber",
+                            color: ThemeColor.mainGold,
+                            fontSize: 12),
                       ],
                     ),
                   )
@@ -140,4 +142,3 @@ class _NotificationItem extends StatelessWidget {
     );
   }
 }
-

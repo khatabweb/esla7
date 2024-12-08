@@ -1,11 +1,10 @@
-import 'package:esla7/Screens/Provider/Create_Ad/Ad_features_terms/API/ad_terms_controller.dart';
-import 'package:esla7/Screens/Provider/Create_Ad/Ad_features_terms/API/ad_terms_model.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import 'data/cubit/ad_features_terms_cubit.dart';
 
 class AdFeaturesAndTerms extends StatefulWidget {
   AdFeaturesAndTerms({Key? key}) : super(key: key);
@@ -16,20 +15,10 @@ class AdFeaturesAndTerms extends StatefulWidget {
 
 class _AdFeaturesAndTermsState extends State<AdFeaturesAndTerms> {
   final String language = translator.activeLanguageCode;
-  AdFeaturesTermsModel _adFeaturesTermsModel = AdFeaturesTermsModel();
-  AdFeaturesTermsController _adFeaturesTermsController = AdFeaturesTermsController();
-  bool _isLoading = true;
-
-  void _getAdFeatures() async {
-    _adFeaturesTermsModel = await _adFeaturesTermsController.getAdFeatures();
-    setState(() {
-      _isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    _getAdFeatures();
+    context.read<AdFeaturesTermsCubit>().getAdFeaturesTerms();
     super.initState();
   }
 
@@ -44,9 +33,17 @@ class _AdFeaturesAndTermsState extends State<AdFeaturesAndTerms> {
           backgroundColor: Colors.white,
           elevation: 0.5,
         ),
-        body: _isLoading
-            ? CenterLoading()
-            : AnimatedWidgets(
+        body: BlocBuilder<AdFeaturesTermsCubit, AdFeaturesTermsState>(
+          builder: (context, state) {
+            if (state is AdFeaturesTermsLoading) {
+              return CenterLoading();
+            } else if (state is AdFeaturesTermsError) {
+              return Center(
+                child: Text(state.error),
+              );
+            } else if (state is AdFeaturesTermsSuccess) {
+              final _adFeaturesTermsModel = state.adFeaturesTermsModel;
+              return AnimatedWidgets(
                 verticalOffset: 150,
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -54,7 +51,8 @@ class _AdFeaturesAndTermsState extends State<AdFeaturesAndTerms> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                         margin: EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           color: Color(0xFFEEEEEE),
@@ -75,7 +73,12 @@ class _AdFeaturesAndTermsState extends State<AdFeaturesAndTerms> {
                     ],
                   ),
                 ),
-              ),
+              );
+            } else {
+              return Center(child: Text("Something went wrong"));
+            }
+          },
+        ),
       ),
     );
   }

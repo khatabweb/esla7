@@ -3,10 +3,9 @@
 import 'dart:io';
 
 import 'package:esla7/Screens/User/MainPage/main_page.dart';
-import 'package:esla7/Screens/User/Profile/EditProfile/bloc/cubit.dart';
-import 'package:esla7/Screens/User/Profile/EditProfile/bloc/state.dart';
+import 'package:esla7/Screens/User/Profile/EditProfile/data/bloc/cubit.dart';
+import 'package:esla7/Screens/User/Profile/EditProfile/data/bloc/state.dart';
 import 'package:esla7/Screens/User/Profile/ProfileView/data/model/profile_model.dart';
-import 'package:esla7/Screens/User/Profile/ProfileView/profile_view.dart';
 import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
 import 'package:esla7/Screens/Widgets/CenterLoading.dart';
 import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
@@ -33,7 +32,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final String language = translator.activeLanguageCode;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  XFile? _image;
+  // XFile? _image;
   final _picker = ImagePicker();
 
   Future pickImage() async {
@@ -99,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
 
   void onTapSaveBtn() {
     final cubit = UserUpdateCubit.get(context);
-    if(formKey.currentState!.validate()){
+    if (formKey.currentState!.validate()) {
       cubit.userUpdate();
     }
   }
@@ -117,12 +116,16 @@ class _EditProfileState extends State<EditProfile> {
             appBarTitle: "profile".tr(),
             backgroundColor: Colors.white,
             otherIconWidget: BlocConsumer<UserUpdateCubit, UserUpdateState>(
-              listener: (_, state){
-                if(state is UserUpdateErrorState){
+              listener: (_, state) {
+                if (state is UserUpdateErrorState) {
                   customSnackBar(_, state.error);
-                }else if(state is UserUpdateSuccessState){
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
-                  print("============================= تم تعديل البيانات بنجاح =========================");
+                } else if (state is UserUpdateSuccessState) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => MainPage()),
+                      (route) => false);
+                  print(
+                      "============================= تم تعديل البيانات بنجاح =========================");
                 }
               },
               builder: (context, state) {
@@ -142,7 +145,8 @@ class _EditProfileState extends State<EditProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _ImageEdit(
-                      image: "http://www.repaairsa.com/${widget.profileModel.image}",
+                      image:
+                          "http://www.repaairsa.com/${widget.profileModel.image}",
                       onTapEdit: imageBottomSheet,
                     ),
                     _Title("name".tr()),
@@ -164,7 +168,6 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 }
-
 
 class _SaveButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -193,7 +196,6 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-
 class _ImageEdit extends StatelessWidget {
   final void Function()? onTapEdit;
   final String? image;
@@ -220,12 +222,16 @@ class _ImageEdit extends StatelessWidget {
                   child: cubit.image == null
                       ? Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: NetworkImage("$image"), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: NetworkImage("$image"),
+                                fit: BoxFit.cover),
                           ),
                         )
                       : Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: FileImage(File(cubit.image!.path)), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: FileImage(File(cubit.image!.path)),
+                                fit: BoxFit.cover),
                           ),
                         ),
                 ),
@@ -235,7 +241,8 @@ class _ImageEdit extends StatelessWidget {
                 right: 0,
                 child: IconButton(
                   onPressed: onTapEdit,
-                  icon: Image.asset("assets/icons/camera.png", height: 35, width: 35, fit: BoxFit.contain),
+                  icon: Image.asset("assets/icons/camera.png",
+                      height: 35, width: 35, fit: BoxFit.contain),
                 ),
               ),
             ],
@@ -245,7 +252,6 @@ class _ImageEdit extends StatelessWidget {
     );
   }
 }
-
 
 class NameTextField extends StatefulWidget {
   final String? hint;
@@ -264,20 +270,19 @@ class _NameTextFieldState extends State<NameTextField> {
       secureText: false,
       hint: "${widget.hint}",
       inputType: TextInputType.name,
-      onChanged: (value){
+      onChanged: (value) {
         // cubit.name = value == null ? hint : value;
-        if(value == null){
+        if (value == null) {
           setState(() {
             cubit.name = widget.hint;
           });
-        }else {
+        } else {
           cubit.name = value;
         }
       },
     );
   }
 }
-
 
 class PhoneTextField extends StatefulWidget {
   final String? hint;
@@ -301,21 +306,21 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
         if (value!.isNotEmpty && (value.length < 9 || value.length > 9)) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         // cubit.phone = value == null ? hint : value;
-        if(value == null){
+        if (value == null) {
           setState(() {
             cubit.phone = widget.hint;
           });
-        }else {
+        } else {
           cubit.phone = "966$value";
         }
       },
     );
   }
 }
-
 
 class EmailTextField extends StatefulWidget {
   final String? hint;
@@ -334,20 +339,19 @@ class _EmailTextFieldState extends State<EmailTextField> {
       secureText: false,
       hint: "${widget.hint}",
       inputType: TextInputType.emailAddress,
-      onChanged: (value){
+      onChanged: (value) {
         // cubit.email = value == null ? hint : value;
-        if(value == null){
+        if (value == null) {
           setState(() {
             cubit.email = widget.hint;
           });
-        }else {
+        } else {
           cubit.email = value;
         }
       },
     );
   }
 }
-
 
 class _PasswordTextField extends StatelessWidget {
   @override
@@ -358,20 +362,20 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       hint: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = value;
       },
     );
   }
 }
-
 
 class _PasswordNote extends StatelessWidget {
   const _PasswordNote({Key? key}) : super(key: key);
@@ -380,14 +384,19 @@ class _PasswordNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset("assets/icons/help.png", height: 12, width: 12, fit: BoxFit.cover, color: Colors.grey[600]),
+        Image.asset("assets/icons/help.png",
+            height: 12, width: 12, fit: BoxFit.cover, color: Colors.grey[600]),
         SizedBox(width: 5),
-        Expanded(child: Container(child: DrawSingleText(text: "profile_edit_password_note".tr(), color: Colors.grey[600], fontSize: 11))),
+        Expanded(
+            child: Container(
+                child: DrawSingleText(
+                    text: "profile_edit_password_note".tr(),
+                    color: Colors.grey[600],
+                    fontSize: 11))),
       ],
     );
   }
 }
-
 
 class _Title extends StatelessWidget {
   final String? text;

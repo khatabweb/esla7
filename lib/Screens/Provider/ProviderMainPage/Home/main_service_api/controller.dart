@@ -1,6 +1,6 @@
-import 'package:esla7/Screens/Provider/ProviderMainPage/Home/main_service_api/model.dart';
+import 'model.dart';
 
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../Widgets/helper/network_screvies.dart';
 
 class OwnerServiceController {
   // NetWork _util = NetWork();

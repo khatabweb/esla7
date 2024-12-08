@@ -1,12 +1,12 @@
-import 'package:esla7/Screens/User/Auth/ConfirmCode/View/ConfirmCode_View.dart';
-import 'package:esla7/Screens/User/Auth/ForgetPassword/Bloc/cubit.dart';
-import 'package:esla7/Screens/User/Auth/ForgetPassword/Bloc/state.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
+import '../../ConfirmCode/View/ConfirmCode_View.dart';
+import '../Bloc/cubit.dart';
+import '../Bloc/state.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_CountryKey.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,11 +37,13 @@ class _ForgetPasswordFormState extends State<ForgetPasswordForm> {
 
               ///Reset Password button bloc
               BlocConsumer<UserResetCubit, ForgetState>(
-                listener: (_, state){
-                  if(state is ForgetErrorState){
+                listener: (_, state) {
+                  if (state is ForgetErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is ForgetSuccessState){
-                    showCupertinoDialog(context: context, builder: (_) => ConfirmCodeForm(confirmSignUp: false));
+                  } else if (state is ForgetSuccessState) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (_) => ConfirmCodeForm(confirmSignUp: false));
                     print("============= success ================");
                   }
                 },
@@ -50,7 +52,7 @@ class _ForgetPasswordFormState extends State<ForgetPasswordForm> {
                       ? CenterLoading()
                       : _SendButton(
                           onTap: () {
-                            if(_formKey.currentState!.validate()){
+                            if (_formKey.currentState!.validate()) {
                               cubit.userResetPassword();
                             }
                           },
@@ -75,21 +77,21 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = "$value";
         print("::::phone number::::$value");
       },
     );
   }
 }
-
 
 class _SendButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -105,4 +107,3 @@ class _SendButton extends StatelessWidget {
     );
   }
 }
-

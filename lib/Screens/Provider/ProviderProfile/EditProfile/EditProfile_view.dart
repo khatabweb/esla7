@@ -1,31 +1,31 @@
 import 'dart:io';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/main_page.dart';
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/Api/model.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_BottomSheet.dart';
-import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:esla7/Theme/color.dart';
+import '../../../../API/api_utility.dart';
+import '../../ProviderMainPage/main_page.dart';
+import '../Profile/data/model/model.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_BottomSheet.dart';
+import '../../../Widgets/Custom_CountryKey.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_SnackBar.dart';
+import '../../../Widgets/Custom_TextFormField.dart';
+import '../../../../Theme/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import 'bloc/cubit.dart';
-import 'bloc/state.dart';
+import 'data/bloc/cubit.dart';
+import 'data/bloc/state.dart';
 import 'component/pick_commercial.dart';
 import 'component/time_of_work.dart';
 
-
 class EditProfileView extends StatefulWidget {
   final OwnerProfileModel ownerProfileModel;
-  EditProfileView({Key? key, required this.ownerProfileModel}) : super(key: key);
+  EditProfileView({Key? key, required this.ownerProfileModel})
+      : super(key: key);
 
   @override
   State<EditProfileView> createState() => _EditProfileViewState();
@@ -73,13 +73,15 @@ class _EditProfileViewState extends State<EditProfileView> {
               ListTile(
                 horizontalTitleGap: 0,
                 title: DrawHeaderText(text: "camera".tr()),
-                leading: Icon(CupertinoIcons.photo_camera_solid, color: Theme.of(context).primaryColor),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
                 onTap: pickImage,
               ),
               ListTile(
                 horizontalTitleGap: 0,
                 title: DrawHeaderText(text: "photo_gallery".tr()),
-                leading: Icon(CupertinoIcons.photo, color: Theme.of(context).primaryColor),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
                 onTap: getImage,
               ),
             ],
@@ -91,12 +93,11 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   void onTapSaveBtn() {
     final cubit = OwnerUpdateCubit.get(context);
-    if(formKey.currentState!.validate()){
+    if (formKey.currentState!.validate()) {
       cubit.ownerUpdate();
       // showCupertinoDialog(context: context, builder: (context) => SaveDialog());
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,23 +109,28 @@ class _EditProfileViewState extends State<EditProfileView> {
           context: context,
           appBarTitle: "profile".tr(),
           backgroundColor: Colors.white,
-          otherIconWidget:BlocConsumer<OwnerUpdateCubit, OwnerUpdateState>(
-            listener: (_, state){
-              if(state is OwnerUpdateErrorState){
+          otherIconWidget: BlocConsumer<OwnerUpdateCubit, OwnerUpdateState>(
+            listener: (_, state) {
+              if (state is OwnerUpdateErrorState) {
                 customSnackBar(_, state.error);
-              }else if(state is OwnerUpdateSuccessState){
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => ProviderMainPage()), (route) => false);
-                print("============================= تم تعديل البيانات بنجاح =========================");
+              } else if (state is OwnerUpdateSuccessState) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => ProviderMainPage()),
+                    (route) => false);
+                print(
+                    "============================= تم تعديل البيانات بنجاح =========================");
               }
             },
             builder: (context, state) {
               return state is OwnerUpdateLoadingState
-                  ? Padding(padding: EdgeInsets.symmetric(horizontal: 35), child: CenterLoading())
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 35),
+                      child: CenterLoading())
                   : _SaveButton(onTap: onTapSaveBtn);
             },
           ),
         ),
-
         body: Form(
           key: formKey,
           child: Container(
@@ -138,33 +144,45 @@ class _EditProfileViewState extends State<EditProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _ImageEdit(
-                      image: "${ApiUtl.main_image_url}${widget.ownerProfileModel.companyImage}",
+                      image:
+                          "${ApiUtl.main_image_url}${widget.ownerProfileModel.companyImage}",
                       onTapEdit: imageBottomSheet,
                     ),
                     _Title("company_name".tr()),
                     _NameTextField(hint: widget.ownerProfileModel.companyName),
                     _Title("phone_number".tr()),
-                    _PhoneTextField(hint: widget.ownerProfileModel.companyPhone),
+                    _PhoneTextField(
+                        hint: widget.ownerProfileModel.companyPhone),
                     _Title("email".tr()),
-                    _EmailTextField(hint: widget.ownerProfileModel.companyEmail),
+                    _EmailTextField(
+                        hint: widget.ownerProfileModel.companyEmail),
                     _Title("minimum_cost".tr()),
-                    _MinSalaryTextField(hint: widget.ownerProfileModel.companyMinSalary),
+                    _MinSalaryTextField(
+                        hint: widget.ownerProfileModel.companyMinSalary),
                     _Title("commercial_registration_no".tr()),
-                    _CommercialNumberTextField(hint: widget.ownerProfileModel.companyCommerical),
+                    _CommercialNumberTextField(
+                        hint: widget.ownerProfileModel.companyCommerical),
                     _Title("commercial_registration_image".tr()),
-                    CommercialImageTextField(ownerProfileModel: widget.ownerProfileModel), ///from component
+                    CommercialImageTextField(
+                        ownerProfileModel: widget.ownerProfileModel),
+
+                    ///from component
                     _Title("times_of_work".tr()),
-                    TimeOfWork(ownerProfileModel: widget.ownerProfileModel), ///from component
+                    TimeOfWork(ownerProfileModel: widget.ownerProfileModel),
+
+                    ///from component
                     _Title("change_password".tr()),
                     _PasswordTextField(),
                     _PasswordNote(),
                     Divider(),
                     _Title("bank_account_owner_name".tr()),
-                    _BankOwnerNameTextField(hint: widget.ownerProfileModel.bankAccountOwner),
+                    _BankOwnerNameTextField(
+                        hint: widget.ownerProfileModel.bankAccountOwner),
                     _Title("bank_name".tr()),
                     _BankNameTextField(hint: widget.ownerProfileModel.bankName),
                     _Title("bank_account_number".tr()),
-                    _BankAccountNumberTextField(hint: widget.ownerProfileModel.accountNumber),
+                    _BankAccountNumberTextField(
+                        hint: widget.ownerProfileModel.accountNumber),
                     SizedBox(height: 15),
                   ],
                 ),
@@ -176,7 +194,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 }
-
 
 class _SaveButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -205,7 +222,6 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-
 class _ImageEdit extends StatelessWidget {
   final void Function()? onTapEdit;
   final String? image;
@@ -231,12 +247,16 @@ class _ImageEdit extends StatelessWidget {
                   child: cubit.image == null
                       ? Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: NetworkImage("$image"), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: NetworkImage("$image"),
+                                fit: BoxFit.cover),
                           ),
                         )
                       : Container(
                           decoration: BoxDecoration(
-                            image: DecorationImage(image: FileImage(File(cubit.image!.path)), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: FileImage(File(cubit.image!.path)),
+                                fit: BoxFit.cover),
                           ),
                         ),
                 ),
@@ -246,7 +266,8 @@ class _ImageEdit extends StatelessWidget {
                 right: 0,
                 child: IconButton(
                   onPressed: onTapEdit,
-                  icon: Image.asset("assets/icons/camera.png", height: 35, width: 35, fit: BoxFit.contain),
+                  icon: Image.asset("assets/icons/camera.png",
+                      height: 35, width: 35, fit: BoxFit.contain),
                 ),
               ),
             ],
@@ -256,7 +277,6 @@ class _ImageEdit extends StatelessWidget {
     );
   }
 }
-
 
 class _NameTextField extends StatelessWidget {
   final String? hint;
@@ -269,17 +289,16 @@ class _NameTextField extends StatelessWidget {
       secureText: false,
       hint: "$hint",
       inputType: TextInputType.name,
-      onChanged: (value){
-        if(value == null){
+      onChanged: (value) {
+        if (value == null) {
           cubit.name = hint;
-        }else {
+        } else {
           cubit.name = value;
         }
       },
     );
   }
 }
-
 
 class _PhoneTextField extends StatelessWidget {
   final String? hint;
@@ -297,18 +316,18 @@ class _PhoneTextField extends StatelessWidget {
         if (value!.isNotEmpty && (value.length < 9 || value.length > 9)) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
-        if(value == null){
+      onChanged: (value) {
+        if (value == null) {
           cubit.phone = hint;
-        }else {
+        } else {
           cubit.phone = "966$value";
         }
       },
     );
   }
 }
-
 
 class _EmailTextField extends StatelessWidget {
   final String? hint;
@@ -332,7 +351,6 @@ class _EmailTextField extends StatelessWidget {
   }
 }
 
-
 class _MinSalaryTextField extends StatelessWidget {
   final String? hint;
   const _MinSalaryTextField({Key? key, this.hint}) : super(key: key);
@@ -345,7 +363,7 @@ class _MinSalaryTextField extends StatelessWidget {
       hint: "$hint ${"sar".tr()}",
       suffixIcon: CountryCode(countyCode: "sar".tr()),
       inputType: TextInputType.number,
-      onChanged: (value){
+      onChanged: (value) {
         if (value == null) {
           cubit.minSalary = hint;
         } else {
@@ -355,7 +373,6 @@ class _MinSalaryTextField extends StatelessWidget {
     );
   }
 }
-
 
 class _CommercialNumberTextField extends StatelessWidget {
   final String? hint;
@@ -368,7 +385,7 @@ class _CommercialNumberTextField extends StatelessWidget {
       secureText: false,
       hint: "$hint",
       inputType: TextInputType.number,
-      onChanged: (value){
+      onChanged: (value) {
         if (value == null) {
           cubit.commercial = hint;
         } else {
@@ -378,7 +395,6 @@ class _CommercialNumberTextField extends StatelessWidget {
     );
   }
 }
-
 
 class _PasswordTextField extends StatelessWidget {
   @override
@@ -395,6 +411,7 @@ class _PasswordTextField extends StatelessWidget {
         } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
       onChanged: (value) {
         cubit.password = value;
@@ -403,21 +420,25 @@ class _PasswordTextField extends StatelessWidget {
   }
 }
 
-
 class _PasswordNote extends StatelessWidget {
   const _PasswordNote({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.asset("assets/icons/help.png", height: 12, width: 12, fit: BoxFit.cover, color: Colors.grey[600]),
+        Image.asset("assets/icons/help.png",
+            height: 12, width: 12, fit: BoxFit.cover, color: Colors.grey[600]),
         SizedBox(width: 5),
-        Expanded(child: Container(child: DrawSingleText(text: "profile_edit_password_note".tr(), color: Colors.grey[600], fontSize: 11))),
+        Expanded(
+            child: Container(
+                child: DrawSingleText(
+                    text: "profile_edit_password_note".tr(),
+                    color: Colors.grey[600],
+                    fontSize: 11))),
       ],
     );
   }
 }
-
 
 class _BankOwnerNameTextField extends StatelessWidget {
   final String? hint;
@@ -430,7 +451,7 @@ class _BankOwnerNameTextField extends StatelessWidget {
       secureText: false,
       hint: "$hint",
       inputType: TextInputType.name,
-      onChanged: (value){
+      onChanged: (value) {
         if (value == null) {
           cubit.bankAccountOwner = hint;
         } else {
@@ -440,7 +461,6 @@ class _BankOwnerNameTextField extends StatelessWidget {
     );
   }
 }
-
 
 class _BankNameTextField extends StatelessWidget {
   final String? hint;
@@ -456,14 +476,13 @@ class _BankNameTextField extends StatelessWidget {
       onChanged: (value) {
         if (value == null) {
           cubit.bankName = hint;
-        } else{
+        } else {
           cubit.bankName = value;
         }
       },
     );
   }
 }
-
 
 class _BankAccountNumberTextField extends StatelessWidget {
   final String? hint;
@@ -479,14 +498,13 @@ class _BankAccountNumberTextField extends StatelessWidget {
       onChanged: (value) {
         if (value == null) {
           cubit.accountNumber = hint;
-        } else{
+        } else {
           cubit.accountNumber = value;
         }
       },
     );
   }
 }
-
 
 class _Title extends StatelessWidget {
   final String? text;
@@ -501,4 +519,3 @@ class _Title extends StatelessWidget {
     );
   }
 }
-

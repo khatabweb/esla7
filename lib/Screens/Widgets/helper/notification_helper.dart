@@ -1,6 +1,6 @@
-import 'package:esla7/Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
-import 'package:esla7/Screens/CommonScreen/second_route/view.dart';
-import 'package:esla7/main.dart';
+import '../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../../CommonScreen/second_route/view.dart';
+import '../../../main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,13 +1,13 @@
-import 'package:esla7/Screens/User/MainPage/Custom_Drawer/Custom_Drawer.dart';
-import 'package:esla7/Screens/User/MainPage/UserOrders/CurrentOrders/CurrentOrders.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/login_dialog/custom_login_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_Background.dart';
+import '../../../Widgets/helper/cach_helper.dart';
+import '../../../Widgets/login_dialog/custom_login_dialog.dart';
+import '../Custom_Drawer/Custom_Drawer.dart';
+import 'CurrentOrders/presentation/screen/CurrentOrders.dart';
 import 'FinishedOrders/FinishedOrders.dart';
 
 class UserOrdersView extends StatefulWidget {
@@ -23,9 +23,9 @@ class _UserOrdersViewState extends State<UserOrdersView> {
   bool? skip;
 
   void shared() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
     setState(() {
-      skip = _pref.getBool("skip");
+      skip =
+          CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool);
     });
     print("skip case ::::::::::: $skip");
   }

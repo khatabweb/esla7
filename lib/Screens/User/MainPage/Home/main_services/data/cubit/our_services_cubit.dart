@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/MainPage/Home/main_services/data/model/model.dart';
-import 'package:esla7/Screens/User/MainPage/Home/main_services/data/repo/controller.dart';
+import '../model/model.dart';
+import '../repo/controller.dart';
 
 part 'our_services_state.dart';
 

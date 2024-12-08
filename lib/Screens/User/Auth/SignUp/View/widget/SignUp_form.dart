@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/User/Auth/ConfirmCode/Bloc/cubit.dart';
+import '../../../ConfirmCode/Bloc/cubit.dart';
 
 import '../../../../../../Theme/color.dart';
 import '../../../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';

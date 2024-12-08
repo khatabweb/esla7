@@ -1,6 +1,6 @@
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
+import '../../../../Theme/color.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

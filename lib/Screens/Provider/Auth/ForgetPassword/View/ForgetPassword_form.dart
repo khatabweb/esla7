@@ -1,12 +1,12 @@
-import 'package:esla7/Screens/Provider/Auth/ConfirmCode/View/ConfirmCode_View.dart';
-import 'package:esla7/Screens/Provider/Auth/ForgetPassword/bloc/cubit.dart';
-import 'package:esla7/Screens/Provider/Auth/ForgetPassword/bloc/state.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
+import '../../ConfirmCode/View/ConfirmCode_View.dart';
+import '../bloc/cubit.dart';
+import '../bloc/state.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_CountryKey.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,16 +14,18 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 
 class ProviderForgetPasswordForm extends StatefulWidget {
   @override
-  State<ProviderForgetPasswordForm> createState() => _ProviderForgetPasswordFormState();
+  State<ProviderForgetPasswordForm> createState() =>
+      _ProviderForgetPasswordFormState();
 }
 
-class _ProviderForgetPasswordFormState extends State<ProviderForgetPasswordForm> {
+class _ProviderForgetPasswordFormState
+    extends State<ProviderForgetPasswordForm> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final String language = translator.activeLanguageCode;
 
   void _checkValidation() {
     final cubit = OwnerResetCubit.get(context);
-    if(formKey.currentState!.validate()){
+    if (formKey.currentState!.validate()) {
       cubit.ownerResetPassword();
     }
   }
@@ -41,11 +43,13 @@ class _ProviderForgetPasswordFormState extends State<ProviderForgetPasswordForm>
               SizedBox(height: 20),
               _PhoneTextField(),
               BlocConsumer<OwnerResetCubit, OwnerResetState>(
-                listener: (_, state){
-                  if(state is OwnerResetErrorState){
+                listener: (_, state) {
+                  if (state is OwnerResetErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is OwnerResetSuccessState){
-                    showCupertinoDialog(context: context, builder: (_) => ConfirmCodeForm(confirmSignUp: false));
+                  } else if (state is OwnerResetSuccessState) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (_) => ConfirmCodeForm(confirmSignUp: false));
                     print("============= success ================");
                   }
                 },
@@ -73,14 +77,15 @@ class _PhoneTextField extends StatelessWidget {
       label: "phone_number".tr(),
       inputType: TextInputType.phone,
       suffixIcon: CountryCode(),
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_phone".tr();
-        }else if (value.length < 9 || value.length > 9){
+        } else if (value.length < 9 || value.length > 9) {
           return "phone_must_be_nine_numbers".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.phone = "$value";
       },
     );
@@ -101,4 +106,3 @@ class _SendButton extends StatelessWidget {
     );
   }
 }
-

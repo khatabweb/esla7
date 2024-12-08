@@ -1,6 +1,6 @@
-import 'package:esla7/Screens/Provider/Auth/SetNewPassword/View/SetNewPassword_form.dart';
-import 'package:esla7/Screens/Widgets/Custom_ShapeContainer.dart';
-import 'package:esla7/Screens/Widgets/logo.dart';
+import 'SetNewPassword_form.dart';
+import '../../../../Widgets/Custom_ShapeContainer.dart';
+import '../../../../Widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

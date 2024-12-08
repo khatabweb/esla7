@@ -1,19 +1,18 @@
-import 'package:esla7/Screens/User/Cart/SingleOrder.dart';
-import 'package:esla7/Screens/User/Cart/bloc/cubit.dart';
-import 'package:esla7/Screens/User/Cart/component/CancelAlert.dart';
-import 'package:esla7/Screens/User/MainPage/main_page.dart';
-import 'package:esla7/Screens/User/ProviderProfile/EndService/bloc/cubit.dart';
-import 'package:esla7/Screens/User/ProviderProfile/OwnerDetails/ProviderProfile.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RichText.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFieldTap.dart';
-import 'package:esla7/Screens/Widgets/Custom_popover.dart';
+import 'SingleOrder.dart';
+import 'bloc/cubit.dart';
+import 'component/CancelAlert.dart';
+import '../MainPage/main_page.dart';
+import '../ProviderProfile/EndService/bloc/cubit.dart';
+import '../../Widgets/AnimatedWidgets.dart';
+import '../../Widgets/CenterLoading.dart';
+import '../../Widgets/Custom_AppBar.dart';
+import '../../Widgets/Custom_Background.dart';
+import '../../Widgets/Custom_Button.dart';
+import '../../Widgets/Custom_DrawText.dart';
+import '../../Widgets/Custom_RichText.dart';
+import '../../Widgets/Custom_SnackBar.dart';
+import '../../Widgets/Custom_TextFieldTap.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,29 +41,30 @@ class _CartPageState extends State<CartPage> {
         : (cubit.address == null || cubit.lat == null || cubit.lang == null)
             ? customSnackBar(context, "please_specify_your_address".tr())
             : (cubit.resTime == null || cubit.resDate == null)
-                ? customSnackBar(context, "check_the_time_or_date_of_order".tr())
+                ? customSnackBar(
+                    context, "check_the_time_or_date_of_order".tr())
                 : cubit.sendOrder(context);
   }
 
   onTapCancelBtn() {
     final cubit = CartCubit.get(context);
-    showCupertinoDialog(context: context, builder: (_) =>
-        CancelAlert(
-          onTapConfirm: () => Navigator.pop(context),
-          onTapDelete: () {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
-            // cubit.listt?.clear();
-            UserEndListCubit.get(context).cartItemList.clear();
-            print("list after clear ${cubit.listt}");
-          },
-        ),
+    showCupertinoDialog(
+      context: context,
+      builder: (_) => CancelAlert(
+        onTapConfirm: () => Navigator.pop(context),
+        onTapDelete: () {
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (_) => MainPage()), (route) => false);
+          // cubit.listt?.clear();
+          UserEndListCubit.get(context).cartItemList.clear();
+          print("list after clear ${cubit.listt}");
+        },
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = UserEndListCubit.get(context);
-    final cartCubit = CartCubit.get(context);
     return Directionality(
       textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
       child: WillPopScope(
@@ -88,21 +88,36 @@ class _CartPageState extends State<CartPage> {
                     AddressTextFieldTap(),
                     DateAndTime(),
                     BlocConsumer<CartCubit, CartState>(
-                      listener: (_, state){
-                        if(state is CartErrorState) customSnackBar(_, state.error);
-                        if(state is CartSuccessState){
+                      listener: (_, state) {
+                        if (state is CartErrorState)
+                          customSnackBar(_, state.error);
+                        if (state is CartSuccessState) {
                           print("order added successfully");
-                          showCupertinoDialog(context: context, builder: (_) => ConfirmOrderAlert(
-                                onTapHomePage: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainPage(pageIndex: 0)),(route) => false),
-                                onTapOrderPage: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainPage(pageIndex: 1)), (route) => false),
-                              ),
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (_) => ConfirmOrderAlert(
+                              onTapHomePage: () => Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => MainPage(pageIndex: 0)),
+                                  (route) => false),
+                              onTapOrderPage: () =>
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              MainPage(pageIndex: 1)),
+                                      (route) => false),
+                            ),
                           );
                         }
                       },
-                      builder: (context, state){
+                      builder: (context, state) {
                         return state is CartLoadingState
                             ? CenterLoading()
-                            : _ConfirmAndCancel(onTapConfirm: confirmBtnValidation, onTapCancel: onTapCancelBtn);
+                            : _ConfirmAndCancel(
+                                onTapConfirm: confirmBtnValidation,
+                                onTapCancel: onTapCancelBtn);
                       },
                     ),
                   ],
@@ -115,7 +130,6 @@ class _CartPageState extends State<CartPage> {
     );
   }
 }
-
 
 class _ListOfOrders extends StatelessWidget {
   const _ListOfOrders({Key? key}) : super(key: key);
@@ -141,17 +155,14 @@ class _ListOfOrders extends StatelessWidget {
   }
 }
 
-
-
 class _ContactWithProvider extends StatelessWidget {
   const _ContactWithProvider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: width/4,
+      height: width / 4,
       width: width,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -167,14 +178,12 @@ class _ContactWithProvider extends StatelessWidget {
   }
 }
 
-
 class _TotalOrderPrice extends StatelessWidget {
   final int? price;
   const _TotalOrderPrice({Key? key, this.price}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
       // height: width/4,
@@ -185,11 +194,13 @@ class _TotalOrderPrice extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: CustomRichText(title: "total_order_price".tr(), subTitle: "$price ${"sar".tr()}",),
+      child: CustomRichText(
+        title: "total_order_price".tr(),
+        subTitle: "$price ${"sar".tr()}",
+      ),
     );
   }
 }
-
 
 //========================================================== AddressTitle ==============================================================
 class AddressTextFieldTap extends StatefulWidget {
@@ -206,8 +217,10 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
     return CustomTextFieldTap(
       height: 45,
       horizontalPadding: 15,
-      label: selectedPlace == null ? "detailed_address".tr() : selectedPlace!.formattedAddress ?? "",
-      onTap: (){
+      label: selectedPlace == null
+          ? "detailed_address".tr()
+          : selectedPlace!.formattedAddress ?? "",
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -217,7 +230,7 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
               enableMyLocationButton: true,
               selectInitialPosition: true,
               useCurrentLocation: true,
-              onPlacePicked: (value){
+              onPlacePicked: (value) {
                 setState(() {
                   selectedPlace = value;
                 });
@@ -236,7 +249,6 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
     );
   }
 }
-
 
 //============================================================ DateAndTime ==============================================================
 class DateAndTime extends StatefulWidget {
@@ -267,16 +279,18 @@ class _DateAndTimeState extends State<DateAndTime> {
     );
     if (date == null) {
       customSnackBar(context, "please_select_service_date".tr());
-    }else{
-      cubit.resDate = "${_pickedDate?.day}-${_pickedDate?.month}-${_pickedDate?.year}";
+    } else {
+      cubit.resDate =
+          "${_pickedDate?.day}-${_pickedDate?.month}-${_pickedDate?.year}";
       setState(() {
         _pickedDate = date;
-        dateValue = "${_pickedDate?.day}-${_pickedDate?.month}-${_pickedDate?.year}";
+        dateValue =
+            "${_pickedDate?.day}-${_pickedDate?.month}-${_pickedDate?.year}";
       });
     }
   }
 
-  Future _pickTime() async{
+  Future _pickTime() async {
     final cubit = CartCubit.get(context);
     TimeOfDay? time = await showTimePicker(
       context: context,
@@ -293,7 +307,6 @@ class _DateAndTimeState extends State<DateAndTime> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -302,13 +315,13 @@ class _DateAndTimeState extends State<DateAndTime> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomButton(
-            width: MediaQuery.of(context).size.width/2.3,
+            width: MediaQuery.of(context).size.width / 2.3,
             color: Colors.white,
             text: dateValue ?? "date".tr(),
             onTap: _pickDate,
           ),
           CustomButton(
-            width: MediaQuery.of(context).size.width/2.3,
+            width: MediaQuery.of(context).size.width / 2.3,
             color: Colors.white,
             text: timeValue ?? "time".tr(),
             onTap: _pickTime,
@@ -319,17 +332,15 @@ class _DateAndTimeState extends State<DateAndTime> {
   }
 }
 
-
-
 //======================================================== ConfirmAndCancel ===============================================================
 class _ConfirmAndCancel extends StatelessWidget {
   final VoidCallback? onTapConfirm;
   final VoidCallback? onTapCancel;
-  const _ConfirmAndCancel({Key? key, this.onTapConfirm, this.onTapCancel}) : super(key: key);
+  const _ConfirmAndCancel({Key? key, this.onTapConfirm, this.onTapCancel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cubit = CartCubit.get(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Row(
@@ -341,7 +352,7 @@ class _ConfirmAndCancel extends StatelessWidget {
             onTap: onTapConfirm,
           ),
           CustomButton(
-            width: MediaQuery.of(context).size.width/2.3,
+            width: MediaQuery.of(context).size.width / 2.3,
             isFrame: true,
             text: "cancel".tr(),
             onTap: onTapCancel,

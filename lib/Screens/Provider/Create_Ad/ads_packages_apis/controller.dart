@@ -1,19 +1,20 @@
-import 'package:esla7/Screens/Widgets/helper/Network_Utils.dart';
-
+import 'package:dio/dio.dart';
+import 'package:esla7/API/api_error_handler.dart';
+import 'package:esla7/API/api_result.dart';
+import '../../../../API/api_utility.dart';
+import '../../../Widgets/helper/network_screvies.dart';
 import 'model.dart';
 
-class AdsPackagesController {
-  NetWork _util = NetWork();
-  AdsPackagesModel model = AdsPackagesModel();
+abstract class AdsPackagesRepo {
+  late AdsPackagesModel model;
 
-  Future<AdsPackagesModel> getPackages() async {
-    var data = await _util.getData(url: "owner/packages");
-    print(data);
-    if (data == null || data == "internet") {
-      return model;
-    } else {
-      model = AdsPackagesModel.fromJson(data);
-      return  model;
+  static Future<ApiResult<AdsPackagesModel>> getPackages() async {
+    try {
+      final Response data =
+          await NetworkHelper().request("${ApiUtl.main_owner_api_url}packages");
+      return ApiResult.success(AdsPackagesModel.fromJson(data.data));
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
 }

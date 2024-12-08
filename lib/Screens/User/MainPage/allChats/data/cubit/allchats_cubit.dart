@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/MainPage/allChats/data/repo/repo.dart';
-import 'package:esla7/Screens/User/MainPage/allChats/data/model/AllChatsModel.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import '../repo/repo.dart';
+import '../model/AllChatsModel.dart';
+import '../../../../../Widgets/helper/cach_helper.dart';
 
 part 'allchats_state.dart';
 

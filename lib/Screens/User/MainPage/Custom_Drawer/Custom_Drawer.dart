@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/User/Profile/ProfileView/data/cubit/profile_cubit.dart';
+import '../../Profile/ProfileView/data/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../API/api_utility.dart';
@@ -21,7 +21,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerView extends StatefulWidget {
   @override
@@ -36,9 +35,9 @@ class _DrawerViewState extends State<DrawerView> {
   bool? skip;
 
   void shared() async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
     setState(() {
-      skip = _pref.getBool("skip");
+      skip =
+          CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool);
     });
     print("skip case ::::::::::: $skip");
   }
@@ -116,8 +115,7 @@ class _DrawerViewState extends State<DrawerView> {
         "title": skip == true ? "log_in".tr() : "log_out".tr(),
         "icon": "assets/icons/logout.png",
         "onTap": () async {
-          SharedPreferences pref = await SharedPreferences.getInstance();
-          pref.clear();
+          CacheHelper.instance!.clear();
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => UserOrProvider()));
         },

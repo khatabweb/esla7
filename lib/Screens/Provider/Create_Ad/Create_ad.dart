@@ -1,15 +1,14 @@
-import 'package:esla7/Screens/Provider/Create_Ad/Ad_features_terms/ad_terms_view.dart';
-import 'package:esla7/Screens/Provider/Create_Ad/CreateAdsForm/CreateAds_form.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'ads_packages_apis/controller.dart';
-import 'ads_packages_apis/model.dart';
+import '../../Widgets/AnimatedWidgets.dart';
+import '../../Widgets/CenterLoading.dart';
+import '../../Widgets/Custom_AppBar.dart';
+import '../../Widgets/Custom_Button.dart';
+import '../../Widgets/Custom_DrawText.dart';
+import 'Ad_features_terms/ad_terms_view.dart';
+import 'CreateAdsForm/CreateAds_form.dart';
+import 'ads_packages_apis/cubit/ads_packages_cubit.dart';
 
 class CreateAdvertising extends StatefulWidget {
   CreateAdvertising({Key? key}) : super(key: key);
@@ -21,20 +20,10 @@ class CreateAdvertising extends StatefulWidget {
 class _CreateAdvertisingState extends State<CreateAdvertising> {
   final String language = translator.activeLanguageCode;
   bool createAds = false;
-  bool isLoading = true;
-  AdsPackagesModel packagesModel = AdsPackagesModel();
-  AdsPackagesController packagesController = AdsPackagesController();
-
-  void getPackages() async {
-    packagesModel = await packagesController.getPackages();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getPackages();
+    context.read<AdsPackagesCubit>().getAdsPackages();
     super.initState();
   }
 
@@ -61,30 +50,45 @@ class _CreateAdvertisingState extends State<CreateAdvertising> {
                   _AdsImage(),
                   SizedBox(height: 15),
                   DrawHeaderText(text: "advertising_prices".tr()),
-                  isLoading
-                      ? CenterLoading()
-                      : Container(
-                          height: 40 *
-                              (packagesModel.packages?.length as num)
-                                  .toDouble(),
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFEEEEEE),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: packagesModel.packages?.length,
-                            itemBuilder: (context, index) {
-                              return _SingleAdsPrices(
-                                duration:
-                                    "${packagesModel.packages?[index]?.period}",
-                                price:
-                                    "${packagesModel.packages?[index]?.price}",
-                              );
-                            },
-                          )),
+                  BlocBuilder<AdsPackagesCubit, AdsPackagesState>(
+                    builder: (context, state) {
+                      if (state is AdsPackagesLoading) {
+                        return CenterLoading();
+                      } else if (state is AdsPackagesError) {
+                        return Center(
+                          child: Text(state.error),
+                        );
+                      } else if (state is AdsPackagesSuccess) {
+                        final packagesModel = state.adsPackagesModel;
+                        return Container(
+                            height: 40 *
+                                (packagesModel.packages?.length as num)
+                                    .toDouble(),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFEEEEEE),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: packagesModel.packages?.length,
+                              itemBuilder: (context, index) {
+                                return _SingleAdsPrices(
+                                  duration:
+                                      "${packagesModel.packages?[index]?.period}",
+                                  price:
+                                      "${packagesModel.packages?[index]?.price}",
+                                );
+                              },
+                            ));
+                      } else {
+                        return Center(
+                          child: Text("Something went wrong"),
+                        );
+                      }
+                    },
+                  ),
                   SizedBox(height: 5),
                   _CreateAdsButton(
                     onTap: () => setState(() => createAds = true),

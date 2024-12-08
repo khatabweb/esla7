@@ -1,14 +1,14 @@
-import 'package:esla7/Screens/User/Profile/ProfileView/data/cubit/profile_cubit.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import 'data/cubit/profile_cubit.dart';
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import 'package:esla7/Screens/User/Profile/ProfileView/data/model/profile_model.dart';
+import 'data/model/profile_model.dart';
 
 class ProfileItems extends StatelessWidget {
   ProfileItems({super.key});

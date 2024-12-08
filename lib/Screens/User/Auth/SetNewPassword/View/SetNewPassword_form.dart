@@ -1,14 +1,12 @@
-import 'package:esla7/Screens/User/Auth/Login/View/login_page.dart';
-import 'package:esla7/Screens/User/Auth/SetNewPassword/Bloc/cubit.dart';
-import 'package:esla7/Screens/User/Auth/SetNewPassword/Bloc/state.dart';
-import 'package:esla7/Screens/User/Auth/SetNewPassword/password_update_success.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
+import '../data/Bloc/cubit.dart';
+import '../data/Bloc/state.dart';
+import '../password_update_success.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -39,14 +37,17 @@ class _SetNewPasswordFormState extends State<SetNewPasswordForm> {
 
               /// set button bloc consumer ==============
               BlocConsumer<UpdatePasswordCubit, UpdatePasswordState>(
-                listener: (_, state){
-                  if(state is UpdatePasswordErrorState){
+                listener: (_, state) {
+                  if (state is UpdatePasswordErrorState) {
                     customSnackBar(_, state.error);
-                  }else if(state is UpdatePasswordSuccessState){
-                    showCupertinoDialog(context: context, builder: (_) {
-                      return UpdatedSuccessfullyDialog();
-                    });
-                    print("============================= تم تغيير كلمة المرور بنجاح =========================");
+                  } else if (state is UpdatePasswordSuccessState) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (_) {
+                          return UpdatedSuccessfullyDialog();
+                        });
+                    print(
+                        "============================= تم تغيير كلمة المرور بنجاح =========================");
                   }
                 },
                 builder: (context, state) {
@@ -55,7 +56,7 @@ class _SetNewPasswordFormState extends State<SetNewPasswordForm> {
                       : CustomButton(
                           text: "set".tr(),
                           onTap: () {
-                            if(_formKey.currentState!.validate()){
+                            if (_formKey.currentState!.validate()) {
                               cubit.userUpdatePassword();
                             }
                           },
@@ -79,20 +80,20 @@ class _PasswordTextField extends StatelessWidget {
       secureText: true,
       label: "password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_password".tr();
-        }else if(value.length < 8){
+        } else if (value.length < 8) {
           return "password_must_be_eight_characters".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.password = "$value";
       },
     );
   }
 }
-
 
 class _ConfirmPasswordTextField extends StatelessWidget {
   @override
@@ -103,17 +104,17 @@ class _ConfirmPasswordTextField extends StatelessWidget {
       secureText: true,
       label: "confirm_password".tr(),
       inputType: TextInputType.text,
-      validate: (value){
-        if(value!.isEmpty) {
+      validate: (value) {
+        if (value!.isEmpty) {
           return "enter_confirm_password".tr();
-        }else if(value != cubit.password){
+        } else if (value != cubit.password) {
           return "password_does_not_match".tr();
         }
+        return null;
       },
-      onChanged: (value){
+      onChanged: (value) {
         cubit.confirmPassword = "$value";
       },
     );
   }
 }
-

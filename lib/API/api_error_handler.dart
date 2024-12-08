@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_model.dart';
+import 'api_model.dart';
 
 // import 'api_constants.dart';
 

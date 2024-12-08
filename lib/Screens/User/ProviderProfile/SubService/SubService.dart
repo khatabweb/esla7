@@ -1,9 +1,9 @@
-import 'package:esla7/Screens/User/ProviderProfile/EndService/EndService.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/CenterMessage.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFieldTap.dart';
+import '../EndService/EndService.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/CenterMessage.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_TextFieldTap.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

@@ -1,9 +1,9 @@
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFieldTap.dart';
-import 'package:esla7/Screens/Widgets/Custom_popover.dart';
+import '../../Widgets/AnimatedWidgets.dart';
+import '../../Widgets/Custom_AppBar.dart';
+import '../../Widgets/Custom_Button.dart';
+import '../../Widgets/Custom_DrawText.dart';
+import '../../Widgets/Custom_TextFieldTap.dart';
+import '../../Widgets/Custom_popover.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -47,13 +47,11 @@ class AddNewAddress extends StatelessWidget {
   }
 }
 
-
 class _CityPopOver extends StatelessWidget {
   const _CityPopOver({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     List<String> _city = [
       "مكة المكرمة",
       "ابها",
@@ -77,7 +75,7 @@ class _CityPopOver extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
           child: InkWell(
-            onTap: (){},
+            onTap: () {},
             child: DrawHeaderText(
               textAlign: TextAlign.center,
               text: item,
@@ -88,7 +86,6 @@ class _CityPopOver extends StatelessWidget {
     );
   }
 }
-
 
 class AddressTextFieldTap extends StatefulWidget {
   @override
@@ -105,7 +102,7 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
           ? "detailed_address".tr()
           : selectedPlace!.formattedAddress ?? "",
       color: Color(0xFFEEEEEE),
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -115,7 +112,7 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
               enableMyLocationButton: true,
               selectInitialPosition: true,
               useCurrentLocation: true,
-              onPlacePicked: (value){
+              onPlacePicked: (value) {
                 setState(() {
                   selectedPlace = value;
                 });
@@ -129,9 +126,9 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
   }
 }
 
-
 class _MapContainer extends StatelessWidget {
-  PickResult? selectedPlace;
+  // final PickResult? selectedPlace;
+  const _MapContainer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -143,8 +140,7 @@ class _MapContainer extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage("assets/images/maps.png"),
             fit: BoxFit.contain,
-          )
-      ),
+          )),
       // child: PlacePicker(
       //   //hintText => on SearchTextField
       //   hintText: "tap to search",
@@ -161,8 +157,6 @@ class _MapContainer extends StatelessWidget {
     );
   }
 }
-
-
 
 class _AddButton extends StatelessWidget {
   @override

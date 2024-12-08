@@ -1,18 +1,25 @@
-import 'package:esla7/Screens/CommonScreen/CitiesDropDown/Api/cities_controller.dart';
-import 'package:esla7/Screens/CommonScreen/CitiesDropDown/Api/cities_model.dart';
-import 'package:esla7/Screens/Provider/Auth/SignUp/bloc/cubit.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_popover.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../Provider/Auth/SignUp/bloc/cubit.dart';
+import '../../Widgets/CenterLoading.dart';
+import '../../Widgets/Custom_DrawText.dart';
+import '../../Widgets/Custom_popover.dart';
+import 'data/cubit/cities_dropdown_cubit.dart';
 
+// ignore: must_be_immutable
 class CitiesDropdown extends StatefulWidget {
-  late  int? cityId;
+  late int? cityId;
   final Color? color;
   final bool? ownerRegister;
   final double? horizontalPadding;
-  CitiesDropdown({Key? key, this.cityId, this.color, this.horizontalPadding, this.ownerRegister,}) : super(key: key);
+  CitiesDropdown({
+    Key? key,
+    this.cityId,
+    this.color,
+    this.horizontalPadding,
+    this.ownerRegister,
+  }) : super(key: key);
 
   @override
   State<CitiesDropdown> createState() => _CitiesDropdownState();
@@ -20,30 +27,25 @@ class CitiesDropdown extends StatefulWidget {
 
 class _CitiesDropdownState extends State<CitiesDropdown> {
   final lang = translator.activeLanguageCode;
-  CitiesModel _citiesModel = CitiesModel();
-  CitiesController _citiesController = CitiesController();
-  bool _isLoading = true;
-  String? chooseValue;
 
-  void getCities() async {
-    _citiesModel = await _citiesController.getCity();
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  String? chooseValue;
 
   @override
   void initState() {
-    getCities();
+    context.read<CitiesDropdownCubit>().getCities();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final registerCubit = OwnerSignUpCubit.get(context);
-    return _isLoading
-        ? CenterLoading()
-        : CustomPopOver(
+    return BlocBuilder<CitiesDropdownCubit, CitiesDropdownState>(
+      builder: (context, state) {
+        if (state is CitiesDropdownLoading) {
+          return CenterLoading();
+        } else if (state is CitiesDropdownSuccess) {
+          final _citiesModel = state.citiesModel;
+          return CustomPopOver(
             horizontalPadding: widget.horizontalPadding ?? 15,
             width: MediaQuery.of(context).size.width,
             text: chooseValue == null ? "city".tr() : chooseValue,
@@ -55,7 +57,7 @@ class _CitiesDropdownState extends State<CitiesDropdown> {
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: InkWell(
                   onTap: () {
-                    print(item!.id);
+                    print(item.id);
                     lang == "ar"
                         ? chooseValue = item.nameAr
                         : chooseValue = item.nameEn;
@@ -64,7 +66,8 @@ class _CitiesDropdownState extends State<CitiesDropdown> {
                         : widget.cityId = item.id;
                     setState(() {});
                     print("city ID :::::::::::::::::: ${item.id}");
-                    print("owner register city id :::::::::::::::::: ${registerCubit.cityId}");
+                    print(
+                        "owner register city id :::::::::::::::::: ${registerCubit.cityId}");
                     print("city name :::::::::::::::::: $chooseValue");
                   },
                   child: DrawHeaderText(
@@ -75,5 +78,16 @@ class _CitiesDropdownState extends State<CitiesDropdown> {
               );
             }).toList(),
           );
+        } else if (state is CitiesDropdownError) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else {
+          return Center(
+            child: Text("no data found "),
+          );
+        }
+      },
+    );
   }
 }

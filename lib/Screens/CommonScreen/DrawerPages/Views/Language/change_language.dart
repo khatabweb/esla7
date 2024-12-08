@@ -1,7 +1,7 @@
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_CheckBox.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/Custom_AppBar.dart';
+import '../../../../Widgets/Custom_CheckBox.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

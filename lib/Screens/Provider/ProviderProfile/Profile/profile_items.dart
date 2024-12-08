@@ -1,13 +1,13 @@
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import 'package:esla7/Screens/Provider/ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../Widgets/CenterLoading.dart';
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'Api/controller.dart';
-import 'Api/model.dart';
 
 class ProviderProfileItems extends StatefulWidget {
   @override
@@ -16,20 +16,10 @@ class ProviderProfileItems extends StatefulWidget {
 
 class _ProviderProfileItemsState extends State<ProviderProfileItems> {
   final String language = translator.activeLanguageCode;
-  OwnerProfileModel profileModel = OwnerProfileModel();
-  OwnerProfileController profileController = OwnerProfileController();
-  bool isLoading = true;
-
-  void getOwnerProfile() async {
-    profileModel = await profileController.getOwnerProfile();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getOwnerProfile();
+    context.read<OwnerProfileCubit>().getOwnerProfile();
     super.initState();
   }
 
@@ -39,9 +29,13 @@ class _ProviderProfileItemsState extends State<ProviderProfileItems> {
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: AnimatedWidgets(
         verticalOffset: 150,
-        child: isLoading
-            ? CenterLoading()
-            : Column(
+        child: BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
+          builder: (context, state) {
+            if (state is OwnerProfileLoading) {
+              return CenterLoading();
+            } else if (state is OwnerProfileSuccess) {
+              final profileModel = state.ownerProfileModel;
+              return Column(
                 children: [
                   _CompanyName(name: profileModel.companyName),
                   _PhoneNumber(phone: profileModel.companyPhone),
@@ -66,7 +60,30 @@ class _ProviderProfileItemsState extends State<ProviderProfileItems> {
                   _BankAccountNumber(accountNum: profileModel.accountNumber),
                   SizedBox(height: 20),
                 ],
-              ),
+              );
+            } else if (state is OwnerProfileError) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  "not found data",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

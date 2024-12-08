@@ -1,10 +1,10 @@
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/controllers/common_controller.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/models/helping_model.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import '../../../../../Theme/color.dart';
+import '../../controllers/common_controller.dart';
+import '../../models/helping_model.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_AppBar.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

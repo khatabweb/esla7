@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/Screens/User/SingleSection/advertiser_api/advertisers_controller.dart';
-import 'package:esla7/Screens/User/SingleSection/advertiser_api/advertisers_model.dart';
+import '../advertiser_api/advertisers_controller.dart';
+import '../advertiser_api/advertisers_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../repo/owners_repo.dart';

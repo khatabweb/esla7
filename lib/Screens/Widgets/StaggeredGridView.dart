@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/Widgets/Custom_Section.dart';
+import 'Custom_Section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 

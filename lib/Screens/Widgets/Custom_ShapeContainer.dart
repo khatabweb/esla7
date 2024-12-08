@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import 'Custom_DrawText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

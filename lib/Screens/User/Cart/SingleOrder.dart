@@ -1,9 +1,8 @@
-import 'package:esla7/Screens/User/ProviderProfile/EndService/bloc/cubit.dart';
-import 'package:esla7/Screens/User/ProviderProfile/EndService/model/model.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:flutter/cupertino.dart';
+import '../ProviderProfile/EndService/bloc/cubit.dart';
+import '../ProviderProfile/EndService/model/model.dart';
+import '../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 import 'component/OrderDetails.dart';
@@ -11,7 +10,11 @@ import 'component/OrderDetails.dart';
 class SingleOrderCard extends StatelessWidget {
   final CartItemModel cartItemList;
   final int index;
-   SingleOrderCard({Key? key,required this.cartItemList, required this.index,}) : super(key: key);
+  SingleOrderCard({
+    Key? key,
+    required this.cartItemList,
+    required this.index,
+  }) : super(key: key);
 
   final String language = translator.activeLanguageCode;
 
@@ -29,19 +32,22 @@ class SingleOrderCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CartDetails(cartItemList:cartItemList,index: index),
-          _AddNotes(cartItemList:cartItemList,index: index,),
+          CartDetails(cartItemList: cartItemList, index: index),
+          _AddNotes(
+            cartItemList: cartItemList,
+            index: index,
+          ),
         ],
       ),
     );
   }
 }
 
-
 class _AddNotes extends StatelessWidget {
   final int index;
   final CartItemModel cartItemList;
-  const _AddNotes({Key? key, required this.index,required this.cartItemList}) : super(key: key);
+  const _AddNotes({Key? key, required this.index, required this.cartItemList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +59,7 @@ class _AddNotes extends StatelessWidget {
       hint: "add_notes".tr(),
       inputType: TextInputType.text,
       color: Colors.white,
-      onChanged: (val){
+      onChanged: (val) {
         print(cubit.cartItemList);
         cubit.cartItemList[index].note = val;
         // cartItemList.copyWith(note: val);
@@ -62,4 +68,3 @@ class _AddNotes extends StatelessWidget {
     );
   }
 }
-

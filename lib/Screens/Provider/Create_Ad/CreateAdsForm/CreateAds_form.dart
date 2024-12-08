@@ -1,18 +1,16 @@
-import 'package:esla7/Screens/Provider/Create_Ad/ads_packages_apis/controller.dart';
-import 'package:esla7/Screens/Provider/Create_Ad/ads_packages_apis/model.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_TextFieldTap.dart';
-import 'package:esla7/Screens/Widgets/Custom_popover.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_Button.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import '../../../Widgets/Custom_SnackBar.dart';
+import '../../../Widgets/Custom_TextFieldTap.dart';
+import '../../../Widgets/Custom_popover.dart';
+import '../ads_packages_apis/cubit/ads_packages_cubit.dart';
 import 'Ads_Subscripe_bloc/cubit.dart';
 import 'Ads_Subscripe_bloc/state.dart';
 import 'ads_subscrib_dialog.dart';
@@ -51,6 +49,7 @@ class AdsStartDate extends StatefulWidget {
   @override
   _AdsStartDateState createState() => _AdsStartDateState();
 }
+
 class _AdsStartDateState extends State<AdsStartDate> {
   DateTime? _pickedDate;
 
@@ -79,13 +78,13 @@ class _AdsStartDateState extends State<AdsStartDate> {
     return CustomTextFieldTap(
       height: 45,
       color: Colors.white, //Color(0xFFEEEEEE),
-      label: "${_pickedDate!.day} / ${_pickedDate!.month} / ${_pickedDate!.year}",
+      label:
+          "${_pickedDate!.day} / ${_pickedDate!.month} / ${_pickedDate!.year}",
       icon: SizedBox(),
       onTap: _pickDate,
     );
   }
 }
-
 
 class _DurationPopOver extends StatefulWidget {
   @override
@@ -93,21 +92,11 @@ class _DurationPopOver extends StatefulWidget {
 }
 
 class _DurationPopOverState extends State<_DurationPopOver> {
-  bool isLoading = true;
   String? valueChoose;
-  AdsPackagesModel packagesModel = AdsPackagesModel();
-  AdsPackagesController packagesController = AdsPackagesController();
-
-  void getPackages() async {
-    packagesModel = await packagesController.getPackages();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getPackages();
+    context.read<AdsPackagesCubit>().getAdsPackages();
     super.initState();
   }
 
@@ -115,9 +104,15 @@ class _DurationPopOverState extends State<_DurationPopOver> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     final cubit = AdsSubscribeCubit.get(context);
-    return isLoading
-        ? CenterLoading()
-        : CustomPopOver(
+    return BlocBuilder<AdsPackagesCubit, AdsPackagesState>(
+      builder: (builder, state) {
+        if (state is AdsPackagesLoading) {
+          return CenterLoading();
+        } else if (state is AdsPackagesError) {
+          return Center(child: Text(state.error));
+        } else if (state is AdsPackagesSuccess) {
+          final packagesModel = state.adsPackagesModel;
+          return CustomPopOver(
             text: valueChoose ?? "duration".tr(),
             color: Colors.white,
             width: width,
@@ -153,9 +148,13 @@ class _DurationPopOverState extends State<_DurationPopOver> {
               );
             }).toList(),
           );
+        } else {
+          return Text("No Data Found");
+        }
+      },
+    );
   }
 }
-
 
 class _TotalPrice extends StatelessWidget {
   final String? price;
@@ -165,31 +164,35 @@ class _TotalPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          DrawHeaderText(text: "total".tr(), color: ThemeColor.mainGold, fontSize: 14),
-          DrawHeaderText(text: "$price ${"sar".tr()}", color: ThemeColor.mainGold, fontSize: 15),
+          DrawHeaderText(
+              text: "total".tr(), color: ThemeColor.mainGold, fontSize: 14),
+          DrawHeaderText(
+              text: "$price ${"sar".tr()}",
+              color: ThemeColor.mainGold,
+              fontSize: 15),
         ],
       ),
     );
   }
 }
 
-
 class _SubscribeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = AdsSubscribeCubit.get(context);
     return BlocConsumer<AdsSubscribeCubit, AdsSubscribeState>(
-      listener: (_, state){
-        if(state is AdsSubscribeErrorState){
+      listener: (_, state) {
+        if (state is AdsSubscribeErrorState) {
           customSnackBar(_, state.error);
-        }else if(state is AdsSubscribeSuccessState){
+        } else if (state is AdsSubscribeSuccessState) {
           Navigator.pop(context);
-          showCupertinoDialog(context: context, builder: (context) => AdsSubscriptionDialog());
+          showCupertinoDialog(
+              context: context, builder: (context) => AdsSubscriptionDialog());
           print("========== تم الإشتراك بنجاح ========");
         }
       },
@@ -208,6 +211,5 @@ class _SubscribeButton extends StatelessWidget {
               );
       },
     );
-
   }
 }

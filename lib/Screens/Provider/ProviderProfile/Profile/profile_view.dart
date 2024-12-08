@@ -1,15 +1,14 @@
-import 'package:esla7/Screens/Provider/ProviderProfile/EditProfile/EditProfile_view.dart';
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/profile_items.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
-import 'package:esla7/Screens/Widgets/Custom_ShapeContainer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:esla7/Screens/Provider/ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../EditProfile/EditProfile_view.dart';
+import 'profile_items.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_AppBar.dart';
+import '../../../Widgets/Custom_RoundedPhoto.dart';
+import '../../../Widgets/Custom_ShapeContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'Api/controller.dart';
-import 'Api/model.dart';
 
 class ProviderProfile extends StatefulWidget {
   @override
@@ -18,27 +17,16 @@ class ProviderProfile extends StatefulWidget {
 
 class _ProviderProfileState extends State<ProviderProfile> {
   final String language = translator.activeLanguageCode;
-  OwnerProfileModel profileModel = OwnerProfileModel();
-  OwnerProfileController profileController = OwnerProfileController();
-  bool isLoading = true;
-
-  void getOwnerProfile() async {
-    profileModel = await profileController.getOwnerProfile();
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
-    getOwnerProfile();
+    context.read<OwnerProfileCubit>().getOwnerProfile();
+
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
@@ -46,7 +34,7 @@ class _ProviderProfileState extends State<ProviderProfile> {
           context: context,
           appBarTitle: "profile".tr(),
           backgroundColor: Theme.of(context).primaryColor,
-          otherIconWidget: _EditButton(profileModel: profileModel),
+          otherIconWidget: _EditButton(),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Align(
@@ -58,12 +46,20 @@ class _ProviderProfileState extends State<ProviderProfile> {
               children: [
                 Align(
                   alignment: Alignment.topCenter,
-                  child: isLoading
-                      ? CenterLoading(color: Colors.white)
-                      : CustomRoundedPhoto(
-                          image: "http://www.repaairsa.com/${profileModel.companyImage}",
-                          radius: 70,
-                        ),
+                  child: BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
+                      builder: (context, state) {
+                    if (state is OwnerProfileLoading) {
+                      return CenterLoading(color: Colors.white);
+                    } else if (state is OwnerProfileSuccess) {
+                      final model = state.ownerProfileModel;
+                      return CustomRoundedPhoto(
+                        image: "http://www.repaairsa.com/${model.companyImage}",
+                        radius: 70,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }),
                 ),
                 ShapeContainer(
                   height: MediaQuery.of(context).size.height / 1.5,
@@ -78,20 +74,27 @@ class _ProviderProfileState extends State<ProviderProfile> {
   }
 }
 
-
 class _EditButton extends StatelessWidget {
-  final OwnerProfileModel profileModel;
-  const _EditButton({Key? key, required this.profileModel}) : super(key: key);
+  const _EditButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfileView(ownerProfileModel: profileModel))),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => EditProfileView(
+            ownerProfileModel: context.read<OwnerProfileCubit>().profileModel,
+          ),
+        ),
+      ),
       child: Container(
         height: 40,
         color: Colors.transparent,
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-        child: Center(child: Image.asset("assets/icons/editwhite.png", height: 25, width: 25, fit: BoxFit.contain)),
+        child: Center(
+            child: Image.asset("assets/icons/editwhite.png",
+                height: 25, width: 25, fit: BoxFit.contain)),
       ),
     );
   }

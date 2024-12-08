@@ -1,16 +1,16 @@
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/CenterLoading.dart';
-import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
-import 'package:esla7/Theme/color.dart';
-import 'package:esla7/Screens/CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderOrders/OrderDetails/OrderItemCard.dart';
-import 'package:esla7/Screens/Widgets/AnimatedWidgets.dart';
-import 'package:esla7/Screens/Widgets/Custom_AppBar.dart';
-import 'package:esla7/Screens/Widgets/Custom_Background.dart';
-import 'package:esla7/Screens/Widgets/Custom_Button.dart';
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RichText.dart';
-import 'package:esla7/Screens/Widgets/Custom_RoundedPhoto.dart';
+import '../../../../../API/api_utility.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../../Theme/color.dart';
+import '../../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
+import 'OrderItemCard.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/Custom_AppBar.dart';
+import '../../../../Widgets/Custom_Background.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_RichText.dart';
+import '../../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,10 +20,10 @@ import 'DialogComponent/acceptOrder_dialog.dart';
 import 'DialogComponent/endingOrder_dialog.dart';
 import 'DialogComponent/rejected_dialog.dart';
 import 'bloc/cubit.dart';
-import 'buttons_bloc/accept/cubit.dart';
-import 'buttons_bloc/accept/state.dart';
-import 'buttons_bloc/refuse/cubit.dart';
-import 'buttons_bloc/refuse/state.dart';
+import 'buttons_bloc/data/accept/cubit.dart';
+import 'buttons_bloc/data/accept/state.dart';
+import 'buttons_bloc/data/refuse/cubit.dart';
+import 'buttons_bloc/data/refuse/state.dart';
 
 
 class OrderDetailsView extends StatefulWidget {
