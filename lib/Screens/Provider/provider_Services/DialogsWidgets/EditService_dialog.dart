@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../Widgets/Custom_Button.dart';
 import '../../../Widgets/Custom_CountryKey.dart';
 import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_TextFormField.dart';
 import '../../../Widgets/Custom_dialog.dart';
 import '../../../Widgets/Custom_popover.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 
 class EditServiceDialog extends StatelessWidget {
   @override

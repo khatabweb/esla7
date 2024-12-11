@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/CommonScreen/CitiesDropDown/data/model/cities_model.dart';
-import 'package:esla7/Screens/CommonScreen/CitiesDropDown/data/repo/cities_repo.dart';
+import '../model/cities_model.dart';
+import '../repo/cities_repo.dart';
 
 part 'cities_dropdown_state.dart';
 

@@ -10,10 +10,10 @@ class OwnerDetailsCubit extends Cubit<OwnerDetailsState> {
 
   static OwnerDetailsCubit get(context) => BlocProvider.of(context);
 
-  int? ownerId;
+  // int? ownerId;
   late OwnerDetailsModel ownerDetailsModelCubit;
 
-  Future<void> ownerDetails() async {
+  Future<void> ownerDetails({required int ownerId}) async {
     emit(OwnerDetailsLoadingState());
 
     try {

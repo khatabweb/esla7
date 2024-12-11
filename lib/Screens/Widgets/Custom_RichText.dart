@@ -39,6 +39,5 @@ class CustomRichText extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

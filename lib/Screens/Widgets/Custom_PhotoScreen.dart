@@ -1,5 +1,6 @@
-import 'AnimatedWidgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'AnimatedWidgets.dart';
 
 class PhotoScreen extends StatelessWidget {
   final String? image;
@@ -19,11 +20,13 @@ class PhotoScreen extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage("$image"),
-                    fit: BoxFit.contain,
-                  )
+                child: CachedNetworkImage(
+                  imageUrl: image!,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.error,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),

@@ -21,20 +21,20 @@ class CurrentProviderOrders extends StatefulWidget {
 class _CurrentProviderOrdersState extends State<CurrentProviderOrders> {
   @override
   void initState() {
-    context.read<UserCurrentCubit>().getCurrent();
+    context.read<providerCurrentCubit>().getCurrent();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserCurrentCubit, UserCurrentState>(
+    return BlocBuilder<providerCurrentCubit, providerCurrentState>(
       builder: (context, state) {
-        if (state is UserCurrentLoading) {
+        if (state is ProviderCurrentLoading) {
           return CenterLoading();
-        } else if (state is UserCurrentError) {
+        } else if (state is ProviderCurrentError) {
           return CenterMessage(state.message);
-        } else if (state is UserCurrentSuccess) {
-          final model = state.userCurrentModel;
+        } else if (state is ProviderCurrentSuccess) {
+          final model = state.ownerCurrentModel;
           if (model.order?.length == 0) {
             return CenterMessage("no_current_order".tr());
           } else {

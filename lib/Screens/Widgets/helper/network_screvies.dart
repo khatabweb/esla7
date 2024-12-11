@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'cach_helper.dart';
+import 'cache_helper.dart';
 import 'mapper.dart';
 import 'network_logger.dart';
 
@@ -40,6 +40,7 @@ class NetworkHelper {
     _dio.options.headers = {
       'Authorization': 'Bearer ${isUser ? _token : _ownerToken}',
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
       "User-Agent": "Dart",
       'Lang': lang,
     };

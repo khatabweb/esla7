@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/User/Search/data/model/model.dart';
+import '../model/model.dart';
 
 abstract class SearchState{}
 class SearchInitState extends SearchState{}

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:esla7/Screens/User/MainPage/main_page.dart';
 import 'package:esla7/Screens/User/Profile/EditProfile/data/bloc/cubit.dart';
 import 'package:esla7/Screens/User/Profile/EditProfile/data/bloc/state.dart';
@@ -220,11 +221,13 @@ class _ImageEdit extends StatelessWidget {
                   width: 120,
                   color: Theme.of(context).primaryColor,
                   child: cubit.image == null
-                      ? Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage("$image"),
-                                fit: BoxFit.cover),
+                      ? CachedNetworkImage(
+                          imageUrl: image!,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.error,
+                            color: Colors.grey,
                           ),
                         )
                       : Container(

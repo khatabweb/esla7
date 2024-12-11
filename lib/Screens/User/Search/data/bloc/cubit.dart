@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/Screens/User/Search/data/repo/search_repo.dart';
+import '../repo/search_repo.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

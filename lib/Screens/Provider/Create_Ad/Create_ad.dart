@@ -61,9 +61,9 @@ class _CreateAdvertisingState extends State<CreateAdvertising> {
                       } else if (state is AdsPackagesSuccess) {
                         final packagesModel = state.adsPackagesModel;
                         return Container(
-                            height: 40 *
-                                (packagesModel.packages?.length as num)
-                                    .toDouble(),
+                            // height: 40 *
+                            //     (packagesModel.packages?.length as num)
+                            //         .toDouble(),
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             margin: EdgeInsets.symmetric(vertical: 5),
                             decoration: BoxDecoration(

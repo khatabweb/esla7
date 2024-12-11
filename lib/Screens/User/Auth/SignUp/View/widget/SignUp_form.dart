@@ -1,20 +1,20 @@
-import '../../../ConfirmCode/Bloc/cubit.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../../../../../../Theme/color.dart';
 import '../../../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
-import '../../../ConfirmCode/View/ConfirmCode_View.dart';
-import '../../Bloc/cubit.dart';
-import '../../Bloc/state.dart';
 import '../../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../../Widgets/CenterLoading.dart';
 import '../../../../../Widgets/Custom_Button.dart';
 import '../../../../../Widgets/Custom_CountryKey.dart';
 import '../../../../../Widgets/Custom_SnackBar.dart';
 import '../../../../../Widgets/Custom_TextFormField.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../../ConfirmCode/Bloc/cubit.dart';
+import '../../../ConfirmCode/View/ConfirmCode_View.dart';
+import '../../Bloc/cubit.dart';
+import '../../Bloc/state.dart';
 
 class SignUpForm extends StatefulWidget {
   @override

@@ -1,4 +1,4 @@
-import '../../../../../Widgets/helper/cach_helper.dart';
+import '../../../../../Widgets/helper/cache_helper.dart';
 
 import '../../../Custom_Drawer/Custom_Drawer.dart';
 import '../widget/chatsList.dart';
@@ -13,6 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 class AllChats extends StatefulWidget {
+  final bool isUser;
+
+  const AllChats({super.key, required this.isUser});
   @override
   _AllChatsState createState() => _AllChatsState();
 }
@@ -32,7 +35,7 @@ class _AllChatsState extends State<AllChats> {
   @override
   void initState() {
     // _getAllChats();
-    context.read<AllChatsCubit>().getAllChats();
+    context.read<AllChatsCubit>().getAllChats(isUser: widget.isUser);
     skipCase();
     super.initState();
   }

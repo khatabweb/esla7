@@ -1,6 +1,6 @@
 import '../../../../../../../API/api_utility.dart';
 import '../../data/cubit/our_services_cubit.dart';
-import '../../../../../SingleSection/View.dart';
+import '../../../../../SingleSection/presentation/screen/View.dart';
 import '../../../../../../Widgets/CenterLoading.dart';
 import '../../../../../../Widgets/Custom_Section.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +47,10 @@ class _OurServicesState extends State<OurServices> {
                   title: lang == "ar"
                       ? "${_servicesModel.services![index]!.nameAr}"
                       : "${_servicesModel.services![index]!.nameEn}",
+
+                  /// change the .jpg in the last path
                   image:
-                      "${ApiUtl.main_image_url}${_servicesModel.services![index]!.image}",
+                      "${ApiUtl.main_image_url}${_servicesModel.services![index]!.image}.jpg",
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(

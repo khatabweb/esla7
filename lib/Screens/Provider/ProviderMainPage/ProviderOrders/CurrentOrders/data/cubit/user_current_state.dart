@@ -1,22 +1,22 @@
 part of 'user_current_cubit.dart';
 
-sealed class UserCurrentState extends Equatable {
-  const UserCurrentState();
+sealed class providerCurrentState extends Equatable {
+  const providerCurrentState();
 
   @override
   List<Object> get props => [];
 }
 
-final class UserCurrentInitial extends UserCurrentState {}
+final class ProviderCurrentInitial extends providerCurrentState {}
 
-final class UserCurrentError extends UserCurrentState {
+final class ProviderCurrentError extends providerCurrentState {
   final String message;
-  const UserCurrentError(this.message);
+  const ProviderCurrentError(this.message);
 }
 
-final class UserCurrentLoading extends UserCurrentState {}
+final class ProviderCurrentLoading extends providerCurrentState {}
 
-final class UserCurrentSuccess extends UserCurrentState {
-  final UserCurrentModel userCurrentModel;
-  const UserCurrentSuccess(this.userCurrentModel);
+final class ProviderCurrentSuccess extends providerCurrentState {
+  final OwnerCurrentModel ownerCurrentModel;
+  const ProviderCurrentSuccess(this.ownerCurrentModel);
 }

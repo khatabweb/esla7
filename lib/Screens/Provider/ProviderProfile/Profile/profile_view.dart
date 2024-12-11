@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/Provider/ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
+import 'data/cubit/owner_profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../EditProfile/EditProfile_view.dart';

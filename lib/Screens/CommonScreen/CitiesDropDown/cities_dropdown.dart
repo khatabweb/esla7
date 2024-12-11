@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import '../../Provider/Auth/SignUp/bloc/cubit.dart';
+
+import '../../Provider/Auth/SignUp/data/bloc/cubit.dart';
 import '../../Widgets/CenterLoading.dart';
 import '../../Widgets/Custom_DrawText.dart';
 import '../../Widgets/Custom_popover.dart';

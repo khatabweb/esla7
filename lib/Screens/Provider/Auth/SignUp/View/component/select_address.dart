@@ -1,4 +1,4 @@
-import '../../bloc/cubit.dart';
+import '../../data/bloc/cubit.dart';
 import '../../../../../Widgets/Custom_TextFieldTap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
@@ -29,18 +29,22 @@ class _AddressTextFieldTapState extends State<AddressTextFieldTap> {
         width: 20,
         fit: BoxFit.contain,
       ),
-      icon: Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor, size: 18),
-      onTap: (){
+      icon: Icon(Icons.arrow_forward_ios,
+          color: Theme.of(context).primaryColor, size: 18),
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => PlacePicker(
-              apiKey: "AIzaSyBU6YNVxesC2-qRF2yDgCk7be8QaQz56kQ",
+              // apiKey: "AIzaSyAyhVG7B9FUmg-urb3TZBtDSTB2aXHVFCg",
+              apiKey: "AIzaSyCA_d7wsXFrxjXQEjOVByCFzbfnVR1-4uk",
               initialPosition: LatLng(23.8859, 45.0792),
               enableMyLocationButton: true,
               selectInitialPosition: true,
               useCurrentLocation: true,
-              onPlacePicked: (value){
+              ignoreLocationPermissionErrors: true,
+              resizeToAvoidBottomInset: false,
+              onPlacePicked: (value) {
                 setState(() {
                   selectedPlace = value;
                 });

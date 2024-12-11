@@ -1,26 +1,26 @@
-import '../../Profile/ProfileView/data/cubit/profile_cubit.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../../../../API/api_utility.dart';
-import '../../../Widgets/CenterLoading.dart';
-import '../../../Widgets/helper/cach_helper.dart';
-import '../../../Widgets/login_dialog/custom_login_dialog.dart';
 import '../../../../Theme/color.dart';
 import '../../../CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
 import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
 import '../../../CommonScreen/DrawerPages/Views/Language/change_language.dart';
 import '../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
 import '../../../CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
-import '../../../Provider/Auth/SignUp/View/ProviderSignUp_page.dart';
-import '../../Profile/ProfileView/profile_view.dart';
 import '../../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../../../Provider/Auth/SignUp/View/ProviderSignUp_page.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_RoundedPhoto.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../../Widgets/helper/cache_helper.dart';
+import '../../../Widgets/login_dialog/custom_login_dialog.dart';
+import '../../Profile/ProfileView/data/cubit/profile_cubit.dart';
+import '../../Profile/ProfileView/profile_view.dart';
 
 class DrawerView extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class _DrawerViewState extends State<DrawerView> {
   final String language = translator.activeLanguageCode;
 
   // ProfileModel _profileModel = ProfileModel();
-  bool isLoading = true;
+  // bool isLoading = true;
   bool? skip;
 
   void shared() async {
@@ -97,7 +97,13 @@ class _DrawerViewState extends State<DrawerView> {
         "title": "help".tr(),
         "icon": "assets/icons/help.png",
         "onTap": () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => HelpView())),
+              context,
+              MaterialPageRoute(
+                builder: (_) => HelpView(
+                  isUser: true,
+                ),
+              ),
+            ),
       },
       {
         "title": "feedback".tr(),
@@ -145,15 +151,24 @@ class _DrawerViewState extends State<DrawerView> {
                   SizedBox(height: 35),
                   skip == true
                       ? SizedBox()
-                      : isLoading
-                          ? CenterLoading()
-                          : _UserData(
-                              name: BlocProvider.of<ProfileCubit>(context)
-                                  .profileModel
-                                  .name,
-                              image:
-                                  "${ApiUtl.main_image_url}${BlocProvider.of<ProfileCubit>(context).profileModel.image}",
-                            ),
+                      : BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            if (state is ProfileLoading) {
+                              return CenterLoading();
+                            } else if (state is ProfileSuccess) {
+                              return _UserData(
+                                name: BlocProvider.of<ProfileCubit>(context)
+                                    .profileModel
+                                    .name,
+                                image:
+                                    "${ApiUtl.main_image_url}${BlocProvider.of<ProfileCubit>(context).profileModel.image}",
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        ),
+
                   SizedBox(height: 5),
                   Divider(),
 

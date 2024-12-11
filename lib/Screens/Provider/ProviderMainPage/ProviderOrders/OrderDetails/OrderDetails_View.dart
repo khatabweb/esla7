@@ -19,7 +19,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'DialogComponent/acceptOrder_dialog.dart';
 import 'DialogComponent/endingOrder_dialog.dart';
 import 'DialogComponent/rejected_dialog.dart';
-import 'bloc/cubit.dart';
+import 'data/bloc/cubit.dart';
 import 'buttons_bloc/data/accept/cubit.dart';
 import 'buttons_bloc/data/accept/state.dart';
 import 'buttons_bloc/data/refuse/cubit.dart';

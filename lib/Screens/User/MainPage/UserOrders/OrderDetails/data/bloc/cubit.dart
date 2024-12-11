@@ -12,7 +12,7 @@ class UserOrderDetailsCubit extends Cubit<UserOrderDetailsState> {
 
   static UserOrderDetailsCubit get(context) => BlocProvider.of(context);
   int? orderId;
-  late UserOrderDetailsModel model;
+  late UserOrderDetailsModel userOrderDetailsModel;
 
   Future<void> orderDetails() async {
     emit(UserOrderDetailsLoadingState());
@@ -25,9 +25,9 @@ class UserOrderDetailsCubit extends Cubit<UserOrderDetailsState> {
           await UserOrderDetailsRepo.orderDetails(formData: formData);
 
       response.when(success: (response) {
-        model = response;
+        userOrderDetailsModel = response;
         print("::::::::::: successsssssssssssssssss ::::::::::::::");
-        emit(UserOrderDetailsSuccessState());
+        emit(UserOrderDetailsSuccessState(userOrderDetailsModel));
       }, failure: (e) {
         emit(UserOrderDetailsErrorState(e.apiErrorModel.message!));
       });

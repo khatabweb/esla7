@@ -1,16 +1,16 @@
-import 'package:esla7/Screens/User/MainPage/UserOrders/FinishedOrders/data/cubit/user_finished_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../../../../../API/api_utility.dart';
+import '../../../../../Theme/color.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/CenterMessage.dart';
-import '../../../../../Theme/color.dart';
-import '../OrderDetails/OrderDetails_View.dart';
-import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_RoundedPhoto.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../OrderDetails/OrderDetails_View.dart';
+import 'data/cubit/user_finished_cubit.dart';
 
 class FinishedOrders extends StatefulWidget {
   const FinishedOrders({Key? key}) : super(key: key);

@@ -1,13 +1,13 @@
-import 'data/cubit/profile_cubit.dart';
-import '../../../../Theme/color.dart';
-import '../../../Widgets/AnimatedWidgets.dart';
-import '../../../Widgets/CenterLoading.dart';
-import '../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
+import '../../../../Theme/color.dart';
+import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_DrawText.dart';
+import 'data/cubit/profile_cubit.dart';
 import 'data/model/profile_model.dart';
 
 class ProfileItems extends StatelessWidget {

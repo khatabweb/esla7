@@ -1,3 +1,5 @@
+import '../../SignUp/data/bloc/cubit.dart';
+
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
 import '../../SetNewPassword/View/SetNewPassword_page.dart';
@@ -17,7 +19,6 @@ class ConfirmCodeForm extends StatelessWidget {
 
   final String language = translator.activeLanguageCode;
 
-
   @override
   Widget build(BuildContext context) {
     final cubit = OwnerVerifyCubit.get(context);
@@ -28,20 +29,25 @@ class ConfirmCodeForm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _PinCode(onDone: (on){cubit.code = on;}),
+          _PinCode(onDone: (on) {
+            cubit.code = on;
+          }),
           BlocConsumer<OwnerVerifyCubit, OwnerVerifyState>(
-            listener: (_, state){
+            listener: (_, state) {
               if (state is OwnerVerifyErrorState) {
                 customSnackBar(context, state.error);
               } else if (state is OwnerVerifySuccessState) {
-                Navigator.push(context, MaterialPageRoute(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
                     builder: (_) => confirmSignUp == true
                         ? ProviderMainPage()
                         : SetNewPasswordPage(),
                   ),
                 );
                 confirmSignUp == true
-                    ? print(":::::::::::: congratulations!! Your account is activated now.")
+                    ? print(
+                        ":::::::::::: congratulations!! Your account is activated now.")
                     : print(":::::::::::: Forget password code confirmed");
               }
             },
@@ -68,9 +74,12 @@ class _PinCode extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: PinCodeTextField(
+        controller:
+            TextEditingController(text: OwnerSignUpCubit.get(context).code),
         autofocus: false,
         highlight: true,
-        pinTextStyle:TextStyle(fontSize:14, color: Theme.of(context).primaryColor),
+        pinTextStyle:
+            TextStyle(fontSize: 14, color: Theme.of(context).primaryColor),
         pinBoxHeight: screenHeight * .08,
         pinBoxWidth: screenHeight * .075,
         pinBoxRadius: 12,

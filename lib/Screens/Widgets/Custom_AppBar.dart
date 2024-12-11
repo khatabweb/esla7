@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../User/Search/presentation/screen/Search_view.dart';
-import 'helper/cach_helper.dart';
+import 'helper/cache_helper.dart';
 import 'login_dialog/custom_login_dialog.dart';
 
 PreferredSizeWidget? customAppBar({

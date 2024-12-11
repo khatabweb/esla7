@@ -6,12 +6,14 @@ import '../../../../../Widgets/helper/network_screvies.dart';
 
 class AllChatsRepo {
   Future<ApiResult<AllChatsModel>> getAllChats(
-      {required FormData formData}) async {
+      {required FormData formData, bool isUser = true}) async {
     try {
       final Response response = await NetworkHelper().request(
-          "http://repaairsa.com/api/getConversationByUser_id",
-          method: ServerMethods.POST,
-          body: formData);
+        "http://repaairsa.com/api/getConversationByUser_id",
+        method: ServerMethods.POST,
+        body: formData,
+        isUser: isUser,
+      );
       return ApiResult.success(AllChatsModel.fromJson(response.data));
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

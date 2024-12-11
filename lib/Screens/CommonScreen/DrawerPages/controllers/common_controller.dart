@@ -1,23 +1,25 @@
+import 'package:dio/dio.dart';
+
+import '../../../../API/api_utility.dart';
+import '../../../Widgets/helper/network_screvies.dart';
 import '../models/aboutus_model.dart';
 import '../models/helping_model.dart';
 import '../models/terms_model.dart';
-import '../../../Widgets/helper/network_screvies.dart';
 
-
-//TODO: Add basUrl 
+//TODO: Add basUrl
 ///=========================== Terms and condition Request =============================
 class TermsController {
   TermsModel _termsModel = TermsModel();
 
   Future<TermsModel> getTerms() async {
-    var data =
-        await NetworkHelper().request("api/terms", method: ServerMethods.GET);
-    ;
+    final Response data = await NetworkHelper()
+        .request("${ApiUtl.main_api_url}terms", method: ServerMethods.GET);
+
     print(data);
-    if (data == null || data == "internet") {
+    if (data.statusCode == 200) {
+      _termsModel = TermsModel.fromJson(data.data);
       return _termsModel;
     } else {
-      _termsModel = TermsModel.fromJson(data);
       return _termsModel;
     }
   }
@@ -28,13 +30,13 @@ class AboutusController {
   AboutusModel _aboutusModel = AboutusModel();
 
   Future<AboutusModel> getAboutUs() async {
-    var data =
-        await NetworkHelper().request("api/aboutus", method: ServerMethods.GET);
+    final Response data = await NetworkHelper()
+        .request("${ApiUtl.main_api_url}aboutus", method: ServerMethods.GET);
     print(data);
-    if (data == null || data == "internet") {
+    if (data.statusCode == 200) {
+      _aboutusModel = AboutusModel.fromJson(data.data);
       return _aboutusModel;
     } else {
-      _aboutusModel = AboutusModel.fromJson(data);
       return _aboutusModel;
     }
   }
@@ -44,16 +46,18 @@ class AboutusController {
 class HelpingController {
   HelpingModel _helpingModel = HelpingModel();
 
-  Future<HelpingModel> getHelp() async {
+  Future<HelpingModel> getHelp({bool isUser = true}) async {
     // var data = await _util.getData(url: "api/helping", headers: header);
-    var data =
-        await NetworkHelper().request("api/helping", method: ServerMethods.GET);
+    final Response data = await NetworkHelper().request(
+        "${ApiUtl.main_api_url}helping",
+        method: ServerMethods.GET,
+        isUser: isUser);
     print(data);
 
-    if (data == null || data == "internet") {
+    if (data.statusCode == 200) {
+      _helpingModel = HelpingModel.fromJson(data.data);
       return _helpingModel;
     } else {
-      _helpingModel = HelpingModel.fromJson(data);
       return _helpingModel;
     }
   }

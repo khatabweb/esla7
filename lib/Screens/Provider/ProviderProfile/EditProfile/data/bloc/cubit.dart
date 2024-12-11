@@ -10,7 +10,6 @@ class OwnerUpdateCubit extends Cubit<OwnerUpdateState> {
   OwnerUpdateCubit() : super(OwnerUpdateInitState());
 
   static OwnerUpdateCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
   String? name;
   String? phone;
   String? email;

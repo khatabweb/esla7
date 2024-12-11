@@ -1,21 +1,21 @@
-import '../../ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
-import '../../../Widgets/helper/cach_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../Widgets/CenterLoading.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../Theme/color.dart';
 import '../../../CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
 import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
 import '../../../CommonScreen/DrawerPages/Views/Language/change_language.dart';
 import '../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
 import '../../../CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
-import '../../Create_Ad/Create_ad.dart';
-import '../../ProviderProfile/Profile/profile_view.dart';
 import '../../../CommonScreen/UserOrProvider/UserOrProvider.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
+import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_RoundedPhoto.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../../../Widgets/helper/cache_helper.dart';
+import '../../Create_Ad/Create_ad.dart';
+import '../../ProviderProfile/Profile/data/cubit/owner_profile_cubit.dart';
+import '../../ProviderProfile/Profile/profile_view.dart';
 
 class ProviderDrawerView extends StatefulWidget {
   @override
@@ -72,7 +72,7 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
         "title": "help".tr(),
         "icon": "assets/icons/help.png",
         "onTap": () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => HelpView())),
+            context, MaterialPageRoute(builder: (_) => HelpView(isUser: false,))),
       },
       {
         "title": "feedback".tr(),

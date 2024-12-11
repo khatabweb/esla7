@@ -1,4 +1,4 @@
-import '../../Widgets/helper/cach_helper.dart';
+import '../../Widgets/helper/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'Home/main_services/presentation/screen/home_page.dart';
 import 'Notification/presentation/screen/Notification_page.dart';
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
       HomePage(),
       UserOrdersView(),
       NotificationPage(),
-      AllChats(),
+      AllChats(isUser: true),
     ];
     whichPage();
     skipCase();

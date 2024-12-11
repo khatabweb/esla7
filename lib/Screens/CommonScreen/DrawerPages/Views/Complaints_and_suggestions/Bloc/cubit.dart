@@ -9,7 +9,6 @@ class ComplaintsCubit extends Cubit<ComplaintsState> {
   ComplaintsCubit() : super(ComplaintsInitState());
 
   static ComplaintsCubit get(context) => BlocProvider.of(context);
-  Dio dio = Dio();
   String? type, name, phone, message;
   int? orderID;
   XFile? image;

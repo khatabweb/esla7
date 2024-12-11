@@ -8,8 +8,8 @@ class UserNotificationModel {
   });
   UserNotificationModel.fromJson(Map<String, dynamic> json) {
     status = json["status"]?.toString();
-    if (json["data"] != null) {
-      final v = json["data"];
+    if (json["nots"] != null) {
+      final v = json["nots"];
       final arr0 = <Notification>[];
       v.forEach((v) {
         arr0.add(Notification.fromJson(v));
@@ -26,7 +26,7 @@ class UserNotificationModel {
       v!.forEach((v) {
         arr0.add(v!.toJson());
       });
-      data["data"] = arr0;
+      data["nots"] = arr0;
     }
     return data;
   }

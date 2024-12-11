@@ -1,8 +1,8 @@
-import 'Home/home_page.dart';
-import 'Notification/Provider_Notification.dart';
+import 'Home/presentation/screen/home_page.dart';
+import 'Notification/presentation/screen/Provider_Notification.dart';
 import 'ProviderOrders/ProviderOrders_view.dart';
 import '../../User/MainPage/allChats/presentation/screen/view.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -40,7 +40,7 @@ class _ProviderMainPageState extends State<ProviderMainPage> {
       ProviderHomePage(),
       ProviderOrdersView(),
       ProviderNotification(),
-      AllChats(),
+      AllChats(isUser: false),
     ];
     whichPage();
     super.initState();
@@ -76,18 +76,22 @@ class _ProviderMainPageState extends State<ProviderMainPage> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
+              label: "",
               icon: _CustomIcon("assets/icons/home.png"),
               activeIcon: _CustomActiveIcon("assets/icons/home.png"),
             ),
             BottomNavigationBarItem(
+              label: "",
               icon: _CustomIcon("assets/icons/orders.png"),
               activeIcon: _CustomActiveIcon("assets/icons/orders.png"),
             ),
             BottomNavigationBarItem(
+              label: "",
               icon: _CustomIcon("assets/icons/bell.png"),
               activeIcon: _CustomActiveIcon("assets/icons/bell.png"),
             ),
             BottomNavigationBarItem(
+              label: "",
               icon: _CustomIcon("assets/icons/chat.png"),
               activeIcon: _CustomActiveIcon("assets/icons/chat.png"),
             ),

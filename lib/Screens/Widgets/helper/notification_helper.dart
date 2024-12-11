@@ -1,12 +1,13 @@
-import '../../CommonScreen/UserOrProvider/UserOrProvider.dart';
-import '../../CommonScreen/second_route/view.dart';
-import '../../../main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+import '../../../main.dart';
+import '../../CommonScreen/UserOrProvider/UserOrProvider.dart';
+import '../../CommonScreen/second_route/view.dart';
 
 class FirebaseNotificationHelper {
   static final FirebaseNotificationHelper instance =

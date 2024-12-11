@@ -1,8 +1,8 @@
-import '../../data/bloc/cubit.dart';
-import '../../../../Widgets/Custom_TextFormField.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
+import '../../../../Widgets/Custom_TextFormField.dart';
+import '../../data/bloc/cubit.dart';
 
 PreferredSizeWidget? searchHeader({
   required BuildContext context,

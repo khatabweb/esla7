@@ -2,7 +2,8 @@ class ApiUtl {
   static const String main_network_url = "http://repaairsa.com/";
   static const String main_api_url = "http://repaairsa.com/api/";
   static const String main_owner_api_url = "http://repaairsa.com/owner/";
-  static const String main_image_url = "http://www.repaairsa.com/";
+  static const String main_image_url = "http://www.repaairsa.com/public/";
+  // https://repaairsa.com/public/uploads/services/o71XIzkPA1SrsAOaTxhFi4gijTU6pX1Oy3XHr7AP.jpg.jpg
   // https://repaairsa.com/api/owners
 
   // static const String main_banners_image_url = "http://www.repaairsa.com/uploads/banners/";

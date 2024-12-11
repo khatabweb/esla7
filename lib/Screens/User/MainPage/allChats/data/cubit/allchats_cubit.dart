@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import '../repo/repo.dart';
 import '../model/AllChatsModel.dart';
-import '../../../../../Widgets/helper/cach_helper.dart';
+import '../../../../../Widgets/helper/cache_helper.dart';
 
 part 'allchats_state.dart';
 
@@ -11,7 +11,7 @@ class AllChatsCubit extends Cubit<AllChatsState> {
   AllChatsCubit() : super(AllChatsInitial());
   late AllChatsModel? _allChatsModel;
 
-  Future<void> getAllChats() async {
+  Future<void> getAllChats({required bool isUser}) async {
     emit(AllChatsLoading());
 
     var type =
@@ -32,7 +32,8 @@ class AllChatsCubit extends Cubit<AllChatsState> {
     };
 
     FormData _formData = FormData.fromMap(_body);
-    final response = await AllChatsRepo().getAllChats(formData: _formData);
+    final response = await AllChatsRepo().getAllChats(formData: _formData,
+        isUser: isUser);
 
     response.when(
       success: (data) {

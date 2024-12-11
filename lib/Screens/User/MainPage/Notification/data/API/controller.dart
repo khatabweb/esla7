@@ -9,7 +9,7 @@ abstract class UserNotificationRepo {
   static Future<ApiResult<UserNotificationModel>> getNotification() async {
     try {
       Response data = await NetworkHelper().request(
-        "${ApiUtl.main_network_url}api/newindex",
+        "${ApiUtl.main_api_url}nots",
         method: ServerMethods.GET,
       );
       return ApiResult.success(UserNotificationModel.fromJson(data.data));

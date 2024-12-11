@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
+import '../../../../../../Widgets/Custom_DrawText.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

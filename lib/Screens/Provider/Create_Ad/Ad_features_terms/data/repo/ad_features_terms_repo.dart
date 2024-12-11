@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_error_handler.dart';
-import 'package:esla7/API/api_result.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Provider/Create_Ad/Ad_features_terms/data/model/ad_terms_model.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../../../API/api_error_handler.dart';
+import '../../../../../../API/api_result.dart';
+import '../../../../../../API/api_utility.dart';
+import '../model/ad_terms_model.dart';
+import '../../../../../Widgets/helper/network_screvies.dart';
 
 abstract class AdFeaturesTermsRepo {
   static Future<ApiResult<AdFeaturesTermsModel>> getAdFeatures() async {

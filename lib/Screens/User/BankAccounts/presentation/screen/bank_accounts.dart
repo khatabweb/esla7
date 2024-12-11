@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -120,11 +121,18 @@ class _SingleAccountCard extends StatelessWidget {
           Container(
             height: height,
             width: width / 4.5,
+            child: CachedNetworkImage(
+              imageUrl: image!,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(
+                Icons.error,
+                color: Colors.grey,
+              ),
+            ),
             decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                    image: NetworkImage("$image"), fit: BoxFit.cover)),
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(15),
+            ),
           ),
           SizedBox(width: 10),
           Expanded(

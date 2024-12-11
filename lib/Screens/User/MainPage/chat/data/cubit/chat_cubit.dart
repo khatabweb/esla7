@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/MainPage/chat/data/model/model.dart';
-import 'package:esla7/Screens/User/MainPage/chat/data/repo/chat_repo.dart';
-import 'package:esla7/Screens/Widgets/helper/cach_helper.dart';
+import '../model/model.dart';
+import '../repo/chat_repo.dart';
+import '../../../../../Widgets/helper/cache_helper.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'chat_state.dart';

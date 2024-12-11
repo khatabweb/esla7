@@ -49,7 +49,7 @@ class _ImageSliderState extends State<ImageSlider> {
                     ),
                     child: Center(
                       child: CachedNetworkImage(
-                        imageUrl: "${ApiUtl.main_network_url}${item!.image}",
+                        imageUrl: "${ApiUtl.main_image_url}${item!.image}",
                         placeholder: (context, url) =>
                             CircularProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),

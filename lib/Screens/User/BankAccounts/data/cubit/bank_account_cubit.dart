@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/BankAccounts/data/model/model.dart';
-import 'package:esla7/Screens/User/BankAccounts/data/repo/bank_account.dart';
+import '../model/model.dart';
+import '../repo/bank_account.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'bank_account_state.dart';

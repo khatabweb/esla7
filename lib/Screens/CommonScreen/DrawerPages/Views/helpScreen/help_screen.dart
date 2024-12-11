@@ -5,12 +5,14 @@ import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/Custom_AppBar.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HelpView extends StatefulWidget {
+  final bool isUser;
+
+  const HelpView({super.key, required this.isUser});
   @override
   _HelpViewState createState() => _HelpViewState();
 }
@@ -22,7 +24,7 @@ class _HelpViewState extends State<HelpView> {
   bool _isLoading = true;
 
   void _getHelp() async {
-    _helpingModel = await _helpingController.getHelp();
+    _helpingModel = await _helpingController.getHelp(isUser: widget.isUser);
     setState(() {
       _isLoading = false;
     });
@@ -52,7 +54,9 @@ class _HelpViewState extends State<HelpView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HelpVideo(url: _helpingModel.vedioLink),//"https://www.youtube.com/watch?v=gY7592DsFdw"
+                    HelpVideo(
+                        url: _helpingModel
+                            .vedioLink), //"https://www.youtube.com/watch?v=gY7592DsFdw"
                     _SupportNumber(number: _helpingModel.supportNumber),
                     _CommonQuestions(
                       questions: language == "ar"
@@ -67,8 +71,6 @@ class _HelpViewState extends State<HelpView> {
   }
 }
 
-
-
 class HelpVideo extends StatefulWidget {
   HelpVideo({Key? key, this.url}) : super(key: key);
   final url;
@@ -80,15 +82,14 @@ class HelpVideo extends StatefulWidget {
 class _HelpVideoState extends State<HelpVideo> {
   YoutubePlayerController? _controller;
 
-  void runYoutubePlayer(){
+  void runYoutubePlayer() {
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.url) as String,
-      flags: YoutubePlayerFlags(
-        enableCaption: false,
-        autoPlay: false,
-        isLive: false,
-      )
-    );
+        initialVideoId: YoutubePlayer.convertUrlToId(widget.url) as String,
+        flags: YoutubePlayerFlags(
+          enableCaption: false,
+          autoPlay: false,
+          isLive: false,
+        ));
   }
 
   @override
@@ -115,7 +116,7 @@ class _HelpVideoState extends State<HelpVideo> {
       player: YoutubePlayer(
         controller: _controller as YoutubePlayerController,
       ),
-      builder: (context, player){
+      builder: (context, player) {
         return Container(
           height: MediaQuery.of(context).size.height / 3.5,
           width: MediaQuery.of(context).size.width,
@@ -132,7 +133,6 @@ class _HelpVideoState extends State<HelpVideo> {
   }
 }
 
-
 class _SupportNumber extends StatelessWidget {
   final String? number;
   const _SupportNumber({Key? key, this.number}) : super(key: key);
@@ -144,8 +144,11 @@ class _SupportNumber extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DrawHeaderText(text: "technical_support_number".tr(), color: ThemeColor.mainGold),
-          DrawHeaderText(text: "$number", fontSize: 14, textDirection: TextDirection.ltr),
+          DrawHeaderText(
+              text: "technical_support_number".tr(),
+              color: ThemeColor.mainGold),
+          DrawHeaderText(
+              text: "$number", fontSize: 14, textDirection: TextDirection.ltr),
         ],
       ),
     );
@@ -163,7 +166,8 @@ class _CommonQuestions extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DrawHeaderText(text: "common_questions".tr(), color: ThemeColor.mainGold),
+          DrawHeaderText(
+              text: "common_questions".tr(), color: ThemeColor.mainGold),
           Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(vertical: 5),
@@ -179,4 +183,3 @@ class _CommonQuestions extends StatelessWidget {
     );
   }
 }
-

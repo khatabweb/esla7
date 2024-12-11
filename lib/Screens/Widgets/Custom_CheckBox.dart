@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+// import 'package:localize_and_translate/localize_and_translate.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool? isChecked;

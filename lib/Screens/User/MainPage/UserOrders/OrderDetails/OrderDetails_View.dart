@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:esla7/Screens/User/MainPage/chat/data/cubit/chat_cubit.dart';
+import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/data/bloc/state.dart';
+
+import '../../chat/data/cubit/chat_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../API/api_utility.dart';
@@ -58,12 +60,13 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         isLoading = false;
       });
     });
+    context.read<UserOrderDetailsCubit>().orderDetails();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = UserOrderDetailsCubit.get(context);
+    // final cubit = UserOrderDetailsCubit.get(context);
     return Directionality(
       textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
@@ -72,107 +75,114 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           appBarTitle: "${"order_num".tr()} ${widget.orderId}",
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
         ),
-        body: CustomBackground(
-          child: isLoading
-              ? CenterLoading()
-              : SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: AnimatedWidgets(
-                    verticalOffset: 150,
-                    child: Column(
-                      children: [
-                        //========================= orderDetails ============================
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Column(
-                            children: [
-                              _OrderDetail(
-                                image:
-                                    "${ApiUtl.main_image_url}${cubit.model.imageOwner}",
-                                name: "${cubit.model.ownerName}",
-                                rate: 4,
-                                orderNumber: cubit.model.orderNumber,
-                              ),
-                              _OwnersDetails(
-                                companyName: "${cubit.model.ownerName}",
-                                minSalary: "${cubit.model.minSalary}",
-                                serviceName: language == "ar"
-                                    ? "${cubit.model.servicesNameAr}"
-                                    : "${cubit.model.servicesNameEn}",
-                                address: "${cubit.model.address}",
-                              ),
-                            ],
+        body: CustomBackground(child:
+            BlocBuilder<UserOrderDetailsCubit, UserOrderDetailsState>(
+                builder: (context, state) {
+          if (state is UserOrderDetailsLoadingState) {
+            return CenterLoading();
+          } else if (state is UserOrderDetailsSuccessState) {
+            final cubit = state.userOrderDetailsModel;
+            return SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: AnimatedWidgets(
+                verticalOffset: 150,
+                child: Column(
+                  children: [
+                    //========================= orderDetails ============================
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        children: [
+                          _OrderDetail(
+                            image:
+                                "${ApiUtl.main_image_url}${cubit.imageOwner}",
+                            name: "${cubit.ownerName}",
+                            rate: 4,
+                            orderNumber: cubit.orderNumber,
                           ),
-                        ),
-
-                        OrderItemCard(
-                          image: "${ApiUtl.main_image_url}${cubit.model.image}",
-                          subService: language == "ar"
-                              ? "${cubit.model.servicesNameAr}"
-                              : "${cubit.model.servicesNameEn}",
-                          quantity: "${cubit.model.quantity}",
-                          serviceName: language == "ar"
-                              ? "${cubit.model.servicesNameAr}"
-                              : "${cubit.model.servicesNameEn}",
-                          price: "${cubit.model.price}",
-                          desc: "${cubit.model.serviceDesc}",
-                          note: (cubit.model.notes == "null" ||
-                                  cubit.model.notes == null)
-                              ? "there_are_no_note".tr()
-                              : "${cubit.model.notes}",
-                        ),
-
-                        //========================= details ============================
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomRichText(
-                                  title: "total_order_price".tr(),
-                                  subTitle:
-                                      "${cubit.model.totalPrice} ${"sar".tr()}"),
-                              CustomRichText(
-                                  title: "detailed_address".tr(),
-                                  subTitle: "${cubit.model.address}"),
-                              CustomRichText(
-                                  title: "date".tr(),
-                                  subTitle: "${cubit.model.resDate}"),
-                              CustomRichText(
-                                  title: "time".tr(),
-                                  subTitle: "${cubit.model.resTime}"),
-                            ],
+                          _OwnersDetails(
+                            companyName: "${cubit.ownerName}",
+                            minSalary: "${cubit.minSalary}",
+                            serviceName: language == "ar"
+                                ? "${cubit.servicesNameAr}"
+                                : "${cubit.servicesNameEn}",
+                            address: "${cubit.address}",
                           ),
-                        ),
-
-                        widget.isAccepted == true
-                            ? AcceptedButtons(
-                                ownerName: cubit.model.ownerName,
-                                ownerId: cubit.model.ownerId,
-                                totalPrice: cubit.model.totalPrice,
-                              )
-                            : widget.isWaiting == true
-                                ? SizedBox()
-                                : _RefusedButtons(),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+
+                    OrderItemCard(
+                      image: "${ApiUtl.main_image_url}${cubit.image}",
+                      subService: language == "ar"
+                          ? "${cubit.servicesNameAr}"
+                          : "${cubit.servicesNameEn}",
+                      quantity: "${cubit.quantity}",
+                      serviceName: language == "ar"
+                          ? "${cubit.servicesNameAr}"
+                          : "${cubit.servicesNameEn}",
+                      price: "${cubit.price}",
+                      desc: "${cubit.serviceDesc}",
+                      note: (cubit.notes == "null" || cubit.notes == null)
+                          ? "there_are_no_note".tr()
+                          : "${cubit.notes}",
+                    ),
+
+                    //========================= details ============================
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomRichText(
+                              title: "total_order_price".tr(),
+                              subTitle: "${cubit.totalPrice} ${"sar".tr()}"),
+                          CustomRichText(
+                              title: "detailed_address".tr(),
+                              subTitle: "${cubit.address}"),
+                          CustomRichText(
+                              title: "date".tr(), subTitle: "${cubit.resDate}"),
+                          CustomRichText(
+                              title: "time".tr(), subTitle: "${cubit.resTime}"),
+                        ],
+                      ),
+                    ),
+
+                    widget.isAccepted == true
+                        ? AcceptedButtons(
+                            ownerName: cubit.ownerName,
+                            ownerId: cubit.ownerId,
+                            totalPrice: cubit.totalPrice,
+                          )
+                        : widget.isWaiting == true
+                            ? SizedBox()
+                            : _RefusedButtons(),
+                  ],
                 ),
-        ),
+              ),
+            );
+          } else if (state is UserOrderDetailsErrorState) {
+            return Center(
+              child: Text("${state.error}"),
+            );
+          } else {
+            return CenterLoading();
+          }
+        })),
       ),
     );
   }

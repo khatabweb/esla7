@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:esla7/Screens/User/MainPage/UserOrders/CurrentOrders/data/model/model.dart';
-import 'package:esla7/Screens/User/MainPage/UserOrders/CurrentOrders/data/repo/user_current_repo.dart';
+import '../model/model.dart';
+import '../repo/user_current_repo.dart';
 
 part 'user_current_state.dart';
 

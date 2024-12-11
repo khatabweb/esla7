@@ -1,7 +1,14 @@
 import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../../API/api_utility.dart';
-import '../../ProviderMainPage/main_page.dart';
-import '../Profile/data/model/model.dart';
+import '../../../../Theme/color.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_AppBar.dart';
@@ -10,17 +17,12 @@ import '../../../Widgets/Custom_CountryKey.dart';
 import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_SnackBar.dart';
 import '../../../Widgets/Custom_TextFormField.dart';
-import '../../../../Theme/color.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-
-import 'data/bloc/cubit.dart';
-import 'data/bloc/state.dart';
+import '../../ProviderMainPage/main_page.dart';
+import '../Profile/data/model/model.dart';
 import 'component/pick_commercial.dart';
 import 'component/time_of_work.dart';
+import 'data/bloc/cubit.dart';
+import 'data/bloc/state.dart';
 
 class EditProfileView extends StatefulWidget {
   final OwnerProfileModel ownerProfileModel;
@@ -245,11 +247,13 @@ class _ImageEdit extends StatelessWidget {
                   width: 120,
                   color: Theme.of(context).primaryColor,
                   child: cubit.image == null
-                      ? Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage("$image"),
-                                fit: BoxFit.cover),
+                      ? CachedNetworkImage(
+                          imageUrl: image!,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.error,
+                            color: Colors.grey,
                           ),
                         )
                       : Container(

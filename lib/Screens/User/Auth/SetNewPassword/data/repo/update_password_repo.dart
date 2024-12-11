@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/API/api_error_handler.dart';
-import 'package:esla7/API/api_result.dart';
-import 'package:esla7/API/api_utility.dart';
-import 'package:esla7/Screens/Widgets/helper/network_screvies.dart';
+import '../../../../../../API/api_error_handler.dart';
+import '../../../../../../API/api_result.dart';
+import '../../../../../../API/api_utility.dart';
+import '../../../../../Widgets/helper/network_screvies.dart';
 
 abstract class UpdatePasswordRepo {
   static Future<ApiResult> updatePassword({required FormData formData}) async {

@@ -9,7 +9,7 @@ abstract class CitiesRepo {
   static Future<ApiResult<CitiesModel>> getCities() async {
     try {
       final Response response = await NetworkHelper()
-          .request("${ApiUtl.main_api_url}/cities", method: ServerMethods.GET);
+          .request("${ApiUtl.main_api_url}cities", method: ServerMethods.GET);
 
       return ApiResult.success(CitiesModel.fromJson(response.data));
     } catch (error) {

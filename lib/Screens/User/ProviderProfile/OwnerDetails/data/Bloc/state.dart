@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/User/ProviderProfile/OwnerDetails/data/model/owner_details_model.dart';
+import '../model/owner_details_model.dart';
 
 abstract class OwnerDetailsState {}
 

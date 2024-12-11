@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:esla7/Screens/Provider/ProviderMainPage/ProviderOrders/OrderDetails/buttons_bloc/data/repo/accept_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../repo/accept_repo.dart';
 import 'state.dart';
 
 class AcceptCubit extends Cubit<AcceptState> {

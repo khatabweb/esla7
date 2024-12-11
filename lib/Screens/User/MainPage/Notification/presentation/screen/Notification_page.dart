@@ -1,4 +1,4 @@
-import '../../../../../Widgets/helper/cach_helper.dart';
+import '../../../../../Widgets/helper/cache_helper.dart';
 import '../../data/cubit/user_notification_cubit.dart';
 import '../widget/notification_item.dart';
 import '../../../../../Widgets/CenterLoading.dart';
@@ -60,7 +60,8 @@ class _NotificationPageState extends State<NotificationPage> {
                       return CenterLoading();
                     } else if (state is UserNotificationSuccess) {
                       final model = state.userNotificationModel;
-                      if (model.notification?.length == 0) {
+                      print("object of model ${model.status}");
+                      if (model.notification!.length == 0) {
                         return CenterMessage("no_notification_yet".tr());
                       } else {
                         return Container(
@@ -69,7 +70,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             padding: EdgeInsets.symmetric(vertical: 5),
-                            itemCount: model.notification?.length ?? 1,
+                            itemCount: model.notification?.length,
                             itemBuilder: (context, index) {
                               return NotificationItem(
                                 titles: language == "ar"

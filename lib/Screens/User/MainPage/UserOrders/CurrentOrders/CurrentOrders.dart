@@ -11,8 +11,6 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../../../../API/api_utility.dart';
 import '../../../../../../../Theme/color.dart';
 
-
-
 class CurrentOrders extends StatefulWidget {
   const CurrentOrders({Key? key}) : super(key: key);
 
@@ -47,7 +45,6 @@ class _CurrentOrdersState extends State<CurrentOrders> {
         return CenterLoading();
       } else if (state is UserCurrentSuccess) {
         final model = state.model;
-
         if (model.order?.length == 0) {
           return CenterMessage("no_current_order".tr());
         } else {

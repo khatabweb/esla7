@@ -4,7 +4,7 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../../../Widgets/CenterLoading.dart';
 import '../../../../../../Widgets/Custom_DrawText.dart';
 import '../../../../../../Widgets/Custom_popover.dart';
-import '../../../bloc/cubit.dart';
+import '../../../data/bloc/cubit.dart';
 import 'data/cubit/service_type_cubit.dart';
 
 class ServiceType extends StatefulWidget {
