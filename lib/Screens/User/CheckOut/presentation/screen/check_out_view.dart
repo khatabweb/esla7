@@ -1,23 +1,22 @@
 import 'dart:io';
 
-import '../../../MainPage/main_page.dart';
-import '../../../../Widgets/AnimatedWidgets.dart';
-import '../../../../Widgets/CenterLoading.dart';
-import '../../../../Widgets/Custom_AppBar.dart';
-import '../../../../Widgets/Custom_BottomSheet.dart';
-import '../../../../Widgets/Custom_Button.dart';
-
-import '../../../../Widgets/Custom_DrawText.dart';
-import '../../../../Widgets/Custom_SnackBar.dart';
-import '../../../../Widgets/Custom_TextFieldTap.dart';
-import '../../../../Widgets/Custom_TextFormField.dart';
-import '../../../../../Theme/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
+import '../../../../../Theme/color.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_AppBar.dart';
+import '../../../../Widgets/Custom_BottomSheet.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+import '../../../../Widgets/Custom_TextFieldTap.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
+import '../../../MainPage/main_page.dart';
 import '../../data/bloc/cubit.dart';
 import '../../data/bloc/state.dart';
 import '../widget/check_success_dialog.dart';
@@ -33,7 +32,6 @@ class CheckOutView extends StatefulWidget {
 
 class _CheckOutViewState extends State<CheckOutView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String language = translator.activeLanguageCode;
 
   onTapCheckoutBtn() {
     final cubit = CheckoutCubit.get(context);
@@ -46,61 +44,58 @@ class _CheckOutViewState extends State<CheckOutView> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "checkout".tr(),
         backgroundColor: Colors.white,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "checkout".tr(),
-          backgroundColor: Colors.white,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: AnimatedWidgets(
-              verticalOffset: 150,
-              child: Form(
-                key: formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _Title("bank_name".tr()),
-                    _BankNameTextField(),
-                    _Title("transfer_account_number".tr()),
-                    _SenderAccountNumTextField(),
-                    _Title("transformer_name".tr()),
-                    _SenderNameTextField(),
-                    _Title("bank_transfer_image".tr()),
-                    BankTransferImage(),
-                    _Title("add_notes".tr()),
-                    _NoteTextField(),
-                    BlocConsumer<CheckoutCubit, CheckoutState>(
-                      listener: (_, state) {
-                        if (state is CheckoutErrorState) {
-                          customSnackBar(_, state.error);
-                        } else if (state is CheckoutSuccessState) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => MainPage(pageIndex: 1)),
-                              (route) => false);
-                          showCupertinoDialog(
-                              context: context,
-                              builder: (_) => CheckoutSuccessDialog());
-                          print(
-                              "==================== DONE =========================");
-                        }
-                      },
-                      builder: (context, state) {
-                        return state is CheckoutLoadingState
-                            ? CenterLoading()
-                            : _SaveButton(onTap: onTapCheckoutBtn);
-                      },
-                    ),
-                  ],
-                ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: AnimatedWidgets(
+            verticalOffset: 150,
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _Title("bank_name".tr()),
+                  _BankNameTextField(),
+                  _Title("transfer_account_number".tr()),
+                  _SenderAccountNumTextField(),
+                  _Title("transformer_name".tr()),
+                  _SenderNameTextField(),
+                  _Title("bank_transfer_image".tr()),
+                  BankTransferImage(),
+                  _Title("add_notes".tr()),
+                  _NoteTextField(),
+                  BlocConsumer<CheckoutCubit, CheckoutState>(
+                    listener: (_, state) {
+                      if (state is CheckoutErrorState) {
+                        customSnackBar(_, state.error);
+                      } else if (state is CheckoutSuccessState) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => MainPage(pageIndex: 1)),
+                            (route) => false);
+                        showCupertinoDialog(
+                            context: context,
+                            builder: (_) => CheckoutSuccessDialog());
+                        print(
+                            "==================== DONE =========================");
+                      }
+                    },
+                    builder: (context, state) {
+                      return state is CheckoutLoadingState
+                          ? CenterLoading()
+                          : _SaveButton(onTap: onTapCheckoutBtn);
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -192,7 +187,6 @@ class BankTransferImage extends StatefulWidget {
 }
 
 class _BankTransferImageState extends State<BankTransferImage> {
-  final String language = translator.activeLanguageCode;
   final _picker = ImagePicker();
 
   Future pickImage() async {
@@ -224,28 +218,24 @@ class _BankTransferImageState extends State<BankTransferImage> {
   void imageBottomSheet() {
     customSheet(
         context: context,
-        widget: Directionality(
-          textDirection:
-              language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid,
-                      color: Theme.of(context).primaryColor),
-                  onTap: pickImage,
-                ),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo,
-                      color: Theme.of(context).primaryColor),
-                  onTap: getImage,
-                ),
-              ],
-            ),
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "camera".tr()),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
+                onTap: pickImage,
+              ),
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "photo_gallery".tr()),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
+                onTap: getImage,
+              ),
+            ],
           ),
         ));
   }

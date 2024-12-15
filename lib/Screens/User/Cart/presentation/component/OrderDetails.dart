@@ -65,35 +65,30 @@ class _CartDetailsState extends State<CartDetails> {
   void imageBottomSheet() {
     customSheet(
         context: context,
-        widget: Directionality(
-          textDirection: translator.activeLanguageCode == "ar"
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid,
-                      color: Theme.of(context).primaryColor),
-                  onTap: () {
-                    pickImage();
-                    print("::::::::::::::pickImage");
-                  },
-                ),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo,
-                      color: Theme.of(context).primaryColor),
-                  onTap: () {
-                    getImage();
-                    print("::::::::::::::getImage");
-                  },
-                ),
-              ],
-            ),
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "camera".tr()),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
+                onTap: () {
+                  pickImage();
+                  print("::::::::::::::pickImage");
+                },
+              ),
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "photo_gallery".tr()),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
+                onTap: () {
+                  getImage();
+                  print("::::::::::::::getImage");
+                },
+              ),
+            ],
           ),
         ));
   }
@@ -255,11 +250,10 @@ class _CartDetailsState extends State<CartDetails> {
 
 class _MiniContainer extends StatelessWidget {
   final Color? color;
-  final Color? titleColor;
+  // final Color? titleColor;
   final String? title;
   final bool? minus, titled;
-  const _MiniContainer(
-      {this.color, this.title, this.titleColor, this.minus, this.titled});
+  const _MiniContainer({this.color, this.title, this.minus, this.titled});
 
   @override
   Widget build(BuildContext context) {

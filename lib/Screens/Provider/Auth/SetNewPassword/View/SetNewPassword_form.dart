@@ -21,7 +21,6 @@ class SetProviderNewPasswordForm extends StatefulWidget {
 class _SetProviderNewPasswordFormState
     extends State<SetProviderNewPasswordForm> {
   final formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   void _checkValidation() {
     final cubit = OwnerUpdatePassCubit.get(context);

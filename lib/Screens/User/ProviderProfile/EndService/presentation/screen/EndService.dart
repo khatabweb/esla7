@@ -28,7 +28,6 @@ class EndService extends StatefulWidget {
 }
 
 class _EndServiceState extends State<EndService> {
-  final String language = translator.activeLanguageCode;
   bool isSelected = false;
 
   @override
@@ -42,75 +41,72 @@ class _EndServiceState extends State<EndService> {
   @override
   Widget build(BuildContext context) {
     // final cubit = UserEndListCubit.get(context);
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: customAppBar(
-            context: context,
-            appBarTitle: "${widget.appBarTitle}",
-            backgroundColor: Colors.white),
-        body: BlocBuilder<UserEndListCubit, UserEndListState>(
-          builder: (context, state) {
-            if (state is UserEndListLoadingState) {
-              return CenterLoading();
-            } else if (state is UserEndListErrorState) {
-              return CenterMessage(state.error);
-            } else if (state is UserEndListSuccessState) {
-              final model = state.endListModel;
-              if (model.services?.length == 0) {
-                return CenterMessage(
-                    "there_are_no_services_now_for_this_sub".tr());
-              } else {
-                return AnimatedWidgets(
-                  verticalOffset: 150,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: model.services?.length,
-                          itemBuilder: (context, index) {
-                            var item = model.services?[index];
-                            return _SubServiceCard(
-                              serviceName: language == "ar"
-                                  ? "${item?.nameAr}"
-                                  : "${item?.nameEn}",
-                              price: item!.price,
-                              desc: "${item.descreption}",
-                              // isChecked: checked[index],
-                              onTap: () {
-                                setState(() {
-                                  // checked[index] = !checked[index];
-                                });
-                              },
-                              ownerId: widget.ownerId,
-                              serviceId: widget.serviceId,
-                            );
-                          },
-                        ),
-                      ),
-                      _AddToCartButton(
-                        onTap: () {
-                          UserEndListCubit.get(context).cartItemList.length == 0
-                              ? showCupertinoDialog(
-                                  context: context,
-                                  builder: (_) => NoServicesAlert())
-                              : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => CartPage()));
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+          context: context,
+          appBarTitle: "${widget.appBarTitle}",
+          backgroundColor: Colors.white),
+      body: BlocBuilder<UserEndListCubit, UserEndListState>(
+        builder: (context, state) {
+          if (state is UserEndListLoadingState) {
+            return CenterLoading();
+          } else if (state is UserEndListErrorState) {
+            return CenterMessage(state.error);
+          } else if (state is UserEndListSuccessState) {
+            final model = state.endListModel;
+            if (model.services?.length == 0) {
+              return CenterMessage(
+                  "there_are_no_services_now_for_this_sub".tr());
+            } else {
+              return AnimatedWidgets(
+                verticalOffset: 150,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: model.services?.length,
+                        itemBuilder: (context, index) {
+                          var item = model.services?[index];
+                          return _SubServiceCard(
+                            serviceName: context.locale.languageCode == "ar"
+                                ? "${item?.nameAr}"
+                                : "${item?.nameEn}",
+                            price: item!.price,
+                            desc: "${item.descreption}",
+                            // isChecked: checked[index],
+                            onTap: () {
+                              setState(() {
+                                // checked[index] = !checked[index];
+                              });
+                            },
+                            ownerId: widget.ownerId,
+                            serviceId: widget.serviceId,
+                          );
                         },
                       ),
-                    ],
-                  ),
-                );
-              }
-            } else {
-              return CenterMessage("something_went_wrong".tr());
+                    ),
+                    _AddToCartButton(
+                      onTap: () {
+                        UserEndListCubit.get(context).cartItemList.length == 0
+                            ? showCupertinoDialog(
+                                context: context,
+                                builder: (_) => NoServicesAlert())
+                            : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => CartPage()));
+                      },
+                    ),
+                  ],
+                ),
+              );
             }
-          },
-        ),
+          } else {
+            return CenterMessage("something_went_wrong".tr());
+          }
+        },
       ),
     );
   }
@@ -122,7 +118,7 @@ class _SubServiceCard extends StatelessWidget {
   final String? desc;
   final int? ownerId;
   final int? serviceId;
-  final bool? isChecked;
+  // final bool? isChecked;
   final void Function()? onTap;
 
   const _SubServiceCard(
@@ -131,7 +127,7 @@ class _SubServiceCard extends StatelessWidget {
       this.serviceName,
       this.price,
       this.desc,
-      this.isChecked,
+      // this.isChecked,
       this.ownerId,
       this.serviceId})
       : super(key: key);

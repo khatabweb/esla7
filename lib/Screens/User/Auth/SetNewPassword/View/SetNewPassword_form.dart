@@ -17,7 +17,6 @@ class SetNewPasswordForm extends StatefulWidget {
 
 class _SetNewPasswordFormState extends State<SetNewPasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   @override
   Widget build(BuildContext context) {

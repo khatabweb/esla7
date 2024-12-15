@@ -14,10 +14,10 @@ PreferredSizeWidget? searchHeader({
   final double? elevation,
   final Color? backgroundColor,
 }) {
-  final String language = translator.activeLanguageCode;
   final cubit = SearchCubit.get(context);
   return AppBar(
-    backgroundColor: backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.5),
+    backgroundColor:
+        backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.5),
     elevation: elevation ?? 0,
     titleSpacing: 0,
     leadingWidth: 50,
@@ -26,8 +26,8 @@ PreferredSizeWidget? searchHeader({
       onTap: () => Navigator.pop(context),
       child: Container(
         margin: EdgeInsets.only(
-            right: language == "ar" ? 15 : 0,
-            left: language == "ar" ? 0 : 15,
+            right: context.locale.languageCode == "ar" ? 15 : 0,
+            left: context.locale.languageCode == "ar" ? 0 : 15,
             top: 15,
             bottom: 15),
         child: Icon(
@@ -39,7 +39,6 @@ PreferredSizeWidget? searchHeader({
         ),
       ),
     ),
-
     title: Container(
       child: CustomTextField(
         color: Colors.white,
@@ -47,13 +46,12 @@ PreferredSizeWidget? searchHeader({
         secureText: false,
         inputType: TextInputType.text,
         labelSize: 14,
-        onChanged: (value){
+        onChanged: (value) {
           cubit.name = value;
           cubit.searchDetails();
         },
       ),
     ),
-
     actions: [
       SizedBox(width: 15),
     ],

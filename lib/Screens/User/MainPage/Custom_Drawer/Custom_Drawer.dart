@@ -28,8 +28,6 @@ class DrawerView extends StatefulWidget {
 }
 
 class _DrawerViewState extends State<DrawerView> {
-  final String language = translator.activeLanguageCode;
-
   // ProfileModel _profileModel = ProfileModel();
   // bool isLoading = true;
   bool? skip;
@@ -130,71 +128,68 @@ class _DrawerViewState extends State<DrawerView> {
 
     final double listHeight = listTileData.length.toDouble();
 
-    return Directionality(
-      textDirection: language == 'ar' ? TextDirection.rtl : TextDirection.ltr,
-      child: Container(
-        width: MediaQuery.of(context).size.width / 1.6,
-        height: MediaQuery.of(context).size.height,
-        child: Drawer(
-          elevation: 20,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            // padding: EdgeInsets.only(top: 35),
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 35),
-                  skip == true
-                      ? SizedBox()
-                      : BlocBuilder<ProfileCubit, ProfileState>(
-                          builder: (context, state) {
-                            if (state is ProfileLoading) {
-                              return CenterLoading();
-                            } else if (state is ProfileSuccess) {
-                              return _UserData(
-                                name: BlocProvider.of<ProfileCubit>(context)
-                                    .profileModel
-                                    .name,
-                                image:
-                                    "${ApiUtl.main_image_url}${BlocProvider.of<ProfileCubit>(context).profileModel.image}",
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          },
-                        ),
-
-                  SizedBox(height: 5),
-                  Divider(),
-
-                  //============= drawer content =================
-                  Container(
-                    height: 58 * listHeight,
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                      itemCount: listTileData.length,
-                      itemBuilder: (context, item) {
-                        return _DrawerItem(
-                          title: listTileData[item]["title"] as String?,
-                          onTap:
-                              listTileData[item]["onTap"] as void Function()?,
-                          imgSrc: listTileData[item]["icon"] as String?,
-                        );
-                      },
-                    ),
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.6,
+      height: MediaQuery.of(context).size.height,
+      child: Drawer(
+        elevation: 20,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          // padding: EdgeInsets.only(top: 35),
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(height: 35),
+                skip == true
+                    ? SizedBox()
+                    : BlocBuilder<ProfileCubit, ProfileState>(
+                        builder: (context, state) {
+                          if (state is ProfileLoading) {
+                            return CenterLoading();
+                          } else if (state is ProfileSuccess) {
+                            return _UserData(
+                              name: BlocProvider.of<ProfileCubit>(context)
+                                  .profileModel
+                                  .name,
+                              image:
+                                  "${ApiUtl.main_image_url}${BlocProvider.of<ProfileCubit>(context).profileModel.image}",
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
+                      ),
+    
+                SizedBox(height: 5),
+                Divider(),
+    
+                //============= drawer content =================
+                Container(
+                  height: 58 * listHeight,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    itemCount: listTileData.length,
+                    itemBuilder: (context, item) {
+                      return _DrawerItem(
+                        title: listTileData[item]["title"] as String?,
+                        onTap:
+                            listTileData[item]["onTap"] as void Function()?,
+                        imgSrc: listTileData[item]["icon"] as String?,
+                      );
+                    },
                   ),
-
-                  Divider(),
-                  _ShareContact(),
-                ],
-              ),
+                ),
+    
+                Divider(),
+                _ShareContact(),
+              ],
             ),
           ),
         ),
@@ -266,9 +261,13 @@ class _UserData extends StatelessWidget {
 class _DrawerItem extends StatelessWidget {
   final void Function()? onTap;
   final String? title, imgSrc;
-  final Widget? trailing;
+  // final Widget? trailing;
 
-  _DrawerItem({this.onTap, this.title, this.imgSrc, this.trailing});
+  _DrawerItem({
+    this.onTap,
+    this.title,
+    this.imgSrc,
+  });
 
   @override
   Widget build(BuildContext context) {

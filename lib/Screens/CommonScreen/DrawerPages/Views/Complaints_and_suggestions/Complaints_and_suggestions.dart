@@ -32,7 +32,6 @@ class ComplaintsAndSuggestion extends StatefulWidget {
 
 class _ComplaintsAndSuggestionState extends State<ComplaintsAndSuggestion> {
   final _formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   @override
   void initState() {
@@ -42,65 +41,62 @@ class _ComplaintsAndSuggestionState extends State<ComplaintsAndSuggestion> {
   @override
   Widget build(BuildContext context) {
     final cubit = ComplaintsCubit.get(context);
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Form(
-        key: _formKey,
-        child: Scaffold(
-          appBar: customAppBar(
-              context: context,
-              appBarTitle: "feedback".tr(),
-              backgroundColor: Colors.white,
-              otherIconWidget: BlocConsumer<ComplaintsCubit, ComplaintsState>(
-                listener: (_, state) {
-                  if (state is ComplaintsErrorState) {
-                    customSnackBar(_, state.error);
-                  } else if (state is ComplaintsSuccessState) {
-                    Navigator.pop(_);
-                    showCupertinoDialog(
-                        context: _,
-                        builder: (_) {
-                          return SentSuccessfullyDialog();
-                        });
-                    cubit.image = null;
-                    print(
-                        "::::::::::::::::::::::::: sent successfully ::::::::::::");
-                  }
-                },
-                builder: (context, state) {
-                  return state is ComplaintsLoadingState
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 50),
-                          child: CenterLoading(),
-                        )
-                      : _SendButton(
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              cubit.sendComplaints();
-                            }
-                          },
-                        );
-                },
-              ),
-              fontSize: language == "ar" ? 18 : 15),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: AnimatedWidgets(
-              verticalOffset: 150,
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),
-                    MessageTypeDrop(),
-                    _NameTextField(),
-                    _PhoneTextField(),
-                    _OrderNumTextField(),
-                    _MessageTextField(),
-                    ComplaintImageTap(),
-                    _FeedBackVector(),
-                  ],
-                ),
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        appBar: customAppBar(
+            context: context,
+            appBarTitle: "feedback".tr(),
+            backgroundColor: Colors.white,
+            otherIconWidget: BlocConsumer<ComplaintsCubit, ComplaintsState>(
+              listener: (_, state) {
+                if (state is ComplaintsErrorState) {
+                  customSnackBar(_, state.error);
+                } else if (state is ComplaintsSuccessState) {
+                  Navigator.pop(_);
+                  showCupertinoDialog(
+                      context: _,
+                      builder: (_) {
+                        return SentSuccessfullyDialog();
+                      });
+                  cubit.image = null;
+                  print(
+                      "::::::::::::::::::::::::: sent successfully ::::::::::::");
+                }
+              },
+              builder: (context, state) {
+                return state is ComplaintsLoadingState
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        child: CenterLoading(),
+                      )
+                    : _SendButton(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            cubit.sendComplaints();
+                          }
+                        },
+                      );
+              },
+            ),
+            fontSize: context.locale.languageCode == "ar" ? 18 : 15),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: AnimatedWidgets(
+            verticalOffset: 150,
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  MessageTypeDrop(),
+                  _NameTextField(),
+                  _PhoneTextField(),
+                  _OrderNumTextField(),
+                  _MessageTextField(),
+                  ComplaintImageTap(),
+                  _FeedBackVector(),
+                ],
               ),
             ),
           ),
@@ -240,7 +236,6 @@ class ComplaintImageTap extends StatefulWidget {
 }
 
 class _ComplaintImageTapState extends State<ComplaintImageTap> {
-  final String language = translator.activeLanguageCode;
   // XFile? _image;
   final _picker = ImagePicker();
 
@@ -273,28 +268,24 @@ class _ComplaintImageTapState extends State<ComplaintImageTap> {
   void imageBottomSheet() {
     customSheet(
         context: context,
-        widget: Directionality(
-          textDirection:
-              language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid,
-                      color: Theme.of(context).primaryColor),
-                  onTap: pickImage,
-                ),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo,
-                      color: Theme.of(context).primaryColor),
-                  onTap: getImage,
-                ),
-              ],
-            ),
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "camera".tr()),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
+                onTap: pickImage,
+              ),
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "photo_gallery".tr()),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
+                onTap: getImage,
+              ),
+            ],
           ),
         ));
   }

@@ -7,8 +7,8 @@ class OwnerNotificationModel {
     this.message,
   });
   OwnerNotificationModel.fromJson(Map<String, dynamic> json) {
-    if (json["data"] != null) {
-      final v = json["data"];
+    if (json["nots"] != null) {
+      final v = json["nots"];
       final arr0 = <Notification>[];
       v.forEach((v) {
         arr0.add(Notification.fromJson(v));

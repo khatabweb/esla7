@@ -20,7 +20,6 @@ class ProviderHomePage extends StatefulWidget {
 
 class _ProviderHomePageState extends State<ProviderHomePage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final String language = translator.activeLanguageCode;
 
   @override
   void initState() {
@@ -30,74 +29,72 @@ class _ProviderHomePageState extends State<ProviderHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: CustomBackground(
-        child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.transparent,
-          appBar: customAppBar(
-            context: context,
-            showDrawerIcon: true,
-            centerTitle: true,
-            appBarTitle: "home".tr(),
-            onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
-          ),
-          drawer: ProviderDrawerView(),
-          body: AnimatedWidgets(
-            verticalOffset: 150,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: DrawHeaderText(
-                        text: "offers".tr(),
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  ImageSlider(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: DrawHeaderText(
-                        text: "my_services".tr(),
-                        color: Theme.of(context).primaryColor),
-                  ),
-                  BlocBuilder<OwnerServiceCubit, OwnerServiceState>(
-                    builder: (context, state) {
-                      if (state is OwnerServiceLoading) {
-                        return CenterLoading();
-                      } else if (state is OwnerServiceError) {
-                        return Center(child: Text("${state.error}"));
-                      } else if (state is OwnerServiceSuccess) {
-                        final _serviceModel = state.ownerServiceModel;
-                        return _MyService(
-                          text: language == "ar"
-                              ? "${_serviceModel.ownerMainService?.nameAr}"
-                              : "${_serviceModel.ownerMainService?.nameEn}",
-                          image:
-                              "${ApiUtl.main_image_url}${_serviceModel.ownerMainService?.image}",
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ServiceDetails(
-                                mainServiceId:
-                                    _serviceModel.ownerMainService?.id,
-                                mainServiceName: language == "ar"
-                                    ? "${_serviceModel.ownerMainService?.nameAr}"
-                                    : "${_serviceModel.ownerMainService?.nameEn}",
-                              ),
+    return CustomBackground(
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.transparent,
+        appBar: customAppBar(
+          context: context,
+          showDrawerIcon: true,
+          centerTitle: true,
+          appBarTitle: "home".tr(),
+          onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
+        ),
+        drawer: ProviderDrawerView(),
+        body: AnimatedWidgets(
+          verticalOffset: 150,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: DrawHeaderText(
+                      text: "offers".tr(),
+                      color: Theme.of(context).primaryColor),
+                ),
+                ImageSlider(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: DrawHeaderText(
+                      text: "my_services".tr(),
+                      color: Theme.of(context).primaryColor),
+                ),
+                BlocBuilder<OwnerServiceCubit, OwnerServiceState>(
+                  builder: (context, state) {
+                    if (state is OwnerServiceLoading) {
+                      return CenterLoading();
+                    } else if (state is OwnerServiceError) {
+                      return Center(child: Text("${state.error}"));
+                    } else if (state is OwnerServiceSuccess) {
+                      final _serviceModel = state.ownerServiceModel;
+                      return _MyService(
+                        text: context.locale.languageCode == "ar"
+                            ? "${_serviceModel.ownerMainService?.nameAr}"
+                            : "${_serviceModel.ownerMainService?.nameEn}",
+                        image:
+                            "${ApiUtl.main_image_url}${_serviceModel.ownerMainService?.image}",
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ServiceDetails(
+                              mainServiceId:
+                                  _serviceModel.ownerMainService?.id,
+                              mainServiceName: context.locale.languageCode ==
+                                      "ar"
+                                  ? "${_serviceModel.ownerMainService?.nameAr}"
+                                  : "${_serviceModel.ownerMainService?.nameEn}",
                             ),
                           ),
-                        );
-                      } else {
-                        return Center(child: Text("No Data"));
-                      }
-                    },
-                  ),
-                ],
-              ),
+                        ),
+                      );
+                    } else {
+                      return Center(child: Text("No Data"));
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),

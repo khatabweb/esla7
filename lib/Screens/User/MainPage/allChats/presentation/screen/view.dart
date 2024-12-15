@@ -40,46 +40,42 @@ class _AllChatsState extends State<AllChats> {
     super.initState();
   }
 
-  final String language = translator.activeLanguageCode;
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "chats".tr(),
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-          showDrawerIcon: true,
-          onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
-        ),
-        drawer: DrawerView(),
-        body: CustomBackground(
-          child: AnimatedWidgets(
-            verticalOffset: 150,
-            child: skip == true
-                ? LoginAlert()
-                : BlocBuilder<AllChatsCubit, AllChatsState>(
-                    builder: (context, state) {
-                      if (state is AllChatsLoading) {
-                        return CenterLoading();
-                      } else if (state is AllChatsSuccess) {
-                        final _allChatsModel = state.allChatsModel;
-                        return AllChatsList(
-                          allChatsModel: _allChatsModel,
-                        );
-                      } else if (state is AllChatsError) {
-                        return Center(
-                          child: Text(state.error),
-                        );
-                      }
-                      return Center(
-                        child: Text("Something went wrong"),
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "chats".tr(),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+        showDrawerIcon: true,
+        onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
+      ),
+      drawer: DrawerView(),
+      body: CustomBackground(
+        child: AnimatedWidgets(
+          verticalOffset: 150,
+          child: skip == true
+              ? LoginAlert()
+              : BlocBuilder<AllChatsCubit, AllChatsState>(
+                  builder: (context, state) {
+                    if (state is AllChatsLoading) {
+                      return CenterLoading();
+                    } else if (state is AllChatsSuccess) {
+                      final _allChatsModel = state.allChatsModel;
+                      return AllChatsList(
+                        allChatsModel: _allChatsModel,
                       );
-                    },
-                  ),
-          ),
+                    } else if (state is AllChatsError) {
+                      return Center(
+                        child: Text(state.error),
+                      );
+                    }
+                    return Center(
+                      child: Text("Something went wrong"),
+                    );
+                  },
+                ),
         ),
       ),
     );

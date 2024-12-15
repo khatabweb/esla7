@@ -68,9 +68,8 @@ class ChatCubit extends Cubit<ChatState> {
     });
   }
 
-  Future<int> startChat(int? docId) async {
+  Future<void> startChat(int? docId) async {
     emit(ChatLoading());
-    // SharedPreferences _prefs = await SharedPreferences.getInstance();
     int? id;
     if (CacheHelper.instance!
             .getData(key: "type", valueType: ValueType.string) ==
@@ -88,11 +87,9 @@ class ChatCubit extends Cubit<ChatState> {
 
     final response = await ChatRepo.startChat(formData: formData);
     response.when(success: (data) {
-      emit(ChatStartSuccess());
-      throw data;
+      emit(ChatStartSuccess(chatId: data));
     }, failure: (error) {
       emit(ChatError(error: error.apiErrorModel.message!));
-      throw 0;
     });
   }
 }

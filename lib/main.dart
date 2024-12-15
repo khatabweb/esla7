@@ -26,10 +26,10 @@ Future<void> main() async {
   FirebaseNotificationHelper.instance.onInt();
   Bloc.observer = MyBlocObserver();
 
-  await translator.init(
-    localeType: LocalizationDefaultType.asDefined,
-    languagesList: <String>['ar', 'en-gb'],
-    assetsDirectory: 'assets/langs/',
+  await LocalizeAndTranslate.init(
+    defaultType: LocalizationDefaultType.asDefined,
+    supportedLanguageCodes: <String>['ar', 'en'],
+    assetLoader: AssetLoaderRootBundleJson('assets/langs/'),
   );
 
   // SharedPreferences pref = await SharedPreferences.getInstance();
@@ -73,26 +73,34 @@ class _RepairState extends State<Repair> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkHelper.lang = translator.activeLanguageCode;
+    NetworkHelper.lang = context.locale.languageCode;
     return MultiBlocProvider(
       providers: BlocProviders.providers,
-      child: MaterialApp(
-        navigatorKey: navigatorState,
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          DefaultMaterialLocalizations.delegate,
-          DefaultWidgetsLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        locale: translator.activeLocale,
-        supportedLocales: [
-          const Locale('en', 'gb'),
-          const Locale('ar', ''),
-        ],
-        theme: AppTheme.lightTheme,
-        home: SplashScreen(screen: widget.screen),
+      child: LocalizedApp(
+        child: MaterialApp(
+          // localizationsDelegates: context.delegates,
+          builder: (BuildContext context, Widget? child) {
+            child = LocalizeAndTranslate.directionBuilder(context, child);
+
+            return child;
+          },
+          navigatorKey: navigatorState,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            DefaultMaterialLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          locale: context.locale,
+          supportedLocales: [
+            const Locale('en'),
+            const Locale('ar'),
+          ],
+          theme: AppTheme.lightTheme,
+          home: SplashScreen(screen: widget.screen),
+        ),
       ),
     );
   }

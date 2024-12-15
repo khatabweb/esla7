@@ -13,8 +13,6 @@ class ServiceType extends StatefulWidget {
 }
 
 class _ServiceTypeState extends State<ServiceType> {
-  final String lang = translator.activeLanguageCode;
-
   String? value;
 
   @override
@@ -49,7 +47,7 @@ class _ServiceTypeState extends State<ServiceType> {
               child: InkWell(
                 onTap: () {
                   setState(() {
-                    lang == "ar"
+                    context.locale.languageCode == "ar"
                         ? value = "${item?.nameAr}"
                         : value = "${item?.nameEn}";
                     cubit.serviceId = item?.id;
@@ -59,7 +57,9 @@ class _ServiceTypeState extends State<ServiceType> {
                 },
                 child: DrawHeaderText(
                   textAlign: TextAlign.center,
-                  text: lang == "ar" ? "${item?.nameAr}" : "${item?.nameEn}",
+                  text: context.locale.languageCode == "ar"
+                      ? "${item?.nameAr}"
+                      : "${item?.nameEn}",
                 ),
               ),
             );

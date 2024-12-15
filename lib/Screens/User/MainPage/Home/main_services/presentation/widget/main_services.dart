@@ -13,8 +13,6 @@ class OurServices extends StatefulWidget {
 }
 
 class _OurServicesState extends State<OurServices> {
-  final String lang = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<OurServicesCubit>().getServices();
@@ -44,7 +42,7 @@ class _OurServicesState extends State<OurServices> {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: CustomSection(
-                  title: lang == "ar"
+                  title: context.locale.languageCode == "ar"
                       ? "${_servicesModel.services![index]!.nameAr}"
                       : "${_servicesModel.services![index]!.nameEn}",
 
@@ -55,7 +53,7 @@ class _OurServicesState extends State<OurServices> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => SingleSection(
-                        serviceName: lang == "ar"
+                        serviceName: context.locale.languageCode == "ar"
                             ? "${_servicesModel.services![index]!.nameAr}"
                             : "${_servicesModel.services![index]!.nameEn}",
                         mainServiceId: _servicesModel.services![index]!.id,

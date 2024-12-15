@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import '../../../../Theme/color.dart';
+// import '../../../../Theme/color.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_Button.dart';
@@ -156,30 +156,30 @@ class _DurationPopOverState extends State<_DurationPopOver> {
   }
 }
 
-class _TotalPrice extends StatelessWidget {
-  final String? price;
-  const _TotalPrice({Key? key, this.price}) : super(key: key);
+// class _TotalPrice extends StatelessWidget {
+//   final String? price;
+//   const _TotalPrice({Key? key, this.price}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 30,
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          DrawHeaderText(
-              text: "total".tr(), color: ThemeColor.mainGold, fontSize: 14),
-          DrawHeaderText(
-              text: "$price ${"sar".tr()}",
-              color: ThemeColor.mainGold,
-              fontSize: 15),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 30,
+//       margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//       width: MediaQuery.of(context).size.width,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           DrawHeaderText(
+//               text: "total".tr(), color: ThemeColor.mainGold, fontSize: 14),
+//           DrawHeaderText(
+//               text: "$price ${"sar".tr()}",
+//               color: ThemeColor.mainGold,
+//               fontSize: 15),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class _SubscribeButton extends StatelessWidget {
   @override

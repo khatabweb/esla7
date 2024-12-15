@@ -8,14 +8,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'dart:io';
 
-
 class CommercialImageTextField extends StatefulWidget {
   @override
-  State<CommercialImageTextField> createState() => _CommercialImageTextFieldState();
+  State<CommercialImageTextField> createState() =>
+      _CommercialImageTextFieldState();
 }
 
 class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
-  final String language = translator.activeLanguageCode;
   // XFile? _image;
   final _picker = ImagePicker();
 
@@ -24,7 +23,7 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      if (photo != null){
+      if (photo != null) {
         cubit.image = XFile(photo.path);
       } else {
         print("No image selected!!!!");
@@ -37,7 +36,7 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      if (image != null){
+      if (image != null) {
         cubit.image = XFile(image.path);
       } else {
         print("No image selected!!!!");
@@ -48,28 +47,26 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
   void imageBottomSheet() {
     customSheet(
         context: context,
-        widget: Directionality(
-          textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid, color: Theme.of(context).primaryColor),
-                  onTap: pickImage,
-                ),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo, color: Theme.of(context).primaryColor),
-                  onTap: getImage,
-                ),
-              ],
-            ),
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "camera".tr()),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
+                onTap: pickImage,
+              ),
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "photo_gallery".tr()),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
+                onTap: getImage,
+              ),
+            ],
           ),
-        )
-    );
+        ));
   }
 
   @override
@@ -99,7 +96,8 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
                     fit: BoxFit.cover),
               ),
             ),
-      icon: Icon(CupertinoIcons.cloud_upload ,color: Theme.of(context).primaryColor),
+      icon: Icon(CupertinoIcons.cloud_upload,
+          color: Theme.of(context).primaryColor),
       onTap: imageBottomSheet,
     );
   }

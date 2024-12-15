@@ -13,33 +13,30 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 class AddNewAddress extends StatelessWidget {
   final String? appBarTitle;
   AddNewAddress({Key? key, this.appBarTitle}) : super(key: key);
-  final String language = translator.activeLanguageCode;
+  
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: appBarTitle!,
         backgroundColor: Colors.white,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: appBarTitle!,
-          backgroundColor: Colors.white,
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: AnimatedWidgets(
-            verticalOffset: 150,
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 10),
-                _CityPopOver(),
-                AddressTextFieldTap(),
-                Expanded(child: _MapContainer()),
-                _AddButton(),
-              ],
-            ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: AnimatedWidgets(
+          verticalOffset: 150,
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 10),
+              _CityPopOver(),
+              AddressTextFieldTap(),
+              Expanded(child: _MapContainer()),
+              _AddButton(),
+            ],
           ),
         ),
       ),

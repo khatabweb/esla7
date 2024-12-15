@@ -53,8 +53,8 @@ class CacheHelper {
         String? value = _sharedPreferences.getString(key);
         Map<String, dynamic> data = value != null ? jsonDecode(value) : {};
         return data;
-      default:
-        return "";
+      // default:
+      //   return "";
     }
   }
 
@@ -108,4 +108,3 @@ class CacheHelper {
 //     return await sharedPreferences.remove(key);
 //   }
 // }
-

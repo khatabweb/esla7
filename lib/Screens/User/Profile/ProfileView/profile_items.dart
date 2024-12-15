@@ -13,8 +13,6 @@ import 'data/model/profile_model.dart';
 class ProfileItems extends StatelessWidget {
   ProfileItems({super.key});
 
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
     final ProfileModel profileModel =

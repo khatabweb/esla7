@@ -7,7 +7,6 @@ import '../../../../Widgets/Custom_PhotoScreen.dart';
 import '../../../../Widgets/Custom_RichText.dart';
 import '../../../../Widgets/Custom_RoundedPhoto.dart';
 
-
 class OrderItemCard extends StatelessWidget {
   final String? image;
   final String? serviceName;
@@ -24,7 +23,7 @@ class OrderItemCard extends StatelessWidget {
     this.note,
   }) : super(key: key);
 
-  // final String language = translator.activeLanguageCode;
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +40,10 @@ class OrderItemCard extends StatelessWidget {
       child: Column(
         children: [
           _OrderItemDetails(
-            image: image,
-            serviceName: serviceName,
-            quantity: quantity,
-            price: price
-          ),
+              image: image,
+              serviceName: serviceName,
+              quantity: quantity,
+              price: price),
           _UserNote(
             note: note,
           ),
@@ -60,7 +58,9 @@ class _OrderItemDetails extends StatelessWidget {
   final String? serviceName;
   final int? quantity;
   final int? price;
-  const _OrderItemDetails({Key? key, this.serviceName, this.quantity, this.price, this.image}) : super(key: key);
+  const _OrderItemDetails(
+      {Key? key, this.serviceName, this.quantity, this.price, this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,12 @@ class _OrderItemDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PhotoScreen(image: "$image",))),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => PhotoScreen(
+                          image: "$image",
+                        ))),
             child: CustomRoundedPhoto(
               image: "$image",
               radius: 30,
@@ -96,17 +101,27 @@ class _OrderItemDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DrawHeaderText(text: "$serviceName",color: ThemeColor.mainGold ,fontSize: 14),
-                    CustomRichText(title: "quantity".tr(), subTitle: "$quantity",fontSize: 14,)
+                    DrawHeaderText(
+                        text: "$serviceName",
+                        color: ThemeColor.mainGold,
+                        fontSize: 14),
+                    CustomRichText(
+                      title: "quantity".tr(),
+                      subTitle: "$quantity",
+                      fontSize: 14,
+                    )
                   ],
                 ),
-
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DrawHeaderText(text: "$serviceName", fontSize: 14),
-                    CustomRichText(title: "price".tr(), subTitle: "$price ${"sar".tr()}", fontSize: 14,),
+                    CustomRichText(
+                      title: "price".tr(),
+                      subTitle: "$price ${"sar".tr()}",
+                      fontSize: 14,
+                    ),
                   ],
                 ),
               ],
@@ -118,7 +133,6 @@ class _OrderItemDetails extends StatelessWidget {
   }
 }
 
-
 class _UserNote extends StatelessWidget {
   final String? note;
   const _UserNote({Key? key, this.note}) : super(key: key);
@@ -128,16 +142,15 @@ class _UserNote extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
-      height: height * 0.11,
-      width: width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: DrawSingleText(text: note ?? "there_are_no_notes".tr(), fontSize: 14)
-    );
+        height: height * 0.11,
+        width: width,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: DrawSingleText(
+            text: note ?? "there_are_no_notes".tr(), fontSize: 14));
   }
 }
-

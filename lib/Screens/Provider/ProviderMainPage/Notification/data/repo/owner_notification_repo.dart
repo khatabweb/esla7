@@ -9,7 +9,8 @@ abstract class OwnerNotificationRepo {
   static Future<ApiResult<OwnerNotificationModel>> getNotification() async {
     try {
       final Response response = await NetworkHelper().request(
-        "${ApiUtl.main_owner_api_url}newownerindex",
+        // "${ApiUtl.main_owner_api_url}newownerindex",
+        "${ApiUtl.main_owner_api_url}nots",
         method: ServerMethods.GET,
         isUser: false,
       );

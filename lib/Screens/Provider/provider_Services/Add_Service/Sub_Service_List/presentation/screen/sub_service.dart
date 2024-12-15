@@ -20,7 +20,6 @@ class SubServiceType extends StatefulWidget {
 }
 
 class _SubServiceTypeState extends State<SubServiceType> {
-  final String language = translator.activeLanguageCode;
   String? chooseValue;
 
   @override
@@ -57,7 +56,7 @@ class _SubServiceTypeState extends State<SubServiceType> {
                   onTap: () {
                     setState(() {
                       print(item!.id);
-                      language == "ar"
+                      context.locale.languageCode == "ar"
                           ? chooseValue = item.nameAr
                           : chooseValue = item.nameEn;
                       addCubit.subServiceId = item.id;
@@ -67,7 +66,7 @@ class _SubServiceTypeState extends State<SubServiceType> {
                   },
                   child: DrawHeaderText(
                     textAlign: TextAlign.center,
-                    text: language == "ar"
+                    text: context.locale.languageCode == "ar"
                         ? "${item?.nameAr}"
                         : "${item?.nameEn}",
                   ),

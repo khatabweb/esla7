@@ -19,7 +19,6 @@ class ForgetPasswordForm extends StatefulWidget {
 
 class _ForgetPasswordFormState extends State<ForgetPasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,6 @@ PreferredSizeWidget? headerInfo({
   final double? elevation,
   final Color? backgroundColor,
 }) {
-  final String language = translator.activeLanguageCode;
   return AppBar(
     backgroundColor: backgroundColor ?? Colors.white,
     elevation: elevation ?? 0,
@@ -24,8 +23,8 @@ PreferredSizeWidget? headerInfo({
       onTap: () => Navigator.pop(context),
       child: Container(
         margin: EdgeInsets.only(
-            right: language == "ar" ? 15 : 0,
-            left: language == "ar" ? 0 : 15,
+            right: context.locale.languageCode == "ar" ? 15 : 0,
+            left: context.locale.languageCode == "ar" ? 0 : 15,
             top: 15,
             bottom: 15),
         child: Icon(
@@ -56,11 +55,10 @@ PreferredSizeWidget? headerInfo({
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DrawHeaderText(text: name??"", fontSize: 14),
+                  DrawHeaderText(text: name ?? "", fontSize: 14),
                   // DrawHeaderText(text: serviceName??"", fontSize: 12),
                 ],
               )
-
             ],
           ),
           // Row(

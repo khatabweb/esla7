@@ -21,7 +21,6 @@ class ServiceName extends StatefulWidget {
 }
 
 class _ServiceNameState extends State<ServiceName> {
-  final String language = translator.activeLanguageCode;
   String? chooseValue;
 
   @override
@@ -57,7 +56,7 @@ class _ServiceNameState extends State<ServiceName> {
                   onTap: () {
                     setState(() {
                       print(item!.id);
-                      language == "ar"
+                      context.locale.languageCode == "ar"
                           ? chooseValue = item.nameAr
                           : chooseValue = item.nameEn;
                       addCubit.serviceNameId = item.id;
@@ -65,7 +64,7 @@ class _ServiceNameState extends State<ServiceName> {
                   },
                   child: DrawHeaderText(
                     textAlign: TextAlign.center,
-                    text: language == "ar"
+                    text: context.locale.languageCode == "ar"
                         ? "${item?.nameAr}"
                         : "${item?.nameEn}",
                   ),

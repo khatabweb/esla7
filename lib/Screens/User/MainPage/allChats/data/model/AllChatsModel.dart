@@ -2,7 +2,6 @@ class AllChatsModel {
   String? msg;
   List<Data>? data;
 
-
   AllChatsModel({this.msg, this.data});
 
   AllChatsModel.fromJson(Map<String, dynamic> json) {
@@ -39,15 +38,15 @@ class Data {
 
   Data(
       {this.id,
-        this.senderId,
-        this.receiverId,
-        this.createdAt,
-        this.updatedAt,
-        this.sender,
-        this.receiver,
-        this.senderOwner,
-        this.receiverOwner,
-        this.lastchat});
+      this.senderId,
+      this.receiverId,
+      this.createdAt,
+      this.updatedAt,
+      this.sender,
+      this.receiver,
+      this.senderOwner,
+      this.receiverOwner,
+      this.lastchat});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -56,12 +55,13 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     sender =
-    json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
+        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
     receiver = json['receiver'] != null
         ? new Receiver.fromJson(json['receiver'])
         : null;
-    senderOwner =
-    json['sender_owner'] != null ? new SenderOwner.fromJson(json['sender_owner']) : null;
+    senderOwner = json['sender_owner'] != null
+        ? new SenderOwner.fromJson(json['sender_owner'])
+        : null;
     receiverOwner = json['receiver_owner'] != null
         ? new ReceiverOwner.fromJson(json['receiver_owner'])
         : null;
@@ -137,42 +137,42 @@ class Sender {
 
   Sender(
       {this.id,
-        this.name,
-        this.nameEn,
-        this.email,
-        this.emailVerifiedAt,
-        this.password,
-        this.url,
-        this.website,
-        this.commericalIdnumber,
-        this.storeName,
-        this.storeNameEn,
-        this.typeOfGoods,
-        this.typeOfGoodsEn,
-        this.phone,
-        this.type,
-        this.isSuperAdmin,
-        this.confirm,
-        this.accept,
-        this.online,
-        this.cityId,
-        this.carId,
-        this.image,
-        this.rate,
-        this.lat,
-        this.lng,
-        this.address,
-        this.googleToken,
-        this.apiToken,
-        this.points,
-        this.block,
-        this.paymentOrder,
-        this.complete,
-        this.kilometer,
-        this.commericalNumber,
-        this.editCommericalIdnumber,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.nameEn,
+      this.email,
+      this.emailVerifiedAt,
+      this.password,
+      this.url,
+      this.website,
+      this.commericalIdnumber,
+      this.storeName,
+      this.storeNameEn,
+      this.typeOfGoods,
+      this.typeOfGoodsEn,
+      this.phone,
+      this.type,
+      this.isSuperAdmin,
+      this.confirm,
+      this.accept,
+      this.online,
+      this.cityId,
+      this.carId,
+      this.image,
+      this.rate,
+      this.lat,
+      this.lng,
+      this.address,
+      this.googleToken,
+      this.apiToken,
+      this.points,
+      this.block,
+      this.paymentOrder,
+      this.complete,
+      this.kilometer,
+      this.commericalNumber,
+      this.editCommericalIdnumber,
+      this.createdAt,
+      this.updatedAt});
 
   Sender.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -298,42 +298,42 @@ class Receiver {
 
   Receiver(
       {this.id,
-        this.name,
-        this.nameEn,
-        this.email,
-        this.emailVerifiedAt,
-        this.password,
-        this.url,
-        this.website,
-        this.commericalIdnumber,
-        this.storeName,
-        this.storeNameEn,
-        this.typeOfGoods,
-        this.typeOfGoodsEn,
-        this.phone,
-        this.type,
-        this.isSuperAdmin,
-        this.confirm,
-        this.accept,
-        this.online,
-        this.cityId,
-        this.carId,
-        this.image,
-        this.rate,
-        this.lat,
-        this.lng,
-        this.address,
-        this.googleToken,
-        this.apiToken,
-        this.points,
-        this.block,
-        this.paymentOrder,
-        this.complete,
-        this.kilometer,
-        this.commericalNumber,
-        this.editCommericalIdnumber,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.nameEn,
+      this.email,
+      this.emailVerifiedAt,
+      this.password,
+      this.url,
+      this.website,
+      this.commericalIdnumber,
+      this.storeName,
+      this.storeNameEn,
+      this.typeOfGoods,
+      this.typeOfGoodsEn,
+      this.phone,
+      this.type,
+      this.isSuperAdmin,
+      this.confirm,
+      this.accept,
+      this.online,
+      this.cityId,
+      this.carId,
+      this.image,
+      this.rate,
+      this.lat,
+      this.lng,
+      this.address,
+      this.googleToken,
+      this.apiToken,
+      this.points,
+      this.block,
+      this.paymentOrder,
+      this.complete,
+      this.kilometer,
+      this.commericalNumber,
+      this.editCommericalIdnumber,
+      this.createdAt,
+      this.updatedAt});
 
   Receiver.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -459,42 +459,42 @@ class SenderOwner {
 
   SenderOwner(
       {this.id,
-        this.name,
-        this.nameEn,
-        this.email,
-        this.emailVerifiedAt,
-        this.password,
-        this.url,
-        this.website,
-        this.commericalIdnumber,
-        this.storeName,
-        this.storeNameEn,
-        this.typeOfGoods,
-        this.typeOfGoodsEn,
-        this.phone,
-        this.type,
-        this.isSuperAdmin,
-        this.confirm,
-        this.accept,
-        this.online,
-        this.cityId,
-        this.carId,
-        this.image,
-        this.rate,
-        this.lat,
-        this.lng,
-        this.address,
-        this.googleToken,
-        this.apiToken,
-        this.points,
-        this.block,
-        this.paymentOrder,
-        this.complete,
-        this.kilometer,
-        this.commericalNumber,
-        this.editCommericalIdnumber,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.nameEn,
+      this.email,
+      this.emailVerifiedAt,
+      this.password,
+      this.url,
+      this.website,
+      this.commericalIdnumber,
+      this.storeName,
+      this.storeNameEn,
+      this.typeOfGoods,
+      this.typeOfGoodsEn,
+      this.phone,
+      this.type,
+      this.isSuperAdmin,
+      this.confirm,
+      this.accept,
+      this.online,
+      this.cityId,
+      this.carId,
+      this.image,
+      this.rate,
+      this.lat,
+      this.lng,
+      this.address,
+      this.googleToken,
+      this.apiToken,
+      this.points,
+      this.block,
+      this.paymentOrder,
+      this.complete,
+      this.kilometer,
+      this.commericalNumber,
+      this.editCommericalIdnumber,
+      this.createdAt,
+      this.updatedAt});
 
   SenderOwner.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -579,8 +579,6 @@ class SenderOwner {
   }
 }
 
-
-
 class ReceiverOwner {
   int? id;
   String? name;
@@ -622,42 +620,42 @@ class ReceiverOwner {
 
   ReceiverOwner(
       {this.id,
-        this.name,
-        this.nameEn,
-        this.email,
-        this.emailVerifiedAt,
-        this.password,
-        this.url,
-        this.website,
-        this.commericalIdnumber,
-        this.storeName,
-        this.storeNameEn,
-        this.typeOfGoods,
-        this.typeOfGoodsEn,
-        this.phone,
-        this.type,
-        this.isSuperAdmin,
-        this.confirm,
-        this.accept,
-        this.online,
-        this.cityId,
-        this.carId,
-        this.image,
-        this.rate,
-        this.lat,
-        this.lng,
-        this.address,
-        this.googleToken,
-        this.apiToken,
-        this.points,
-        this.block,
-        this.paymentOrder,
-        this.complete,
-        this.kilometer,
-        this.commericalNumber,
-        this.editCommericalIdnumber,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.nameEn,
+      this.email,
+      this.emailVerifiedAt,
+      this.password,
+      this.url,
+      this.website,
+      this.commericalIdnumber,
+      this.storeName,
+      this.storeNameEn,
+      this.typeOfGoods,
+      this.typeOfGoodsEn,
+      this.phone,
+      this.type,
+      this.isSuperAdmin,
+      this.confirm,
+      this.accept,
+      this.online,
+      this.cityId,
+      this.carId,
+      this.image,
+      this.rate,
+      this.lat,
+      this.lng,
+      this.address,
+      this.googleToken,
+      this.apiToken,
+      this.points,
+      this.block,
+      this.paymentOrder,
+      this.complete,
+      this.kilometer,
+      this.commericalNumber,
+      this.editCommericalIdnumber,
+      this.createdAt,
+      this.updatedAt});
 
   ReceiverOwner.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -750,21 +748,21 @@ class Lastchat {
   int? conversationId;
   int? senderId;
   int? receiverId;
-  int? view;
+  // int? view;
   String? createdAt;
   String? updatedAt;
 
   Lastchat(
       {this.id,
-        this.massage,
-        this.file,
-        this.type,
-        this.conversationId,
-        this.senderId,
-        this.receiverId,
-        this.view,
-        this.createdAt,
-        this.updatedAt});
+      this.massage,
+      this.file,
+      this.type,
+      this.conversationId,
+      this.senderId,
+      this.receiverId,
+      // this.view,
+      this.createdAt,
+      this.updatedAt});
 
   Lastchat.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -774,7 +772,7 @@ class Lastchat {
     conversationId = json['conversation_id'];
     senderId = json['sender_id'];
     receiverId = json['receiver_id'];
-    view = json['view'];
+    // view = json['view'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -788,7 +786,7 @@ class Lastchat {
     data['conversation_id'] = this.conversationId;
     data['sender_id'] = this.senderId;
     data['receiver_id'] = this.receiverId;
-    data['view'] = this.view;
+    // data['view'] = this.view;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

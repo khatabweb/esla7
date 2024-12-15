@@ -10,8 +10,13 @@ sealed class ChatState extends Equatable {
 final class ChatInitial extends ChatState {}
 
 final class ChatLoading extends ChatState {}
+
 final class ChatSendSuccess extends ChatState {}
-final class ChatStartSuccess extends ChatState {}
+
+final class ChatStartSuccess extends ChatState {
+  final int chatId;
+  const ChatStartSuccess({required this.chatId});
+}
 
 final class ChatSuccess extends ChatState {
   final ChatModel chatModel;

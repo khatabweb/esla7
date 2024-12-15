@@ -15,8 +15,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<ProfileCubit>().getUserProfile();
@@ -25,60 +23,57 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "profile".tr(),
-          backgroundColor: Theme.of(context).primaryColor,
-          otherIconWidget: _EditButton(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => EditProfile(
-                    profileModel:
-                        BlocProvider.of<ProfileCubit>(context).profileModel,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "profile".tr(),
         backgroundColor: Theme.of(context).primaryColor,
-        body: Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: Container(
-                  child: Center(child: BlocBuilder<ProfileCubit, ProfileState>(
-                      builder: (context, state) {
-                    if (state is ProfileLoading) {
-                      return CenterLoading(color: Colors.white);
-                    } else if (state is ProfileSuccess) {
-                      return CustomRoundedPhoto(
-                        image:
-                            "http://www.repaairsa.com/${state.profileModel.image}",
-                        radius: 70,
-                      );
-                    } else {
-                      return Center(
-                        child: Text("data not found"),
-                      );
-                    }
-                  })),
+        otherIconWidget: _EditButton(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => EditProfile(
+                  profileModel:
+                      BlocProvider.of<ProfileCubit>(context).profileModel,
                 ),
               ),
-              ShapeContainer(
-                height: MediaQuery.of(context).size.height / 1.8,
-                child: ProfileItems(),
+            );
+          },
+        ),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Align(
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Container(
+                child: Center(child: BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    return CenterLoading(color: Colors.white);
+                  } else if (state is ProfileSuccess) {
+                    return CustomRoundedPhoto(
+                      image:
+                          "http://www.repaairsa.com/${state.profileModel.image}",
+                      radius: 70,
+                    );
+                  } else {
+                    return Center(
+                      child: Text("data not found"),
+                    );
+                  }
+                })),
               ),
-            ],
-          ),
+            ),
+            ShapeContainer(
+              height: MediaQuery.of(context).size.height / 1.8,
+              child: ProfileItems(),
+            ),
+          ],
         ),
       ),
     );

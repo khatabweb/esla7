@@ -26,14 +26,14 @@ class CustomDropDown extends StatelessWidget {
       this.color,
       });
 
-  final String lang = translator.activeLanguageCode;
+  // final String lang = translator.activeLanguageCode;
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? MediaQuery.of(context).size.width / 2.5,
-      padding: EdgeInsets.only(right: lang == "ar" ? 20 : 10, left: lang == "ar" ? 10 : 20),
+      padding: EdgeInsets.only(right: context.locale.languageCode == "ar" ? 20 : 10, left: context.locale.languageCode == "ar" ? 10 : 20),
       margin: EdgeInsets.symmetric(horizontal: horizontalPadding ?? 0, vertical: verticalPadding ?? 10),
       decoration: BoxDecoration(
         border: Border.all(color: borderColor ?? Theme.of(context).primaryColor, width: 1),

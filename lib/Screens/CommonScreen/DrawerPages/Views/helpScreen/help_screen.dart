@@ -18,7 +18,7 @@ class HelpView extends StatefulWidget {
 }
 
 class _HelpViewState extends State<HelpView> {
-  String language = translator.activeLanguageCode;
+  
   HelpingController _helpingController = HelpingController();
   HelpingModel _helpingModel = HelpingModel();
   bool _isLoading = true;
@@ -38,35 +38,32 @@ class _HelpViewState extends State<HelpView> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "help".tr(),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-        ),
-        body: _isLoading
-            ? CenterLoading()
-            : AnimatedWidgets(
-                verticalOffset: 150,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HelpVideo(
-                        url: _helpingModel
-                            .vedioLink), //"https://www.youtube.com/watch?v=gY7592DsFdw"
-                    _SupportNumber(number: _helpingModel.supportNumber),
-                    _CommonQuestions(
-                      questions: language == "ar"
-                          ? _helpingModel.questionAr
-                          : _helpingModel.questionEn,
-                    ),
-                  ],
-                ),
-              ),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "help".tr(),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
       ),
+      body: _isLoading
+          ? CenterLoading()
+          : AnimatedWidgets(
+              verticalOffset: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HelpVideo(
+                      url: _helpingModel
+                          .vedioLink), //"https://www.youtube.com/watch?v=gY7592DsFdw"
+                  _SupportNumber(number: _helpingModel.supportNumber),
+                  _CommonQuestions(
+                    questions: context.locale.languageCode == "ar"
+                        ? _helpingModel.questionAr
+                        : _helpingModel.questionEn,
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

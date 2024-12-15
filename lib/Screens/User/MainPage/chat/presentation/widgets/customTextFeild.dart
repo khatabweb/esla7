@@ -19,11 +19,11 @@ class CustomChatTextField extends StatefulWidget {
 class _CustomChatTextFieldState extends State<CustomChatTextField> {
 
   bool _isHidden = true;
-  void _visibility() {
-    setState(() {
-      _isHidden = !_isHidden;
-    });
-  }
+  // void _visibility() {
+  //   setState(() {
+  //     _isHidden = !_isHidden;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

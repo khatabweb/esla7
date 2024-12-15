@@ -13,7 +13,7 @@ class TermsAndCondition extends StatefulWidget {
 }
 
 class _TermsAndConditionState extends State<TermsAndCondition> {
-  String language = translator.activeLanguageCode;
+  // String language = translator.activeLanguageCode;
   TermsController _termsController = TermsController();
   TermsModel _termsModel = TermsModel();
   bool isLoading = true;
@@ -33,35 +33,32 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "terms_and_condition".tr(),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-        ),
-
-        body: isLoading
-            ? CenterLoading()
-            : AnimatedWidgets(
-                verticalOffset: 150,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      _TermsText(
-                        text: language == "ar"
-                            ? _termsModel.termsAr
-                            : _termsModel.termsEn,
-                      ),
-                      _TermsImage(image: "assets/images/tterms.png"),
-                    ],
-                  ),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "terms_and_condition".tr(),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+      ),
+    
+      body: isLoading
+          ? CenterLoading()
+          : AnimatedWidgets(
+              verticalOffset: 150,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    _TermsText(
+                      text: context.locale.languageCode == "ar"
+                          ? _termsModel.termsAr
+                          : _termsModel.termsEn,
+                    ),
+                    _TermsImage(image: "assets/images/tterms.png"),
+                  ],
                 ),
               ),
-      ),
+            ),
     );
   }
 }

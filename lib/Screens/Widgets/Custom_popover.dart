@@ -29,34 +29,31 @@ class CustomPopOver extends StatelessWidget {
     this.color,
   });
 
-  final String language = translator.activeLanguageCode;
+  //
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: GestureDetector(
-        child: child ??
-            _DropDownContainer(
-              child: width,
-              text: text,
-              horizontalPadding: horizontalPadding,
-              verticalPadding: verticalPadding,
-              color: color,
-            ),
-        onTap: () {
-          showPopover(
-            context: context,
-            bodyBuilder: (context) => _ListItem(listItem: itemList),
-            transitionDuration: Duration(milliseconds: 150),
-            direction: PopoverDirection.bottom,
-            width: dropWidth ?? 150,
-            height: dropHeight ?? 160,
-            arrowHeight: 15,
-            arrowWidth: 25,
-            onPop: () => print("احلي open pop عليك يا عمرو"),
-          );
-        },
-      ),
+    return GestureDetector(
+      child: child ??
+          _DropDownContainer(
+            child: width,
+            text: text,
+            horizontalPadding: horizontalPadding,
+            verticalPadding: verticalPadding,
+            color: color,
+          ),
+      onTap: () {
+        showPopover(
+          context: context,
+          bodyBuilder: (context) => _ListItem(listItem: itemList),
+          transitionDuration: Duration(milliseconds: 150),
+          direction: PopoverDirection.bottom,
+          width: dropWidth ?? 150,
+          height: dropHeight ?? 160,
+          arrowHeight: 15,
+          arrowWidth: 25,
+          onPop: () => print("احلي open pop عليك يا عمرو"),
+        );
+      },
     );
   }
 }
@@ -68,15 +65,10 @@ class _ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: Directionality(
-        textDirection: translator.activeLanguageCode == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.all(8),
-          children: listItem ?? [],
-        ),
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.all(8),
+        children: listItem ?? [],
       ),
     );
   }
@@ -211,7 +203,7 @@ class DropDownAddAddress extends StatelessWidget {
               text: "add_address".tr(),
               color: Theme.of(context).colorScheme.secondary,
               fontSize: 12,
-              textDirection: translator.activeLanguageCode == "ar"
+              textDirection: context.locale.languageCode == "ar"
                   ? TextDirection.rtl
                   : TextDirection.ltr,
             ),

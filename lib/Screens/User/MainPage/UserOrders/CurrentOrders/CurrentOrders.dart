@@ -1,15 +1,15 @@
-import 'data/cubit/user_current_cubit.dart';
-import '../OrderDetails/OrderDetails_View.dart';
-import '../../../../Widgets/AnimatedWidgets.dart';
-import '../../../../Widgets/CenterLoading.dart';
-import '../../../../Widgets/CenterMessage.dart';
-import '../../../../Widgets/Custom_DrawText.dart';
-import '../../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../../../../API/api_utility.dart';
 import '../../../../../../../Theme/color.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/CenterMessage.dart';
+import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_RoundedPhoto.dart';
+import '../OrderDetails/OrderDetails_View.dart';
+import 'data/cubit/user_current_cubit.dart';
 
 class CurrentOrders extends StatefulWidget {
   const CurrentOrders({Key? key}) : super(key: key);
@@ -19,7 +19,6 @@ class CurrentOrders extends StatefulWidget {
 }
 
 class _CurrentOrdersState extends State<CurrentOrders> {
-  final String lang = translator.activeLanguageCode;
   // UserCurrentController controller = UserCurrentController();
   // UserCurrentModel model = UserCurrentModel();
   // bool isLoading = true;
@@ -54,7 +53,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
             padding: EdgeInsets.symmetric(horizontal: 15),
             itemBuilder: (_, index) {
               var item = model.order?[index];
-              print("orderrrrrrrrrr Length ::::::: ${model.order?.length}");
+              // RateCubit.get(context).ownerId = item?.ownerId;
               return AnimatedWidgets(
                 verticalOffset: 150,
                 child: InkWell(

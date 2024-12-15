@@ -15,6 +15,7 @@ class UserCurrentCubit extends Cubit<UserCurrentState> {
     final response = await UserCurrentRepo.getCurrentOrders();
     response.when(success: (data) {
       model = data;
+      
       emit(UserCurrentSuccess(model));
     }, failure: (failure) {
       emit(UserCurrentError(failure.apiErrorModel.message!));

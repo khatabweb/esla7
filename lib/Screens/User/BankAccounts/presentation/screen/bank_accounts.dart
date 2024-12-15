@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -14,75 +14,71 @@ import '../../data/cubit/bank_account_cubit.dart';
 class BankAccounts extends StatefulWidget {
   final String? ownerName;
   final int? totalPrice;
-  const BankAccounts(this.ownerName, this.totalPrice);
+  final int? ownerId;
+  const BankAccounts(this.ownerName, this.totalPrice, this.ownerId);
 
   @override
   State<BankAccounts> createState() => _BankAccountsState();
 }
 
 class _BankAccountsState extends State<BankAccounts> {
-  String language = translator.activeLanguageCode;
-
   @override
   void initState() {
-    BankAccountCubit.get(context).getBanks();
+    BankAccountCubit.get(context).getBanks(ownerId: widget.ownerId!);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "bank_accounts".tr(),
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        ),
-        body: CustomBackground(
-          child: AnimatedWidgets(
-            verticalOffset: 150,
-            child: BlocBuilder<BankAccountCubit, BankAccountState>(
-              builder: (context, state) {
-                if (state is BankAccountLoading) {
-                  return CenterLoading();
-                } else if (state is BankAccountSuccess) {
-                  final _model = state.bankAccountsModel;
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: _model.banksList?.length,
-                          itemBuilder: (context, index) {
-                            var item = _model.banksList?[index];
-                            return _SingleAccountCard(
-                              image: item?.imagePath,
-                              ownerName: item?.ownerName,
-                              bankName: item?.bankName,
-                              ibanNumber: item?.number,
-                            );
-                          },
-                        ),
-                      ),
-                      CustomButton(
-                        text: "pay".tr(),
-                        rightPadding: 15,
-                        leftPadding: 15,
-                        bottomPadding: 15,
-                        width: MediaQuery.of(context).size.width,
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => CheckOutView(
-                                    widget.ownerName, widget.totalPrice))),
-                      ),
-                    ],
-                  );
-                }
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "bank_accounts".tr(),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+      ),
+      body: CustomBackground(
+        child: AnimatedWidgets(
+          verticalOffset: 150,
+          child: BlocBuilder<BankAccountCubit, BankAccountState>(
+            builder: (context, state) {
+              if (state is BankAccountLoading) {
                 return CenterLoading();
-              },
-            ),
+              } else if (state is BankAccountSuccess) {
+                final _model = state.bankAccountsModel;
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          // var item = _model.banksList?[index];
+                          return _SingleAccountCard(
+                            // image: _model.,
+                            ownerName: _model.accountNumber,
+                            bankName: _model.bankName,
+                            ibanNumber: _model.bankAccountOwner,
+                          );
+                        },
+                      ),
+                    ),
+                    CustomButton(
+                      text: "pay".tr(),
+                      rightPadding: 15,
+                      leftPadding: 15,
+                      bottomPadding: 15,
+                      width: MediaQuery.of(context).size.width,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => CheckOutView(
+                                  widget.ownerName, widget.totalPrice))),
+                    ),
+                  ],
+                );
+              }
+              return CenterLoading();
+            },
           ),
         ),
       ),
@@ -91,13 +87,13 @@ class _BankAccountsState extends State<BankAccounts> {
 }
 
 class _SingleAccountCard extends StatelessWidget {
-  final String? image;
+  // final String? image;
   final String? ownerName;
   final String? bankName;
   final String? ibanNumber;
   const _SingleAccountCard({
     Key? key,
-    this.image,
+    // this.image,
     this.ownerName,
     this.bankName,
     this.ibanNumber,
@@ -118,22 +114,22 @@ class _SingleAccountCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            height: height,
-            width: width / 4.5,
-            child: CachedNetworkImage(
-              imageUrl: image!,
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                color: Colors.grey,
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
+          // Container(
+          //   height: height,
+          //   width: width / 4.5,
+          //   child: CachedNetworkImage(
+          //     imageUrl: image!,
+          //     placeholder: (context, url) => CircularProgressIndicator(),
+          //     errorWidget: (context, url, error) => Icon(
+          //       Icons.error,
+          //       color: Colors.grey,
+          //     ),
+          //   ),
+          //   decoration: BoxDecoration(
+          //     color: Colors.amber,
+          //     borderRadius: BorderRadius.circular(15),
+          //   ),
+          // ),
           SizedBox(width: 10),
           Expanded(
             child: Container(

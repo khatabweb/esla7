@@ -1,3 +1,5 @@
+// import 'package:esla7/Screens/Widgets/helper/cache_helper.dart';
+
 import 'chatCard.dart';
 import '../../../../../Widgets/CenterMessage.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,30 +25,31 @@ class AllChatsList extends StatelessWidget {
                 name: allChatsModel.data![index].sender != null
                     ? allChatsModel.data![index].sender!.id != box.read("id")
                         ? allChatsModel.data![index].sender!.name
-                        : allChatsModel.data![index].receiverOwner!.name
-                    : allChatsModel.data![index].senderOwner!.id !=
+                        // : "nothing"
+                        : allChatsModel.data![index].receiverOwner?.name
+                    : allChatsModel.data![index].senderOwner?.id !=
                             box.read("id")
-                        ? allChatsModel.data![index].senderOwner!.name
+                        ? allChatsModel.data![index].senderOwner?.name
                         : allChatsModel.data![index].receiver!.name,
                 image: allChatsModel.data![index].sender != null
                     ? allChatsModel.data![index].sender!.id != box.read("id")
                         ? allChatsModel.data![index].sender!.image
-                        : allChatsModel.data![index].receiverOwner!.image
-                    : allChatsModel.data![index].senderOwner!.id !=
+                        : allChatsModel.data![index].receiverOwner?.image
+                    : allChatsModel.data![index].senderOwner?.id !=
                             box.read("id")
-                        ? allChatsModel.data![index].senderOwner!.image
+                        ? allChatsModel.data![index].senderOwner?.image
                         : allChatsModel.data![index].receiver!.image,
                 rate: allChatsModel.data![index].sender != null
                     ? allChatsModel.data![index].sender!.id != box.read("id")
                         ? allChatsModel.data![index].sender!.rate
-                        : allChatsModel.data![index].receiverOwner!.rate
-                    : allChatsModel.data![index].senderOwner!.id !=
+                        : allChatsModel.data![index].receiverOwner?.rate
+                    : allChatsModel.data![index].senderOwner?.id !=
                             box.read("id")
-                        ? allChatsModel.data![index].senderOwner!.rate
+                        ? allChatsModel.data![index].senderOwner?.rate
                         : allChatsModel.data![index].receiver!.rate,
-                // view: allChatsModel!.data![index].lastchat!.view,
                 chatId: allChatsModel.data![index].id,
-                // msgId: allChatsModel!.data![index].lastchat!.id,
+                // view: allChatsModel!.data![index].lastchat!.view,
+                msgId: allChatsModel.data![index].lastchat!.id,
               ),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,

@@ -9,9 +9,11 @@ abstract class AcceptRepo {
   static Future<ApiResult> acceptOrder({required formData}) async {
     try {
       final Response response = await NetworkHelper().request(
-          ApiUtl.owner_accept_order,
-          body: formData,
-          method: ServerMethods.POST);
+        ApiUtl.owner_accept_order,
+        body: formData,
+        method: ServerMethods.POST,
+        isUser: false,
+      );
       if (response.data['status'] == 'success') {
         return ApiResult.success(response.data);
       } else {

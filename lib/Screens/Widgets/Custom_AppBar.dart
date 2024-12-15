@@ -21,7 +21,7 @@ PreferredSizeWidget? customAppBar({
   void Function()? onTapOtherIcon,
   void Function()? onTapSearchIcon,
 }) {
-  final String language = translator.activeLanguageCode;
+  //
   return AppBar(
     backgroundColor: backgroundColor ?? Colors.transparent,
     elevation: elevation ?? 0,
@@ -34,29 +34,33 @@ PreferredSizeWidget? customAppBar({
             onPressed: onPressedDrawer,
             color: Theme.of(context).primaryColor,
           )
-        : showBackButton == false ? SizedBox() : InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              margin: EdgeInsets.only(
-                  right: 15,
-                  left: language == "ar" ? 0 : 15,
-                  top: 15,
-                  bottom: 15),
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 18,
-                color: backgroundColor == Theme.of(context).primaryColor
-                    ? Colors.white
-                    : Theme.of(context).primaryColor,
+        : showBackButton == false
+            ? SizedBox()
+            : InkWell(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  margin: EdgeInsets.only(
+                      right: 15,
+                      left: context.locale.languageCode == "ar" ? 0 : 15,
+                      top: 15,
+                      bottom: 15),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 18,
+                    color: backgroundColor == Theme.of(context).primaryColor
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                  ),
+                ),
               ),
-            ),
-          ),
     title: Text(
       appBarTitle,
       textAlign: TextAlign.right,
       style: TextStyle(
         fontSize: fontSize ?? 18,
-        color: backgroundColor == Theme.of(context).primaryColor ? Colors.white : Theme.of(context).primaryColor,
+        color: backgroundColor == Theme.of(context).primaryColor
+            ? Colors.white
+            : Theme.of(context).primaryColor,
         fontFamily: 'JannaLT-Bold',
       ),
     ),
@@ -72,9 +76,13 @@ PreferredSizeWidget? customAppBar({
                 ),
               ),
               onTap: () async {
-                CacheHelper.instance!.getData(key: "skip", valueType: ValueType.bool) == true
-                    ? showCupertinoDialog(context: context, builder: (_) => LoginAlert())
-                    : Navigator.push(context, MaterialPageRoute(builder: (_) => SearchView()));
+                CacheHelper.instance!
+                            .getData(key: "skip", valueType: ValueType.bool) ==
+                        true
+                    ? showCupertinoDialog(
+                        context: context, builder: (_) => LoginAlert())
+                    : Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => SearchView()));
               },
             )
           : Container(),
@@ -96,8 +104,10 @@ Widget drawerIcon({
       margin: EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
       child: Center(
         child: Image.asset(
-          translator.activeLanguageCode == "ar" ? "assets/icons/menu.png" : "assets/icons/menuen.png",
-          color: Theme.of(context!).primaryColor,
+          context!.locale.languageCode == "ar"
+              ? "assets/icons/menu.png"
+              : "assets/icons/menuen.png",
+          color: Theme.of(context).primaryColor,
           fit: BoxFit.cover,
           height: 15,
           width: 30,

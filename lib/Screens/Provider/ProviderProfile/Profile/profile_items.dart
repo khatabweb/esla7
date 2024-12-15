@@ -15,8 +15,6 @@ class ProviderProfileItems extends StatefulWidget {
 }
 
 class _ProviderProfileItemsState extends State<ProviderProfileItems> {
-  final String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<OwnerProfileCubit>().getOwnerProfile();
@@ -42,7 +40,7 @@ class _ProviderProfileItemsState extends State<ProviderProfileItems> {
                   _Email(email: profileModel.companyEmail),
                   _Password(),
                   _ServiceType(
-                    service: language == "ar"
+                    service: context.locale.languageCode == "ar"
                         ? profileModel.serviceNameAr
                         : profileModel.serviceNameEn,
                   ),
@@ -180,19 +178,19 @@ class _CommercialRegistrationNo extends StatelessWidget {
   }
 }
 
-class _CommercialRegistrationImage extends StatelessWidget {
-  final String? commercialPhoto;
-  const _CommercialRegistrationImage({Key? key, this.commercialPhoto})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return _SingleItem(
-      title: "commercial_registration_image".tr(),
-      subTitle: "$commercialPhoto",
-      icon: "assets/icons/image.png",
-    );
-  }
-}
+// class _CommercialRegistrationImage extends StatelessWidget {
+//   final String? commercialPhoto;
+//   const _CommercialRegistrationImage({Key? key, this.commercialPhoto})
+//       : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return _SingleItem(
+//       title: "commercial_registration_image".tr(),
+//       subTitle: "$commercialPhoto",
+//       icon: "assets/icons/image.png",
+//     );
+//   }
+// }
 
 class _TimeOfWork extends StatelessWidget {
   final String? from, to;
@@ -254,14 +252,14 @@ class _BankAccountNumber extends StatelessWidget {
 class _SingleItem extends StatelessWidget {
   final String? icon, title, subTitle;
   final TextDirection? subTitleDirection;
-  final Widget? deleteIcon;
+  // final Widget? deleteIcon;
 
   const _SingleItem({
     this.icon,
     this.title,
     this.subTitle,
     this.subTitleDirection,
-    this.deleteIcon,
+    // this.deleteIcon,
   });
 
   @override

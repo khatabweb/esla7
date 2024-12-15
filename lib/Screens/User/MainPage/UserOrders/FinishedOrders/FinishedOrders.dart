@@ -20,7 +20,7 @@ class FinishedOrders extends StatefulWidget {
 }
 
 class _FinishedOrdersState extends State<FinishedOrders> {
-  final String lang = translator.activeLanguageCode;
+   
 
   @override
   void initState() {

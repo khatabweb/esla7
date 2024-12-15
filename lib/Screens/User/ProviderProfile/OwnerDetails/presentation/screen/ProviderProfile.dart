@@ -30,7 +30,6 @@ class ProviderProfile extends StatefulWidget {
 }
 
 class _ProviderProfileState extends State<ProviderProfile> {
-  final String language = translator.activeLanguageCode;
   TimeOfDay? time;
 
   @override
@@ -42,54 +41,51 @@ class _ProviderProfileState extends State<ProviderProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "",
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        ),
-        body: CustomBackground(
-          child: BlocBuilder<OwnerDetailsCubit, OwnerDetailsState>(
-            builder: (context, state) {
-              if (state is OwnerDetailsLoadingState) {
-                return CenterLoading();
-              } else if (state is OwnerDetailsErrorState) {
-                return Center(child: Text("${state.error}"));
-              } else if (state is OwnerDetailsSuccessState) {
-                final model = state.ownerDetailsModel;
-                return AnimatedWidgets(
-                  verticalOffset: 150,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 25),
-                      _InformationCard(
-                        isGolden: widget.isGolden,
-                        time: time,
-                        image: "${ApiUtl.main_image_url}${model.ownerImage}",
-                        ownerName: "${model.ownerName}",
-                        rate: model.rate,
-                        serviceName: language == "ar"
-                            ? "${model.ownerService?.nameAr}"
-                            : "${model.ownerService?.nameEn}",
-                        city: language == "ar"
-                            ? "${model.ownerCity?.nameAr}"
-                            : "${model.ownerCity?.nameEn}",
-                        minSalary: "${model.minSalary}",
-                        from: "${model.avilableFrom ?? "00:00"}",
-                        to: "${model.avilableTo ?? "00:00"}",
-                      ),
-                      Expanded(child: Container()),
-                      _AddServiceButton(ownerId: model.ownerId),
-                    ],
-                  ),
-                );
-              } else {
-                return Center(child: Text("No Data"));
-              }
-            },
-          ),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "",
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+      ),
+      body: CustomBackground(
+        child: BlocBuilder<OwnerDetailsCubit, OwnerDetailsState>(
+          builder: (context, state) {
+            if (state is OwnerDetailsLoadingState) {
+              return CenterLoading();
+            } else if (state is OwnerDetailsErrorState) {
+              return Center(child: Text("${state.error}"));
+            } else if (state is OwnerDetailsSuccessState) {
+              final model = state.ownerDetailsModel;
+              return AnimatedWidgets(
+                verticalOffset: 150,
+                child: Column(
+                  children: [
+                    SizedBox(height: 25),
+                    _InformationCard(
+                      isGolden: widget.isGolden,
+                      time: time,
+                      image: "${ApiUtl.main_image_url}${model.ownerImage}",
+                      ownerName: "${model.ownerName}",
+                      rate: model.rate,
+                      serviceName: context.locale.languageCode == "ar"
+                          ? "${model.ownerService?.nameAr}"
+                          : "${model.ownerService?.nameEn}",
+                      city: context.locale.languageCode == "ar"
+                          ? "${model.ownerCity?.nameAr}"
+                          : "${model.ownerCity?.nameEn}",
+                      minSalary: "${model.minSalary}",
+                      from: "${model.avilableFrom ?? "00:00"}",
+                      to: "${model.avilableTo ?? "00:00"}",
+                    ),
+                    Expanded(child: Container()),
+                    _AddServiceButton(ownerId: model.ownerId),
+                  ],
+                ),
+              );
+            } else {
+              return Center(child: Text("No Data"));
+            }
+          },
         ),
       ),
     );

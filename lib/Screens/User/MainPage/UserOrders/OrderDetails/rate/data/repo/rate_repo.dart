@@ -11,6 +11,7 @@ abstract class RateRepo {
           body: formData, method: ServerMethods.POST);
 
       if (response.data["status"] == "success") {
+        
         return ApiResult.success(response.data);
       } else {
         return ApiResult.failure(response.data["message"]);

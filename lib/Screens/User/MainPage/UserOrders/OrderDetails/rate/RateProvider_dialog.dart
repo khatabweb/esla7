@@ -20,8 +20,8 @@ class RateProviderDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = RateCubit.get(context);
-    cubit.ownerId = ownerId;
-    print("owner id ::::::::::::: ${cubit.ownerId}");
+    // cubit.ownerId = ownerId;
+    // print("owner id ::::::::::::: ${cubit.ownerId}");
     return CustomDialog(
       title: "rate_the_provider".tr(),
       contact: Column(
@@ -38,10 +38,10 @@ class RateProviderDialog extends StatelessWidget {
             ignoreGestures: false,
             unratedColor: Colors.grey[300],
             itemCount: 5,
-            itemPadding:
-            EdgeInsets.symmetric(horizontal: 2),
+            itemPadding: EdgeInsets.symmetric(horizontal: 2),
             itemBuilder: (context, _) {
-              return Image.asset("assets/icons/star.png", color: ThemeColor.mainGold);
+              return Image.asset("assets/icons/star.png",
+                  color: ThemeColor.mainGold);
             },
             onRatingUpdate: (rating) {
               cubit.rate = rating.toInt();
@@ -49,14 +49,14 @@ class RateProviderDialog extends StatelessWidget {
             },
           ),
           SizedBox(height: 10),
-
           BlocConsumer<RateCubit, RateState>(
-            listener: (_, state){
-              if(state is RateErrorState){
+            listener: (_, state) {
+              if (state is RateErrorState) {
                 customSnackBar(_, state.error);
-              }else if(state is RateSuccessState){
+              } else if (state is RateSuccessState) {
                 Navigator.pop(context);
-                showCupertinoDialog(context: context, builder: (_) => SuccessDialog());
+                showCupertinoDialog(
+                    context: context, builder: (_) => SuccessDialog());
                 print("============= rate successfully ==============");
               }
             },
@@ -71,8 +71,6 @@ class RateProviderDialog extends StatelessWidget {
     );
   }
 }
-
-
 
 class _ConfirmButtons extends StatelessWidget {
   final VoidCallback? onTapSend;
@@ -92,7 +90,6 @@ class _ConfirmButtons extends StatelessWidget {
             text: "send".tr(),
             onTap: onTapSend,
           ),
-
           CustomButton(
             width: MediaQuery.of(context).size.width / 3,
             height: 40,

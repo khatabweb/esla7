@@ -31,7 +31,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final String language = translator.activeLanguageCode;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // XFile? _image;
   final _picker = ImagePicker();
@@ -65,33 +64,30 @@ class _EditProfileState extends State<EditProfile> {
   void imageBottomSheet() {
     customSheet(
       context: context,
-      widget: Directionality(
-        textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListTile(
-                horizontalTitleGap: 0,
-                title: DrawHeaderText(text: "camera".tr()),
-                leading: Icon(CupertinoIcons.photo_camera_solid,
-                    color: Theme.of(context).primaryColor),
-                onTap: () {
-                  pickImage();
-                  print("::::::::::::::pickImage");
-                },
-              ),
-              ListTile(
-                horizontalTitleGap: 0,
-                title: DrawHeaderText(text: "photo_gallery".tr()),
-                leading: Icon(CupertinoIcons.photo,
-                    color: Theme.of(context).primaryColor),
-                onTap: () {
-                  getImage();
-                  print("::::::::::::::getImage");
-                },
-              ),
-            ],
-          ),
+      widget: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              horizontalTitleGap: 0,
+              title: DrawHeaderText(text: "camera".tr()),
+              leading: Icon(CupertinoIcons.photo_camera_solid,
+                  color: Theme.of(context).primaryColor),
+              onTap: () {
+                pickImage();
+                print("::::::::::::::pickImage");
+              },
+            ),
+            ListTile(
+              horizontalTitleGap: 0,
+              title: DrawHeaderText(text: "photo_gallery".tr()),
+              leading: Icon(CupertinoIcons.photo,
+                  color: Theme.of(context).primaryColor),
+              onTap: () {
+                getImage();
+                print("::::::::::::::getImage");
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -106,61 +102,58 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Form(
-        key: formKey,
-        child: Scaffold(
+    return Form(
+      key: formKey,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: customAppBar(
+          context: context,
+          appBarTitle: "profile".tr(),
           backgroundColor: Colors.white,
-          appBar: customAppBar(
-            context: context,
-            appBarTitle: "profile".tr(),
-            backgroundColor: Colors.white,
-            otherIconWidget: BlocConsumer<UserUpdateCubit, UserUpdateState>(
-              listener: (_, state) {
-                if (state is UserUpdateErrorState) {
-                  customSnackBar(_, state.error);
-                } else if (state is UserUpdateSuccessState) {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (_) => MainPage()),
-                      (route) => false);
-                  print(
-                      "============================= تم تعديل البيانات بنجاح =========================");
-                }
-              },
-              builder: (context, state) {
-                return state is UserUpdateLoadingState
-                    ? CenterLoading()
-                    : _SaveButton(onTap: onTapSaveBtn);
-              },
-            ),
+          otherIconWidget: BlocConsumer<UserUpdateCubit, UserUpdateState>(
+            listener: (_, state) {
+              if (state is UserUpdateErrorState) {
+                customSnackBar(_, state.error);
+              } else if (state is UserUpdateSuccessState) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => MainPage()),
+                    (route) => false);
+                print(
+                    "============================= تم تعديل البيانات بنجاح =========================");
+              }
+            },
+            builder: (context, state) {
+              return state is UserUpdateLoadingState
+                  ? CenterLoading()
+                  : _SaveButton(onTap: onTapSaveBtn);
+            },
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: AnimatedWidgets(
-                verticalOffset: 150,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ImageEdit(
-                      image:
-                          "http://www.repaairsa.com/${widget.profileModel.image}",
-                      onTapEdit: imageBottomSheet,
-                    ),
-                    _Title("name".tr()),
-                    NameTextField(hint: widget.profileModel.name),
-                    _Title("phone_number".tr()),
-                    PhoneTextField(hint: widget.profileModel.phone),
-                    _Title("email".tr()),
-                    EmailTextField(hint: widget.profileModel.email),
-                    _Title("change_password".tr()),
-                    _PasswordTextField(),
-                    _PasswordNote(),
-                  ],
-                ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: AnimatedWidgets(
+              verticalOffset: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ImageEdit(
+                    image:
+                        "http://www.repaairsa.com/${widget.profileModel.image}",
+                    onTapEdit: imageBottomSheet,
+                  ),
+                  _Title("name".tr()),
+                  NameTextField(hint: widget.profileModel.name),
+                  _Title("phone_number".tr()),
+                  PhoneTextField(hint: widget.profileModel.phone),
+                  _Title("email".tr()),
+                  EmailTextField(hint: widget.profileModel.email),
+                  _Title("change_password".tr()),
+                  _PasswordTextField(),
+                  _PasswordNote(),
+                ],
               ),
             ),
           ),

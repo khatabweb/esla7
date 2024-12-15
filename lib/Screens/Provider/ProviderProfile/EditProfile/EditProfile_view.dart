@@ -34,7 +34,6 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
-  final String language = translator.activeLanguageCode;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
 
@@ -67,27 +66,24 @@ class _EditProfileViewState extends State<EditProfileView> {
   void imageBottomSheet() {
     customSheet(
       context: context,
-      widget: Directionality(
-        textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListTile(
-                horizontalTitleGap: 0,
-                title: DrawHeaderText(text: "camera".tr()),
-                leading: Icon(CupertinoIcons.photo_camera_solid,
-                    color: Theme.of(context).primaryColor),
-                onTap: pickImage,
-              ),
-              ListTile(
-                horizontalTitleGap: 0,
-                title: DrawHeaderText(text: "photo_gallery".tr()),
-                leading: Icon(CupertinoIcons.photo,
-                    color: Theme.of(context).primaryColor),
-                onTap: getImage,
-              ),
-            ],
-          ),
+      widget: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              horizontalTitleGap: 0,
+              title: DrawHeaderText(text: "camera".tr()),
+              leading: Icon(CupertinoIcons.photo_camera_solid,
+                  color: Theme.of(context).primaryColor),
+              onTap: pickImage,
+            ),
+            ListTile(
+              horizontalTitleGap: 0,
+              title: DrawHeaderText(text: "photo_gallery".tr()),
+              leading: Icon(CupertinoIcons.photo,
+                  color: Theme.of(context).primaryColor),
+              onTap: getImage,
+            ),
+          ],
         ),
       ),
     );
@@ -103,91 +99,88 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "profile".tr(),
         backgroundColor: Colors.white,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "profile".tr(),
-          backgroundColor: Colors.white,
-          otherIconWidget: BlocConsumer<OwnerUpdateCubit, OwnerUpdateState>(
-            listener: (_, state) {
-              if (state is OwnerUpdateErrorState) {
-                customSnackBar(_, state.error);
-              } else if (state is OwnerUpdateSuccessState) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => ProviderMainPage()),
-                    (route) => false);
-                print(
-                    "============================= تم تعديل البيانات بنجاح =========================");
-              }
-            },
-            builder: (context, state) {
-              return state is OwnerUpdateLoadingState
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 35),
-                      child: CenterLoading())
-                  : _SaveButton(onTap: onTapSaveBtn);
-            },
-          ),
+        otherIconWidget: BlocConsumer<OwnerUpdateCubit, OwnerUpdateState>(
+          listener: (_, state) {
+            if (state is OwnerUpdateErrorState) {
+              customSnackBar(_, state.error);
+            } else if (state is OwnerUpdateSuccessState) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => ProviderMainPage()),
+                  (route) => false);
+              print(
+                  "============================= تم تعديل البيانات بنجاح =========================");
+            }
+          },
+          builder: (context, state) {
+            return state is OwnerUpdateLoadingState
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    child: CenterLoading())
+                : _SaveButton(onTap: onTapSaveBtn);
+          },
         ),
-        body: Form(
-          key: formKey,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(horizontal: 15),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: AnimatedWidgets(
-                verticalOffset: 150,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ImageEdit(
-                      image:
-                          "${ApiUtl.main_image_url}${widget.ownerProfileModel.companyImage}",
-                      onTapEdit: imageBottomSheet,
-                    ),
-                    _Title("company_name".tr()),
-                    _NameTextField(hint: widget.ownerProfileModel.companyName),
-                    _Title("phone_number".tr()),
-                    _PhoneTextField(
-                        hint: widget.ownerProfileModel.companyPhone),
-                    _Title("email".tr()),
-                    _EmailTextField(
-                        hint: widget.ownerProfileModel.companyEmail),
-                    _Title("minimum_cost".tr()),
-                    _MinSalaryTextField(
-                        hint: widget.ownerProfileModel.companyMinSalary),
-                    _Title("commercial_registration_no".tr()),
-                    _CommercialNumberTextField(
-                        hint: widget.ownerProfileModel.companyCommerical),
-                    _Title("commercial_registration_image".tr()),
-                    CommercialImageTextField(
-                        ownerProfileModel: widget.ownerProfileModel),
-
-                    ///from component
-                    _Title("times_of_work".tr()),
-                    TimeOfWork(ownerProfileModel: widget.ownerProfileModel),
-
-                    ///from component
-                    _Title("change_password".tr()),
-                    _PasswordTextField(),
-                    _PasswordNote(),
-                    Divider(),
-                    _Title("bank_account_owner_name".tr()),
-                    _BankOwnerNameTextField(
-                        hint: widget.ownerProfileModel.bankAccountOwner),
-                    _Title("bank_name".tr()),
-                    _BankNameTextField(hint: widget.ownerProfileModel.bankName),
-                    _Title("bank_account_number".tr()),
-                    _BankAccountNumberTextField(
-                        hint: widget.ownerProfileModel.accountNumber),
-                    SizedBox(height: 15),
-                  ],
-                ),
+      ),
+      body: Form(
+        key: formKey,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 15),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: AnimatedWidgets(
+              verticalOffset: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ImageEdit(
+                    image:
+                        "${ApiUtl.main_image_url}${widget.ownerProfileModel.companyImage}",
+                    onTapEdit: imageBottomSheet,
+                  ),
+                  _Title("company_name".tr()),
+                  _NameTextField(hint: widget.ownerProfileModel.companyName),
+                  _Title("phone_number".tr()),
+                  _PhoneTextField(
+                      hint: widget.ownerProfileModel.companyPhone),
+                  _Title("email".tr()),
+                  _EmailTextField(
+                      hint: widget.ownerProfileModel.companyEmail),
+                  _Title("minimum_cost".tr()),
+                  _MinSalaryTextField(
+                      hint: widget.ownerProfileModel.companyMinSalary),
+                  _Title("commercial_registration_no".tr()),
+                  _CommercialNumberTextField(
+                      hint: widget.ownerProfileModel.companyCommerical),
+                  _Title("commercial_registration_image".tr()),
+                  CommercialImageTextField(
+                      ownerProfileModel: widget.ownerProfileModel),
+    
+                  ///from component
+                  _Title("times_of_work".tr()),
+                  TimeOfWork(ownerProfileModel: widget.ownerProfileModel),
+    
+                  ///from component
+                  _Title("change_password".tr()),
+                  _PasswordTextField(),
+                  _PasswordNote(),
+                  Divider(),
+                  _Title("bank_account_owner_name".tr()),
+                  _BankOwnerNameTextField(
+                      hint: widget.ownerProfileModel.bankAccountOwner),
+                  _Title("bank_name".tr()),
+                  _BankNameTextField(hint: widget.ownerProfileModel.bankName),
+                  _Title("bank_account_number".tr()),
+                  _BankAccountNumberTextField(
+                      hint: widget.ownerProfileModel.accountNumber),
+                  SizedBox(height: 15),
+                ],
               ),
             ),
           ),

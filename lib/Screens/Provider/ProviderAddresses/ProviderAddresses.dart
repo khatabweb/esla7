@@ -9,37 +9,32 @@ import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 class ProviderAddresses extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "my_addresses".tr(),
         backgroundColor: Colors.white,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "my_addresses".tr(),
-          backgroundColor: Colors.white,
-        ),
-        body: AnimatedWidgets(
-          verticalOffset: 150,
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, item) {
-                      return _ProviderAddress();
-                    },
-                  ),
+      ),
+      body: AnimatedWidgets(
+        verticalOffset: 150,
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 10,
+                  itemBuilder: (context, item) {
+                    return _ProviderAddress();
+                  },
                 ),
               ),
-              _AddNewAddressButton(),
-            ],
-          ),
+            ),
+            _AddNewAddressButton(),
+          ],
         ),
       ),
     );
@@ -67,26 +62,36 @@ class _ProviderAddress extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomRichText(title: "city".tr(), subTitle: "الرياض",),
-                  CustomRichText(title: "address".tr(), subTitle: "شارع الملك فيصل",),
+                  CustomRichText(
+                    title: "city".tr(),
+                    subTitle: "الرياض",
+                  ),
+                  CustomRichText(
+                    title: "address".tr(),
+                    subTitle: "شارع الملك فيصل",
+                  ),
                 ],
               ),
             ),
           ),
           _CardIcon(
             image: "assets/icons/edit.png",
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AddNewAddress(appBarTitle: "edit_address".tr()))),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) =>
+                        AddNewAddress(appBarTitle: "edit_address".tr()))),
           ),
           _CardIcon(
             image: "assets/icons/delete.png",
-            onTap: () => showCupertinoDialog(context: context, builder: (_)=> RemoveAddressAlert()),
+            onTap: () => showCupertinoDialog(
+                context: context, builder: (_) => RemoveAddressAlert()),
           ),
         ],
       ),
     );
   }
 }
-
 
 class _CardIcon extends StatelessWidget {
   final void Function()? onTap;
@@ -101,13 +106,13 @@ class _CardIcon extends StatelessWidget {
         height: 40,
         color: Colors.transparent,
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-        child: Center(child: Image.asset(image!, height: 20, width: 20, fit: BoxFit.contain)),
+        child: Center(
+            child: Image.asset(image!,
+                height: 20, width: 20, fit: BoxFit.contain)),
       ),
     );
   }
 }
-
-
 
 class _AddNewAddressButton extends StatelessWidget {
   const _AddNewAddressButton({Key? key}) : super(key: key);
@@ -120,7 +125,10 @@ class _AddNewAddressButton extends StatelessWidget {
       topPadding: 10,
       bottomPadding: 10,
       text: "add_new_address".tr(),
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AddNewAddress(appBarTitle: "add_location".tr()))),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => AddNewAddress(appBarTitle: "add_location".tr()))),
     );
   }
 }

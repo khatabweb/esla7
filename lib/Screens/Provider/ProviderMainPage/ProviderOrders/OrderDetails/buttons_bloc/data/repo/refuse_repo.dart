@@ -10,7 +10,8 @@ abstract class RefuseRepo {
       final Response response = await NetworkHelper().request(
           ApiUtl.owner_refuse_order,
           body: formData,
-          method: ServerMethods.POST);
+          method: ServerMethods.POST,
+          isUser: false);
       if (response.data["status"] == "success") {
         return ApiResult.success(response.data);
       } else {

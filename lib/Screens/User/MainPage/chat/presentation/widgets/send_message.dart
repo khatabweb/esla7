@@ -85,15 +85,13 @@ class _SendMessageState extends State<SendMessage> {
                     child: Icon(Icons.send, color: Colors.white),
                     onTap: () async {
                       if (_messageController.text.isNotEmpty) {
-                        setState(() => _isLoading = true);
-                        await context.read<ChatCubit>().sendMessage(
-                              message: _messageController.text,
-                              conversationId: widget.chatId,
-                              senderId: widget.senderId,
-                              receiverId: widget.receiverId,
-                            );
-                        widget.afterSendingMessage!();
-                        setState(() => _isLoading = false);
+                        context.read<ChatCubit>().sendMessage(
+                            message: _messageController.text,
+                            conversationId: widget.chatId,
+                            senderId: widget.senderId,
+                            receiverId: widget.receiverId);
+                        context.read<ChatCubit>().getMessage(widget.chatId);
+
                         _messageController.clear();
                       }
                     },

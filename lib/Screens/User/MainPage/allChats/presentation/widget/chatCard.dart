@@ -29,8 +29,6 @@ class ChatsCard extends StatelessWidget {
       this.orderNumber})
       : super(key: key);
 
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
     // final height = MediaQuery.of(context).size.height;
@@ -71,8 +69,10 @@ class ChatsCard extends StatelessWidget {
                     view == 0
                         ? Positioned(
                             bottom: 3,
-                            left: language == "ar" ? 3 : null,
-                            right: language == "ar" ? null : 3,
+                            left:
+                                context.locale.languageCode == "ar" ? 3 : null,
+                            right:
+                                context.locale.languageCode == "ar" ? null : 3,
                             child: Icon(
                               Icons.circle,
                               color: Colors.green,
@@ -89,7 +89,7 @@ class ChatsCard extends StatelessWidget {
                   children: [
                     DrawHeaderText(text: "$name"),
                     // Container(
-                    //   width: MediaQuery.of(context).size.width/3.5,
+                    //   width: MediaQuery.of(context).size.width / 3.5,
                     //   child: DrawSingleText(
                     //     text: "$serviceName",
                     //     color: Theme.of(context).colorScheme.secondary,

@@ -23,7 +23,7 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
+
   bool termsChecked = false;
 
   @override
@@ -63,7 +63,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           if (state is SignUpErrorState) {
                             customSnackBar(_, state.error);
                           } else if (state is SignUpSuccessState) {
-                            ConfirmCodeCubit.get(context).code=cubit.code;
+                            ConfirmCodeCubit.get(context).code = cubit.code;
                             print("code : ${cubit.code}");
                             showCupertinoDialog(
                               context: context,

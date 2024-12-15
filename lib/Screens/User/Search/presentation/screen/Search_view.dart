@@ -19,7 +19,7 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final String language = translator.activeLanguageCode;
+  //
 
   @override
   void initState() {
@@ -29,61 +29,57 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: searchHeader(context: context),
-        body: CustomBackground(
-          child: BlocBuilder<SearchCubit, SearchState>(
-            builder: (context, state) {
-              if (state is SearchLoadingState) {
-                return CenterLoading();
-              } else if (state is SearchErrorState) {
-                return CenterMessage("something_went_wrong".tr());
-              } else if (state is SearchSuccessState) {
-                if (state.searchModel.owners?.length == 0) {
-                  return CenterMessage("there_are_no_search_result".tr());
-                } else {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: state.searchModel.owners?.length,
-                      itemBuilder: (context, index) {
-                        var item = state.searchModel.owners?[index];
-                        return AnimatedWidgets(
-                          verticalOffset: 50,
-                          child: SingleProviderCard(
-                            isGolden: false,
-                            name: "${item?.ownerName}",
-                            city: language == "ar"
-                                ? "${item?.city?.nameAr}"
-                                : "${item?.city?.nameEn}",
-                            rate: item?.rate?.toInt() ?? 0,
-                            serviceName: language == "ar"
-                                ? "${item?.service?.nameAr}"
-                                : "${item?.service?.nameEn}",
-                            image:
-                                "${ApiUtl.main_image_url}${item?.ownerImage}",
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => ProviderProfile(
-                                          ownerId: item?.id,
-                                          mainServiceId: item?.service?.id,
-                                        ))),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
+    return Scaffold(
+      appBar: searchHeader(context: context),
+      body: CustomBackground(
+        child: BlocBuilder<SearchCubit, SearchState>(
+          builder: (context, state) {
+            if (state is SearchLoadingState) {
+              return CenterLoading();
+            } else if (state is SearchErrorState) {
+              return CenterMessage("something_went_wrong".tr());
+            } else if (state is SearchSuccessState) {
+              if (state.searchModel.owners?.length == 0) {
+                return CenterMessage("there_are_no_search_result".tr());
               } else {
-                return CenterMessage("not found data");
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: state.searchModel.owners?.length,
+                    itemBuilder: (context, index) {
+                      var item = state.searchModel.owners?[index];
+                      return AnimatedWidgets(
+                        verticalOffset: 50,
+                        child: SingleProviderCard(
+                          isGolden: false,
+                          name: "${item?.ownerName}",
+                          city: context.locale.languageCode == "ar"
+                              ? "${item?.city?.nameAr}"
+                              : "${item?.city?.nameEn}",
+                          rate: item?.rate?.toInt() ?? 0,
+                          serviceName: context.locale.languageCode == "ar"
+                              ? "${item?.service?.nameAr}"
+                              : "${item?.service?.nameEn}",
+                          image: "${ApiUtl.main_image_url}${item?.ownerImage}",
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ProviderProfile(
+                                        ownerId: item?.id,
+                                        mainServiceId: item?.service?.id,
+                                      ))),
+                        ),
+                      );
+                    },
+                  ),
+                );
               }
-            },
-          ),
+            } else {
+              return CenterMessage("not found data");
+            }
+          },
         ),
       ),
     );

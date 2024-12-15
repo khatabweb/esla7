@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 
 class DrawSingleText extends StatelessWidget {
   final String? text;
@@ -20,12 +19,12 @@ class DrawSingleText extends StatelessWidget {
     this.textHeight,
   });
 
-  final String language = translator.activeLanguageCode;
+  //
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text??"",
+      text ?? "",
       textAlign: textAlign,
       textDirection: textDirection,
       style: TextStyle(
@@ -53,12 +52,12 @@ class DrawHeaderText extends StatelessWidget {
     this.textDirection,
   });
 
-  final String language = translator.activeLanguageCode;
+  //
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text??"",
+      text ?? "",
       textAlign: textAlign ?? TextAlign.start,
       textDirection: textDirection,
       style: TextStyle(

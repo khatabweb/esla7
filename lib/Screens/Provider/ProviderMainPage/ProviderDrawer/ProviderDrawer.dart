@@ -23,8 +23,6 @@ class ProviderDrawerView extends StatefulWidget {
 }
 
 class _ProviderDrawerViewState extends State<ProviderDrawerView> {
-  final String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<OwnerProfileCubit>().getOwnerProfile();
@@ -72,7 +70,11 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
         "title": "help".tr(),
         "icon": "assets/icons/help.png",
         "onTap": () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => HelpView(isUser: false,))),
+            context,
+            MaterialPageRoute(
+                builder: (_) => HelpView(
+                      isUser: false,
+                    ))),
       },
       {
         "title": "feedback".tr(),
@@ -99,68 +101,65 @@ class _ProviderDrawerViewState extends State<ProviderDrawerView> {
 
     final double listHeight = listTileData.length.toDouble();
 
-    return Directionality(
-      textDirection: language == 'ar' ? TextDirection.rtl : TextDirection.ltr,
-      child: Container(
-        width: MediaQuery.of(context).size.width / 1.6,
-        height: MediaQuery.of(context).size.height,
-        child: Drawer(
-          elevation: 20,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: 35),
-                  BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
-                    builder: (context, state) {
-                      if (state is OwnerProfileLoading) {
-                        return CenterLoading();
-                      } else if (state is OwnerProfileSuccess) {
-                        return _UserData(
-                          name: state.ownerProfileModel.companyName,
-                          image:
-                              "http://www.repaairsa.com/${state.ownerProfileModel.companyImage}",
-                        );
-                      } else {
-                        return Center(
-                          child: Text("no data found "),
-                        );
-                      }
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.6,
+      height: MediaQuery.of(context).size.height,
+      child: Drawer(
+        elevation: 20,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(height: 35),
+                BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
+                  builder: (context, state) {
+                    if (state is OwnerProfileLoading) {
+                      return CenterLoading();
+                    } else if (state is OwnerProfileSuccess) {
+                      return _UserData(
+                        name: state.ownerProfileModel.companyName,
+                        image:
+                            "http://www.repaairsa.com/${state.ownerProfileModel.companyImage}",
+                      );
+                    } else {
+                      return Center(
+                        child: Text("no data found "),
+                      );
+                    }
+                  },
+                ),
+    
+                SizedBox(height: 5),
+                Divider(),
+    
+                //============= drawer content =================
+                Container(
+                  height: 58 * listHeight,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    itemCount: listTileData.length,
+                    itemBuilder: (context, item) {
+                      return _DrawerItem(
+                        title: listTileData[item]["title"] as String?,
+                        onTap:
+                            listTileData[item]["onTap"] as void Function()?,
+                        imgSrc: listTileData[item]["icon"] as String?,
+                      );
                     },
                   ),
-
-                  SizedBox(height: 5),
-                  Divider(),
-
-                  //============= drawer content =================
-                  Container(
-                    height: 58 * listHeight,
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                      itemCount: listTileData.length,
-                      itemBuilder: (context, item) {
-                        return _DrawerItem(
-                          title: listTileData[item]["title"] as String?,
-                          onTap:
-                              listTileData[item]["onTap"] as void Function()?,
-                          imgSrc: listTileData[item]["icon"] as String?,
-                        );
-                      },
-                    ),
-                  ),
-
-                  Divider(),
-                  _ShareContact(),
-                ],
-              ),
+                ),
+    
+                Divider(),
+                _ShareContact(),
+              ],
             ),
           ),
         ),
@@ -173,7 +172,7 @@ class _UserData extends StatelessWidget {
   final String? name;
   final String? image;
   _UserData({Key? key, this.name, this.image}) : super(key: key);
-  final String lang = translator.activeLanguageCode;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedWidgets(
@@ -232,9 +231,13 @@ class _UserData extends StatelessWidget {
 class _DrawerItem extends StatelessWidget {
   final void Function()? onTap;
   final String? title, imgSrc;
-  final Widget? trailing;
+  // final Widget? trailing;
 
-  _DrawerItem({this.onTap, this.title, this.imgSrc, this.trailing});
+  _DrawerItem({
+    this.onTap,
+    this.title,
+    this.imgSrc,
+  });
 
   @override
   Widget build(BuildContext context) {

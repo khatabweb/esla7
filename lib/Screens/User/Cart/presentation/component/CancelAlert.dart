@@ -9,9 +9,6 @@ class CancelAlert extends StatelessWidget {
 
   CancelAlert({this.onTapConfirm, this.onTapDelete});
 
-  final String language = translator.activeLanguageCode;
-
-
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
@@ -49,7 +46,6 @@ class _ConfirmButtons extends StatelessWidget {
           width: MediaQuery.of(context).size.width / 3,
           onTap: onTapConfirm,
         ),
-
         CustomButton(
           width: MediaQuery.of(context).size.width / 3,
           rightPadding: 5,

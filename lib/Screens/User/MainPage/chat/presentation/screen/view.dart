@@ -2,12 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../../../API/api_utility.dart';
 import '../../../../../Widgets/CenterLoading.dart';
 import '../../../../../Widgets/Custom_Background.dart';
-import '../../../../../Widgets/Custom_Button.dart';
-import '../../../../../Widgets/Custom_DrawText.dart';
 import '../../../../../Widgets/helper/cache_helper.dart';
 import '../../data/cubit/chat_cubit.dart';
 import '../widgets/message_bubble.dart';
@@ -27,12 +24,11 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   GetStorage box = GetStorage();
   Timer? timer;
-  final String language = translator.activeLanguageCode;
 
   @override
   void initState() {
     // _updateMsg();
-    Timer.periodic(Duration(seconds: 10), (timer) => getMessages());
+    Timer.periodic(Duration(seconds: 15), (timer) => getMessages());
     super.initState();
   }
 
@@ -68,34 +64,34 @@ class _ChatViewState extends State<ChatView> {
   @override
   void dispose() {
     timer!.cancel();
+    BlocProvider.of<ChatCubit>(context).close();
     super.dispose();
   }
 
   // final PreferredSizeWidget? appBar =  HeaderInfo() as PreferredSizeWidget;
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            backgroundColor: Colors.white,
-            centerTitle: false,
-            titleSpacing: 0,
-            elevation: 0.5,
-            leading: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Icon(Icons.arrow_back_ios,
-                    color: Theme.of(context).primaryColor)),
-            title: Text(
-              widget.name!,
-              style: TextStyle(
-                fontFamily: "JannaLT-Bold",
-                fontSize: 18,
-                color: Theme.of(context).primaryColor,
-              ),
-            )),
-        body: CustomBackground(child: BlocBuilder<ChatCubit, ChatState>(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: false,
+          titleSpacing: 0,
+          elevation: 0.5,
+          leading: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Icon(Icons.arrow_back_ios,
+                  color: Theme.of(context).primaryColor)),
+          title: Text(
+            widget.name ?? "null",
+            style: TextStyle(
+              fontFamily: "JannaLT-Bold",
+              fontSize: 18,
+              color: Theme.of(context).primaryColor,
+            ),
+          )),
+      body: CustomBackground(
+        child: BlocBuilder<ChatCubit, ChatState>(
           builder: (context, state) {
             if (state is ChatLoading) {
               return CenterLoading();
@@ -139,7 +135,7 @@ class _ChatViewState extends State<ChatView> {
               );
             }
           },
-        )),
+        ),
       ),
     );
   }
@@ -147,53 +143,53 @@ class _ChatViewState extends State<ChatView> {
   void rebuild() async => this.mounted ? setState(() {}) : null;
 }
 
-class _FinishedChatCard extends StatelessWidget {
-  const _FinishedChatCard({Key? key}) : super(key: key);
+// class _FinishedChatCard extends StatelessWidget {
+//   const _FinishedChatCard({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          DrawSingleText(
-            text:
-                "لقد انهى مقدم الخدمة طلبك بالفعل وسوف يتم حذف المحادثة تلقائيا بعد 7 أيام",
-            color: Theme.of(context).colorScheme.secondary,
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomButton(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  height: 40,
-                  rightPadding: 5,
-                  leftPadding: 5,
-                  text: "order_review".tr(),
-                  isFrame: true,
-                  onTap: () {},
-                ),
-                CustomButton(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  height: 40,
-                  rightPadding: 5,
-                  leftPadding: 5,
-                  text: "create_new_order".tr(),
-                  isFrame: true,
-                  onTap: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: MediaQuery.of(context).size.width,
+//       color: Colors.white,
+//       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           DrawSingleText(
+//             text:
+//                 "لقد انهى مقدم الخدمة طلبك بالفعل وسوف يتم حذف المحادثة تلقائيا بعد 7 أيام",
+//             color: Theme.of(context).colorScheme.secondary,
+//             textAlign: TextAlign.center,
+//           ),
+//           Padding(
+//             padding: EdgeInsets.symmetric(vertical: 10),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//               children: [
+//                 CustomButton(
+//                   width: MediaQuery.of(context).size.width / 2.5,
+//                   height: 40,
+//                   rightPadding: 5,
+//                   leftPadding: 5,
+//                   text: "order_review".tr(),
+//                   isFrame: true,
+//                   onTap: () {},
+//                 ),
+//                 CustomButton(
+//                   width: MediaQuery.of(context).size.width / 2.5,
+//                   height: 40,
+//                   rightPadding: 5,
+//                   leftPadding: 5,
+//                   text: "create_new_order".tr(),
+//                   isFrame: true,
+//                   onTap: () => Navigator.pop(context),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

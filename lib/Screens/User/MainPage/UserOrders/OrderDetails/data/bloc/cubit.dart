@@ -1,10 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../repo/user_order_details_repo.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/model.dart';
+import '../repo/user_order_details_repo.dart';
 import 'state.dart';
 
 class UserOrderDetailsCubit extends Cubit<UserOrderDetailsState> {
@@ -14,7 +11,7 @@ class UserOrderDetailsCubit extends Cubit<UserOrderDetailsState> {
   int? orderId;
   late UserOrderDetailsModel userOrderDetailsModel;
 
-  Future<void> orderDetails() async {
+  Future<void> orderDetails(int? orderId) async {
     emit(UserOrderDetailsLoadingState());
     try {
       FormData formData = FormData.fromMap({
@@ -26,6 +23,8 @@ class UserOrderDetailsCubit extends Cubit<UserOrderDetailsState> {
 
       response.when(success: (response) {
         userOrderDetailsModel = response;
+        print("::::::::::: order Details ::::::::::::::");
+
         print("::::::::::: successsssssssssssssssss ::::::::::::::");
         emit(UserOrderDetailsSuccessState(userOrderDetailsModel));
       }, failure: (e) {

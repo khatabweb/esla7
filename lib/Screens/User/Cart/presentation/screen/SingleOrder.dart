@@ -14,8 +14,6 @@ class SingleOrderCard extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

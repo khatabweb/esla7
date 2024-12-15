@@ -14,7 +14,6 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 class ConfirmCodeForm extends StatelessWidget {
   final bool? confirmSignUp;
   ConfirmCodeForm({Key? key, this.confirmSignUp}) : super(key: key);
-  final String language = translator.activeLanguageCode;
 
   @override
   Widget build(BuildContext context) {

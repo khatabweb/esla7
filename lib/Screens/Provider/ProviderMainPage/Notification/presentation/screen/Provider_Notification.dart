@@ -19,7 +19,7 @@ class ProviderNotification extends StatefulWidget {
 
 class _ProviderNotificationState extends State<ProviderNotification> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String language = translator.activeLanguageCode;
+
   @override
   void initState() {
     context.read<OwnerNotificationCubit>().getNotification();
@@ -28,55 +28,52 @@ class _ProviderNotificationState extends State<ProviderNotification> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: CustomBackground(
-        child: Scaffold(
-            key: _scaffoldKey,
-            backgroundColor: Colors.transparent,
-            appBar: customAppBar(
-              context: context,
-              appBarTitle: "notifications".tr(),
-              showDrawerIcon: true,
-              onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
-            ),
-            drawer: ProviderDrawerView(),
-            body: BlocBuilder<OwnerNotificationCubit, OwnerNotificationState>(
-              builder: (context, state) {
-                if (state is OwnerNotificationLoading) {
-                  return CenterLoading();
-                } else if (state is OwnerNotificationError) {
-                  return CenterMessage(state.error);
-                } else if (state is OwnerNotificationSuccess) {
-                  final _model = state.ownerNotificationModel;
-                  if (_model.notification?.length == 0) {
-                    return CenterMessage("no_notification_yet".tr());
-                  } else {
-                    return Container(
-                      height: MediaQuery.of(context).size.height,
-                      margin: EdgeInsets.only(right: 15, left: 15),
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        itemCount: _model.notification?.length,
-                        itemBuilder: (context, index) {
-                          var item = _model.notification?[index];
-                          return _NotificationItem(
-                            titles: language == "ar"
-                                ? "${item?.body}"
-                                : "${item?.bodyEn}",
-                            orderNumber: item?.orderId,
-                          );
-                        },
-                      ),
-                    );
-                  }
+    return CustomBackground(
+      child: Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: Colors.transparent,
+          appBar: customAppBar(
+            context: context,
+            appBarTitle: "notifications".tr(),
+            showDrawerIcon: true,
+            onPressedDrawer: () => _scaffoldKey.currentState!.openDrawer(),
+          ),
+          drawer: ProviderDrawerView(),
+          body: BlocBuilder<OwnerNotificationCubit, OwnerNotificationState>(
+            builder: (context, state) {
+              if (state is OwnerNotificationLoading) {
+                return CenterLoading();
+              } else if (state is OwnerNotificationError) {
+                return CenterMessage(state.error);
+              } else if (state is OwnerNotificationSuccess) {
+                final _model = state.ownerNotificationModel;
+                if (_model.notification?.length == 0) {
+                  return CenterMessage("no_notification_yet".tr());
                 } else {
-                  return CenterMessage("no data found ");
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    margin: EdgeInsets.only(right: 15, left: 15),
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      itemCount: _model.notification?.length,
+                      itemBuilder: (context, index) {
+                        var item = _model.notification?[index];
+                        return _NotificationItem(
+                          titles: context.locale.languageCode == "ar"
+                              ? "${item?.body}"
+                              : "${item?.bodyEn}",
+                          orderNumber: item?.orderId,
+                        );
+                      },
+                    ),
+                  );
                 }
-              },
-            )),
-      ),
+              } else {
+                return CenterMessage("no data found ");
+              }
+            },
+          )),
     );
   }
 }

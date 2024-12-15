@@ -7,43 +7,40 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 
 class AccountStatement extends StatelessWidget {
   AccountStatement({Key? key}) : super(key: key);
-  final String language = translator.activeLanguageCode;
+  
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "account_statement".tr(),
         backgroundColor: Colors.white,
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "account_statement".tr(),
-          backgroundColor: Colors.white,
-        ),
-        body: AnimatedWidgets(
-          verticalOffset: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _TotalAccountStatement(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: DrawHeaderText(text: "details".tr(), fontSize: 16),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: 6,
-                    itemBuilder: (context, item) {
-                      return _SingleAccountStatementCard();
-                    },
-                  ),
+      ),
+      body: AnimatedWidgets(
+        verticalOffset: 150,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _TotalAccountStatement(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: DrawHeaderText(text: "details".tr(), fontSize: 16),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 6,
+                  itemBuilder: (context, item) {
+                    return _SingleAccountStatementCard();
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

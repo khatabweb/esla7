@@ -16,8 +16,6 @@ class ProviderProfile extends StatefulWidget {
 }
 
 class _ProviderProfileState extends State<ProviderProfile> {
-  final String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<OwnerProfileCubit>().getOwnerProfile();
@@ -27,46 +25,43 @@ class _ProviderProfileState extends State<ProviderProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "profile".tr(),
-          backgroundColor: Theme.of(context).primaryColor,
-          otherIconWidget: _EditButton(),
-        ),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "profile".tr(),
         backgroundColor: Theme.of(context).primaryColor,
-        body: Align(
-          alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
-                      builder: (context, state) {
-                    if (state is OwnerProfileLoading) {
-                      return CenterLoading(color: Colors.white);
-                    } else if (state is OwnerProfileSuccess) {
-                      final model = state.ownerProfileModel;
-                      return CustomRoundedPhoto(
-                        image: "http://www.repaairsa.com/${model.companyImage}",
-                        radius: 70,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }),
-                ),
-                ShapeContainer(
-                  height: MediaQuery.of(context).size.height / 1.5,
-                  child: ProviderProfileItems(),
-                ),
-              ],
-            ),
+        otherIconWidget: _EditButton(),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Align(
+        alignment: Alignment.bottomCenter,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: BlocBuilder<OwnerProfileCubit, OwnerProfileState>(
+                    builder: (context, state) {
+                  if (state is OwnerProfileLoading) {
+                    return CenterLoading(color: Colors.white);
+                  } else if (state is OwnerProfileSuccess) {
+                    final model = state.ownerProfileModel;
+                    return CustomRoundedPhoto(
+                      image: "http://www.repaairsa.com/${model.companyImage}",
+                      radius: 70,
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
+              ),
+              ShapeContainer(
+                height: MediaQuery.of(context).size.height / 1.5,
+                child: ProviderProfileItems(),
+              ),
+            ],
           ),
         ),
       ),

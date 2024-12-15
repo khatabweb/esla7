@@ -21,7 +21,6 @@ class ProviderForgetPasswordForm extends StatefulWidget {
 class _ProviderForgetPasswordFormState
     extends State<ProviderForgetPasswordForm> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   void _checkValidation() {
     final cubit = OwnerResetCubit.get(context);

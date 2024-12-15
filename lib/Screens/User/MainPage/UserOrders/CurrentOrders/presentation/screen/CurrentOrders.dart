@@ -17,8 +17,6 @@ class CurrentOrders extends StatefulWidget {
 }
 
 class _CurrentOrdersState extends State<CurrentOrders> {
-  final String lang = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<UserCurrentCubit>().getCurrent();

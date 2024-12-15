@@ -20,8 +20,6 @@ class SubService extends StatefulWidget {
 }
 
 class _SubServiceState extends State<SubService> {
-  final String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     // userSubService().then((value) {
@@ -36,59 +34,56 @@ class _SubServiceState extends State<SubService> {
   @override
   Widget build(BuildContext context) {
     // final cubit = UserSubListCubit.get(context);
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: customAppBar(
-              context: context,
-              appBarTitle: "choose_service_type".tr(),
-              backgroundColor: Colors.white),
-          body: BlocBuilder<UserSubListCubit, UserSubListState>(
-            builder: (context, state) {
-              if (state is UserSubListLoadingState) {
-                return CenterLoading();
-              } else if (state is UserSubListErrorState) {
-                return CenterMessage(state.error);
-              } else if (state is UserSubListSuccessState) {
-                final model = state.subListModel;
-                if (model.services?.length == 0) {
-                  return CenterMessage("there_are_no_sub_services_now".tr());
-                } else {
-                  return AnimatedWidgets(
-                    verticalOffset: 150,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: model.services?.length,
-                      itemBuilder: (context, index) {
-                        var item = model.services?[index];
-                        return _ServiceCard(
-                          text: language == "ar"
-                              ? "${item?.nameAr}"
-                              : "${item?.nameEn}",
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EndService(
-                                serviceId: item?.id,
-                                ownerId: widget.ownerId,
-                                appBarTitle: language == "ar"
-                                    ? "${item?.nameAr}"
-                                    : "${item?.nameEn}",
-                              ),
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: customAppBar(
+            context: context,
+            appBarTitle: "choose_service_type".tr(),
+            backgroundColor: Colors.white),
+        body: BlocBuilder<UserSubListCubit, UserSubListState>(
+          builder: (context, state) {
+            if (state is UserSubListLoadingState) {
+              return CenterLoading();
+            } else if (state is UserSubListErrorState) {
+              return CenterMessage(state.error);
+            } else if (state is UserSubListSuccessState) {
+              final model = state.subListModel;
+              if (model.services?.length == 0) {
+                return CenterMessage("there_are_no_sub_services_now".tr());
+              } else {
+                return AnimatedWidgets(
+                  verticalOffset: 150,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: model.services?.length,
+                    itemBuilder: (context, index) {
+                      var item = model.services?[index];
+                      return _ServiceCard(
+                        text: context.locale.languageCode == "ar"
+                            ? "${item?.nameAr}"
+                            : "${item?.nameEn}",
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EndService(
+                              serviceId: item?.id,
+                              ownerId: widget.ownerId,
+                              appBarTitle: context.locale.languageCode == "ar"
+                                  ? "${item?.nameAr}"
+                                  : "${item?.nameEn}",
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              } else {
-                return CenterLoading();
+                        ),
+                      );
+                    },
+                  ),
+                );
               }
-            },
-          )),
-    );
+            } else {
+              return CenterLoading();
+            }
+          },
+        ));
   }
 }
 

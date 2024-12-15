@@ -30,7 +30,6 @@ class ServiceDetails extends StatefulWidget {
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
-  String language = translator.activeLanguageCode;
   // bool isLoading = true;
 
   @override
@@ -42,56 +41,53 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   @override
   Widget build(BuildContext context) {
     // final subCubit = SubServiceListCubit.get(context);
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "${widget.mainServiceName}",
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        ),
-        body: CustomBackground(
-          child: AnimatedWidgets(
-            verticalOffset: 150,
-            child: Column(
-              children: [
-                Expanded(child:
-                    BlocBuilder<SubServiceListCubit, SubServiceListState>(
-                        builder: (context, state) {
-                  if (state is SubServiceListLoadingState) {
-                    return CenterLoading();
-                  } else if (state is SubServiceListSuccessState) {
-                    final subCubit = state.subServiceListModel;
-
-                    if (subCubit.services?.length == 0) {
-                      return CenterMessage("no_services_yet".tr());
-                    } else {
-                      return ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: subCubit.services?.length,
-                        itemBuilder: (context, index) {
-                          var item = subCubit.services?[index];
-                          print("sub list id ::::::::::::: ${item?.id}");
-                          print(
-                              "sub service length ::::::::::::: ${subCubit.services?.length}");
-                          return SubServiceCard(
-                            serviceId: item?.id,
-                            subName: language == "ar"
-                                ? "${item?.nameAr}"
-                                : "${item?.nameEn}",
-                          );
-                        },
-                      );
-                    }
-                  } else if (state is SubServiceListErrorState) {
-                    return CenterMessage(state.error);
-                  } else {
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "${widget.mainServiceName}",
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+      ),
+      body: CustomBackground(
+        child: AnimatedWidgets(
+          verticalOffset: 150,
+          child: Column(
+            children: [
+              Expanded(child:
+                  BlocBuilder<SubServiceListCubit, SubServiceListState>(
+                      builder: (context, state) {
+                if (state is SubServiceListLoadingState) {
+                  return CenterLoading();
+                } else if (state is SubServiceListSuccessState) {
+                  final subCubit = state.subServiceListModel;
+    
+                  if (subCubit.services?.length == 0) {
                     return CenterMessage("no_services_yet".tr());
+                  } else {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: subCubit.services?.length,
+                      itemBuilder: (context, index) {
+                        var item = subCubit.services?[index];
+                        print("sub list id ::::::::::::: ${item?.id}");
+                        print(
+                            "sub service length ::::::::::::: ${subCubit.services?.length}");
+                        return SubServiceCard(
+                          serviceId: item?.id,
+                          subName: context.locale.languageCode == "ar"
+                              ? "${item?.nameAr}"
+                              : "${item?.nameEn}",
+                        );
+                      },
+                    );
                   }
-                })),
-                _AddServiceButton(mainServiceId: widget.mainServiceId),
-              ],
-            ),
+                } else if (state is SubServiceListErrorState) {
+                  return CenterMessage(state.error);
+                } else {
+                  return CenterMessage("no_services_yet".tr());
+                }
+              })),
+              _AddServiceButton(mainServiceId: widget.mainServiceId),
+            ],
           ),
         ),
       ),
@@ -110,8 +106,6 @@ class SubServiceCard extends StatefulWidget {
 }
 
 class _SubServiceCardState extends State<SubServiceCard> {
-  String language = translator.activeLanguageCode;
-
   @override
   void initState() {
     context.read<EndServiceListCubit>().endService(widget.serviceId);
@@ -146,7 +140,7 @@ class _SubServiceCardState extends State<SubServiceCard> {
                   itemBuilder: (context, index) {
                     var item = endCubit.services?[index];
                     return _EndServiceCard(
-                      endServiceName: language == "ar"
+                      endServiceName: context.locale.languageCode == "ar"
                           ? "${item?.nameAr}"
                           : "${item?.nameEn}",
                       price: item?.price,
@@ -176,7 +170,6 @@ class _EndServiceCard extends StatelessWidget {
   _EndServiceCard(
       {Key? key, this.endServiceName, this.price, this.desc, this.endServiceId})
       : super(key: key);
-  final String lang = translator.activeLanguageCode;
 
   @override
   Widget build(BuildContext context) {
@@ -206,8 +199,8 @@ class _EndServiceCard extends StatelessWidget {
                         DeleteServiceAlert(endServiceId: endServiceId)),
                 child: Container(
                   padding: EdgeInsets.only(
-                      left: lang == "ar" ? 0 : 20,
-                      right: lang == "ar" ? 20 : 0),
+                      left: context.locale.languageCode == "ar" ? 0 : 20,
+                      right: context.locale.languageCode == "ar" ? 20 : 0),
                   color: Colors.transparent,
                   child: Image.asset("assets/icons/delete.png", height: 22),
                 ),

@@ -9,60 +9,57 @@ import '../../Widgets/helper/cache_helper.dart';
 import '../../Widgets/logo.dart';
 
 class UserOrProvider extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
+  
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomLogo(size: 180),
-            SizedBox(height: MediaQuery.of(context).size.width / 5),
-            Container(
-              height: MediaQuery.of(context).size.height / 2.5,
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomSection(
-                    title: "provider".tr(),
-                    image: "assets/images/provider.png",
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => ProviderLoginPage()));
-                      FirebaseMessaging.instance.getToken().then((value) async {
-                        CacheHelper.instance!.setData("owner_google_token",
-                            value: value.toString());
-                        print("Provider Token:: $value");
-                      });
-                    },
-                  ),
-                  CustomSection(
-                    title: "user".tr(),
-                    image: "assets/images/user.png",
-                    onTap: () {
-                      CacheHelper.instance!.clear();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => LoginPage()));
-                      FirebaseMessaging.instance.getToken().then((value) async {
-                        ;
-                        CacheHelper.instance!.setData("user_google_token",
-                            value: value.toString());
-                        print("user_google_token this is fcm Token:: $value");
-                      });
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomLogo(size: 180),
+          SizedBox(height: MediaQuery.of(context).size.width / 5),
+          Container(
+            height: MediaQuery.of(context).size.height / 2.5,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomSection(
+                  title: "provider".tr(),
+                  image: "assets/images/provider.png",
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ProviderLoginPage()));
+                    FirebaseMessaging.instance.getToken().then((value) async {
+                      CacheHelper.instance!.setData("owner_google_token",
+                          value: value.toString());
+                      print("Provider Token:: $value");
+                    });
+                  },
+                ),
+                CustomSection(
+                  title: "user".tr(),
+                  image: "assets/images/user.png",
+                  onTap: () {
+                    CacheHelper.instance!.clear();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => LoginPage()));
+                    FirebaseMessaging.instance.getToken().then((value) async {
+                      ;
+                      CacheHelper.instance!.setData("user_google_token",
+                          value: value.toString());
+                      print("user_google_token this is fcm Token:: $value");
+                    });
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

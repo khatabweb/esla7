@@ -226,23 +226,23 @@ class _CompleteState extends StatelessWidget {
   }
 }
 
-class _ExpiredState extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 35,
-      width: MediaQuery.of(context).size.width / 3.8,
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        color: Color(0xFFeab881),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: DrawHeaderText(
-          text: "expired".tr(),
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
-}
+// class _ExpiredState extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 35,
+//       width: MediaQuery.of(context).size.width / 3.8,
+//       padding: EdgeInsets.symmetric(horizontal: 5),
+//       decoration: BoxDecoration(
+//         color: Color(0xFFeab881),
+//         borderRadius: BorderRadius.circular(8),
+//       ),
+//       child: Center(
+//         child: DrawHeaderText(
+//           text: "expired".tr(),
+//           fontSize: 12,
+//         ),
+//       ),
+//     );
+//   }
+// }

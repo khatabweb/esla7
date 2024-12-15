@@ -88,7 +88,7 @@ class SingleProviderCard extends StatelessWidget {
               children: [
                 DrawHeaderText(
                   text: "$serviceName",
-                  fontSize: translator.activeLanguageCode == "ar" ? 13 : 12,
+                  fontSize: context.locale.languageCode == "ar" ? 13 : 12,
                 ),
                 RatingBar.builder(
                   initialRating: rate!.toDouble(),

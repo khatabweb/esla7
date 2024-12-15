@@ -9,7 +9,7 @@ import '../../../ProviderMainPage/main_page.dart';
 import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/Custom_Button.dart';
 import '../../../../Widgets/Custom_CountryKey.dart';
-import '../../../../Widgets/Custom_DrawText.dart';
+// import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +22,6 @@ class ProviderLoginForm extends StatefulWidget {
 
 class _ProviderLoginFormState extends State<ProviderLoginForm> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   void _checkValidation() {
     final cubit = OwnerLoginCubit.get(context);
@@ -126,13 +125,12 @@ class _PasswordTextField extends StatelessWidget {
 }
 
 class _ForgetPasswordButton extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment:
-          language == "ar" ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: context.locale.languageCode == "ar"
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
       child: TextButton(
         onPressed: () {
           Navigator.push(context,
@@ -195,49 +193,49 @@ class _HaveAccount extends StatelessWidget {
   }
 }
 
-class _SkipButton extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 5, bottom: 10),
-      child: InkWell(
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => ProviderMainPage())),
-        child: Row(
-          mainAxisAlignment: language == "ar"
-              ? MainAxisAlignment.start
-              : MainAxisAlignment.end,
-          children: [
-            language == "ar"
-                ? skipButton(context)
-                : DrawHeaderText(text: "skip".tr()),
-            SizedBox(width: 8),
-            language == "ar"
-                ? DrawHeaderText(text: "skip".tr())
-                : skipButton(context),
-          ],
-        ),
-      ),
-    );
-  }
+// class _SkipButton extends StatelessWidget {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.only(top: 5, bottom: 10),
+//       child: InkWell(
+//         onTap: () => Navigator.push(
+//             context, MaterialPageRoute(builder: (_) => ProviderMainPage())),
+//         child: Row(
+//           mainAxisAlignment: language == "ar"
+//               ? MainAxisAlignment.start
+//               : MainAxisAlignment.end,
+//           children: [
+//             language == "ar"
+//                 ? skipButton(context)
+//                 : DrawHeaderText(text: "skip".tr()),
+//             SizedBox(width: 8),
+//             language == "ar"
+//                 ? DrawHeaderText(text: "skip".tr())
+//                 : skipButton(context),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 
-  Widget skipButton(BuildContext context) {
-    return Container(
-      height: 25,
-      width: 28,
-      decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5)),
-      child: Center(
-        child: Icon(
-          language == "ar"
-              ? Icons.arrow_back_rounded
-              : Icons.arrow_forward_outlined,
-          color: Theme.of(context).primaryColor,
-          size: 20,
-        ),
-      ),
-    );
-  }
-}
+//   Widget skipButton(BuildContext context) {
+//     return Container(
+//       height: 25,
+//       width: 28,
+//       decoration: BoxDecoration(
+//           color: Theme.of(context).primaryColor.withOpacity(0.3),
+//           borderRadius: BorderRadius.circular(5)),
+//       child: Center(
+//         child: Icon(
+//           language == "ar"
+//               ? Icons.arrow_back_rounded
+//               : Icons.arrow_forward_outlined,
+//           color: Theme.of(context).primaryColor,
+//           size: 20,
+//         ),
+//       ),
+//     );
+//   }
+// }

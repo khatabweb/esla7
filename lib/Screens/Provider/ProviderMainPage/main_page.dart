@@ -4,7 +4,7 @@ import 'ProviderOrders/ProviderOrders_view.dart';
 import '../../User/MainPage/allChats/presentation/screen/view.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+
 
 class ProviderMainPage extends StatefulWidget {
   final int? pageIndex;
@@ -17,7 +17,7 @@ class ProviderMainPage extends StatefulWidget {
 
 class _ProviderMainPageState extends State<ProviderMainPage> {
   GlobalKey _btmNavKey = GlobalKey();
-  final String language = translator.activeLanguageCode;
+
   int? _selectedIndex;
 
   var pages = [];

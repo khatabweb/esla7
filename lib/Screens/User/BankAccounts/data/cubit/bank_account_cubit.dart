@@ -1,4 +1,4 @@
-
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import '../model/model.dart';
 import '../repo/bank_account.dart';
@@ -10,8 +10,10 @@ class BankAccountCubit extends Cubit<BankAccountState> {
   BankAccountCubit() : super(BankAccountInitial());
   static BankAccountCubit get(context) => BlocProvider.of(context);
   late BankAccountsModel bankAccountsModel;
-  Future<void> getBanks() async {
-    final response = await BankAccountRepo.createBankAccount();
+  Future<void> getBanks({required int? ownerId}) async {
+    final formData = FormData.fromMap({"owner_id": ownerId});
+    final response =
+        await BankAccountRepo.createBankAccount(formData: formData);
     response.when(success: (success) {
       bankAccountsModel = success;
       emit(BankAccountSuccess(bankAccountsModel: success));

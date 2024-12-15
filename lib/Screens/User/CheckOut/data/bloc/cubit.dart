@@ -19,13 +19,15 @@ class CheckoutCubit extends Cubit<CheckoutState> {
 
     try {
       final userName = CacheHelper.instance!
-          .getData(key: "user_id", valueType: ValueType.string);
+          .getData(key: "user_id", valueType: ValueType.int);
 
       FormData formData = FormData.fromMap({
-        "user_id": userName, //("user_id" == "userName") string not int
-        "sender_id": ownerName, //("sender_id" == "ownerName") string not int
+        "user_id":
+            userName.toString(), //("user_id" == "userName") string not int
+        "sender_id":
+            ownerName.toString(), //("sender_id" == "ownerName") string not int
         "bank_name": bankName,
-        "number": number,
+        "account_number": number,
         "sender_name": senderName,
         "notes": note,
         "total": totalPrice,

@@ -1,4 +1,3 @@
-
 import '../../../../Widgets/Custom_Button.dart';
 import '../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
@@ -10,26 +9,24 @@ class ConfirmOrderAlert extends StatelessWidget {
 
   ConfirmOrderAlert({this.onTapHomePage, this.onTapOrderPage});
 
-  final String language = translator.activeLanguageCode;
-
-
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       titleWidget: RichText(
         textAlign: TextAlign.center,
-        text: TextSpan(
-            children: [
-              TextSpan(
-                text: "we_have_sent_your_order_to_provider".tr(),
-                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor, fontFamily: "JannaLT-Bold"),
-              ),
-              // TextSpan(
-              //   text: "355",
-              //   style: TextStyle(fontSize: 15, color: ThemeColor.mainGold, fontFamily: "JannaLT-Bold"),
-              // ),
-            ]
-        ),
+        text: TextSpan(children: [
+          TextSpan(
+            text: "we_have_sent_your_order_to_provider".tr(),
+            style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).primaryColor,
+                fontFamily: "JannaLT-Bold"),
+          ),
+          // TextSpan(
+          //   text: "355",
+          //   style: TextStyle(fontSize: 15, color: ThemeColor.mainGold, fontFamily: "JannaLT-Bold"),
+          // ),
+        ]),
       ),
       contact: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,7 +61,6 @@ class _ConfirmButtons extends StatelessWidget {
           isFrame: true,
           onTap: onTapHomePage,
         ),
-
         CustomButton(
           width: MediaQuery.of(context).size.width / 3,
           rightPadding: 5,

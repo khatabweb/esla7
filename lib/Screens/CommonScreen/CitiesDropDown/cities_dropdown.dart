@@ -27,7 +27,6 @@ class CitiesDropdown extends StatefulWidget {
 }
 
 class _CitiesDropdownState extends State<CitiesDropdown> {
-  final lang = translator.activeLanguageCode;
 
   String? chooseValue;
 
@@ -59,7 +58,7 @@ class _CitiesDropdownState extends State<CitiesDropdown> {
                 child: InkWell(
                   onTap: () {
                     print(item.id);
-                    lang == "ar"
+                    context.locale.languageCode == "ar"
                         ? chooseValue = item.nameAr
                         : chooseValue = item.nameEn;
                     widget.ownerRegister == true
@@ -73,7 +72,7 @@ class _CitiesDropdownState extends State<CitiesDropdown> {
                   },
                   child: DrawHeaderText(
                     textAlign: TextAlign.center,
-                    text: lang == "ar" ? "${item!.nameAr}" : "${item!.nameEn}",
+                    text: context.locale.languageCode == "ar" ? "${item!.nameAr}" : "${item!.nameEn}",
                   ),
                 ),
               );

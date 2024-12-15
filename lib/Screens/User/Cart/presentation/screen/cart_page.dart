@@ -8,8 +8,8 @@ import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/Custom_AppBar.dart';
 import '../../../../Widgets/Custom_Background.dart';
 import '../../../../Widgets/Custom_Button.dart';
-import '../../../../Widgets/Custom_DrawText.dart';
-import '../../../../Widgets/Custom_RichText.dart';
+// import '../../../../Widgets/Custom_DrawText.dart';
+// import '../../../../Widgets/Custom_RichText.dart';
 import '../../../../Widgets/Custom_SnackBar.dart';
 import '../../../../Widgets/Custom_TextFieldTap.dart';
 
@@ -30,8 +30,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final String language = translator.activeLanguageCode;
-
   confirmBtnValidation() {
     final cubit = CartCubit.get(context);
     final cubitt = UserEndListCubit.get(context);
@@ -65,63 +63,60 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: Scaffold(
-          appBar: customAppBar(
-            context: context,
-            appBarTitle: "cart".tr(),
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-            showBackButton: false,
-          ),
-          body: CustomBackground(
-            child: SingleChildScrollView(
-              child: AnimatedWidgets(
-                verticalOffset: 150,
-                child: Column(
-                  children: [
-                    _ListOfOrders(),
-                    AddressTextFieldTap(),
-                    DateAndTime(),
-                    BlocConsumer<CartCubit, CartState>(
-                      listener: (_, state) {
-                        if (state is CartErrorState)
-                          customSnackBar(_, state.error);
-                        if (state is CartSuccessState) {
-                          print("order added successfully");
-                          showCupertinoDialog(
-                            context: context,
-                            builder: (_) => ConfirmOrderAlert(
-                              onTapHomePage: () => Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => MainPage(pageIndex: 0)),
-                                  (route) => false),
-                              onTapOrderPage: () =>
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              MainPage(pageIndex: 1)),
-                                      (route) => false),
-                            ),
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        return state is CartLoadingState
-                            ? CenterLoading()
-                            : _ConfirmAndCancel(
-                                onTapConfirm: confirmBtnValidation,
-                                onTapCancel: onTapCancelBtn);
-                      },
-                    ),
-                  ],
-                ),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: customAppBar(
+          context: context,
+          appBarTitle: "cart".tr(),
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
+          showBackButton: false,
+        ),
+        body: CustomBackground(
+          child: SingleChildScrollView(
+            child: AnimatedWidgets(
+              verticalOffset: 150,
+              child: Column(
+                children: [
+                  _ListOfOrders(),
+                  AddressTextFieldTap(),
+                  DateAndTime(),
+                  BlocConsumer<CartCubit, CartState>(
+                    listener: (_, state) {
+                      if (state is CartErrorState)
+                        customSnackBar(_, state.error);
+                      if (state is CartSuccessState) {
+                        print("order added successfully");
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (_) => ConfirmOrderAlert(
+                            onTapHomePage: () => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => MainPage(pageIndex: 0)),
+                                (route) => false),
+                            onTapOrderPage: () =>
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            MainPage(pageIndex: 1)),
+                                    (route) => false),
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      return state is CartLoadingState
+                          ? CenterLoading()
+                          : _ConfirmAndCancel(
+                              onTapConfirm: confirmBtnValidation,
+                              onTapCancel: onTapCancelBtn);
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -155,52 +150,52 @@ class _ListOfOrders extends StatelessWidget {
   }
 }
 
-class _ContactWithProvider extends StatelessWidget {
-  const _ContactWithProvider({Key? key}) : super(key: key);
+// class _ContactWithProvider extends StatelessWidget {
+//   const _ContactWithProvider({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return Container(
-      height: width / 4,
-      width: width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: DrawSingleText(
-        text: "how_to_connect_with_provider".tr(),
-        fontSize: 13.5,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final width = MediaQuery.of(context).size.width;
+//     return Container(
+//       height: width / 4,
+//       width: width,
+//       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(15),
+//       ),
+//       child: DrawSingleText(
+//         text: "how_to_connect_with_provider".tr(),
+//         fontSize: 13.5,
+//       ),
+//     );
+//   }
+// }
 
-class _TotalOrderPrice extends StatelessWidget {
-  final int? price;
-  const _TotalOrderPrice({Key? key, this.price}) : super(key: key);
+// class _TotalOrderPrice extends StatelessWidget {
+//   final int? price;
+//   const _TotalOrderPrice({Key? key, this.price}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return Container(
-      // height: width/4,
-      width: width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: CustomRichText(
-        title: "total_order_price".tr(),
-        subTitle: "$price ${"sar".tr()}",
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final width = MediaQuery.of(context).size.width;
+//     return Container(
+//       // height: width/4,
+//       width: width,
+//       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(10),
+//       ),
+//       child: CustomRichText(
+//         title: "total_order_price".tr(),
+//         subTitle: "$price ${"sar".tr()}",
+//       ),
+//     );
+//   }
+// }
 
 //========================================================== AddressTitle ==============================================================
 class AddressTextFieldTap extends StatefulWidget {

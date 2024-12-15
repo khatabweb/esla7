@@ -13,14 +13,16 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 class CommercialImageTextField extends StatefulWidget {
   final String? hint;
   final OwnerProfileModel ownerProfileModel;
-  const CommercialImageTextField({Key? key, this.hint, required this.ownerProfileModel}) : super(key: key);
+  const CommercialImageTextField(
+      {Key? key, this.hint, required this.ownerProfileModel})
+      : super(key: key);
 
   @override
-  State<CommercialImageTextField> createState() => _CommercialImageTextFieldState();
+  State<CommercialImageTextField> createState() =>
+      _CommercialImageTextFieldState();
 }
 
 class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
-  final String language = translator.activeLanguageCode;
   final _picker = ImagePicker();
 
   Future pickImage() async {
@@ -28,7 +30,7 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      if (photo != null){
+      if (photo != null) {
         cubit.ownerImage = XFile(photo.path);
       } else {
         print("No image selected!!!!");
@@ -41,7 +43,7 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      if (image != null){
+      if (image != null) {
         cubit.ownerImage = XFile(image.path);
       } else {
         print("No image selected!!!!");
@@ -52,28 +54,26 @@ class _CommercialImageTextFieldState extends State<CommercialImageTextField> {
   void imageBottomSheet() {
     customSheet(
         context: context,
-        widget: Directionality(
-          textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "camera".tr()),
-                  leading: Icon(CupertinoIcons.photo_camera_solid, color: Theme.of(context).primaryColor),
-                  onTap: pickImage,
-                ),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: DrawHeaderText(text: "photo_gallery".tr()),
-                  leading: Icon(CupertinoIcons.photo, color: Theme.of(context).primaryColor),
-                  onTap: getImage,
-                ),
-              ],
-            ),
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "camera".tr()),
+                leading: Icon(CupertinoIcons.photo_camera_solid,
+                    color: Theme.of(context).primaryColor),
+                onTap: pickImage,
+              ),
+              ListTile(
+                horizontalTitleGap: 0,
+                title: DrawHeaderText(text: "photo_gallery".tr()),
+                leading: Icon(CupertinoIcons.photo,
+                    color: Theme.of(context).primaryColor),
+                onTap: getImage,
+              ),
+            ],
           ),
-        )
-    );
+        ));
   }
 
   @override

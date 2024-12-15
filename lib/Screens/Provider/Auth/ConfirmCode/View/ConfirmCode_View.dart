@@ -17,7 +17,7 @@ class ConfirmCodeForm extends StatelessWidget {
   final bool? confirmSignUp;
   ConfirmCodeForm({this.confirmSignUp});
 
-  final String language = translator.activeLanguageCode;
+  
 
   @override
   Widget build(BuildContext context) {

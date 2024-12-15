@@ -1,30 +1,26 @@
-import 'dart:async';
-import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/data/bloc/state.dart';
-
-import '../../chat/data/cubit/chat_cubit.dart';
+import 'package:esla7/Screens/Widgets/CenterMessage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:localize_and_translate/localize_and_translate.dart';
 import '../../../../../API/api_utility.dart';
-import '../../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
-// import '../../chat/controller.dart';
-import '../../../BankAccounts/presentation/screen/bank_accounts.dart';
-import '../../chat/presentation/screen/view.dart';
-import '../../../../Widgets/CenterLoading.dart';
 import '../../../../../Theme/color.dart';
-import 'OrderItemCard.dart';
+import '../../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
 import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/Custom_AppBar.dart';
 import '../../../../Widgets/Custom_Background.dart';
 import '../../../../Widgets/Custom_Button.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_RichText.dart';
 import '../../../../Widgets/Custom_RoundedPhoto.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../../../BankAccounts/presentation/screen/bank_accounts.dart';
+import '../../chat/data/cubit/chat_cubit.dart';
+import '../../chat/presentation/screen/view.dart';
 import 'data/bloc/cubit.dart';
+import 'data/bloc/state.dart';
 import 'rate/RateProvider_dialog.dart';
+import 'rate/data/bloc/cubit.dart';
 
 class OrderDetailsView extends StatefulWidget {
   final int? orderId;
@@ -42,148 +38,132 @@ class OrderDetailsView extends StatefulWidget {
 }
 
 class _OrderDetailsViewState extends State<OrderDetailsView> {
-  final String language = translator.activeLanguageCode;
   bool isLoading = true;
-
-  Future orderDetails() async {
-    print("in Service ..........................");
-    final cubit = UserOrderDetailsCubit.get(context);
-    cubit.orderId = widget.orderId;
-    print("order id ::::::::::::::::::::::: ${cubit.orderId}");
-    return cubit.orderDetails();
-  }
 
   @override
   void initState() {
-    orderDetails().then((value) {
-      setState(() {
-        isLoading = false;
-      });
-    });
-    context.read<UserOrderDetailsCubit>().orderDetails();
+    context.read<UserOrderDetailsCubit>().orderDetails(widget.orderId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     // final cubit = UserOrderDetailsCubit.get(context);
-    return Directionality(
-      textDirection: language == "ar" ? TextDirection.rtl : TextDirection.ltr,
-      child: Scaffold(
-        appBar: customAppBar(
-          context: context,
-          appBarTitle: "${"order_num".tr()} ${widget.orderId}",
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-        ),
-        body: CustomBackground(child:
-            BlocBuilder<UserOrderDetailsCubit, UserOrderDetailsState>(
-                builder: (context, state) {
-          if (state is UserOrderDetailsLoadingState) {
-            return CenterLoading();
-          } else if (state is UserOrderDetailsSuccessState) {
-            final cubit = state.userOrderDetailsModel;
-            return SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: AnimatedWidgets(
-                verticalOffset: 150,
-                child: Column(
-                  children: [
-                    //========================= orderDetails ============================
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        children: [
-                          _OrderDetail(
-                            image:
-                                "${ApiUtl.main_image_url}${cubit.imageOwner}",
-                            name: "${cubit.ownerName}",
-                            rate: 4,
-                            orderNumber: cubit.orderNumber,
-                          ),
-                          _OwnersDetails(
-                            companyName: "${cubit.ownerName}",
-                            minSalary: "${cubit.minSalary}",
-                            serviceName: language == "ar"
-                                ? "${cubit.servicesNameAr}"
-                                : "${cubit.servicesNameEn}",
-                            address: "${cubit.address}",
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    OrderItemCard(
-                      image: "${ApiUtl.main_image_url}${cubit.image}",
-                      subService: language == "ar"
-                          ? "${cubit.servicesNameAr}"
-                          : "${cubit.servicesNameEn}",
-                      quantity: "${cubit.quantity}",
-                      serviceName: language == "ar"
-                          ? "${cubit.servicesNameAr}"
-                          : "${cubit.servicesNameEn}",
-                      price: "${cubit.price}",
-                      desc: "${cubit.serviceDesc}",
-                      note: (cubit.notes == "null" || cubit.notes == null)
-                          ? "there_are_no_note".tr()
-                          : "${cubit.notes}",
-                    ),
-
-                    //========================= details ============================
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomRichText(
-                              title: "total_order_price".tr(),
-                              subTitle: "${cubit.totalPrice} ${"sar".tr()}"),
-                          CustomRichText(
-                              title: "detailed_address".tr(),
-                              subTitle: "${cubit.address}"),
-                          CustomRichText(
-                              title: "date".tr(), subTitle: "${cubit.resDate}"),
-                          CustomRichText(
-                              title: "time".tr(), subTitle: "${cubit.resTime}"),
-                        ],
-                      ),
-                    ),
-
-                    widget.isAccepted == true
-                        ? AcceptedButtons(
-                            ownerName: cubit.ownerName,
-                            ownerId: cubit.ownerId,
-                            totalPrice: cubit.totalPrice,
-                          )
-                        : widget.isWaiting == true
-                            ? SizedBox()
-                            : _RefusedButtons(),
-                  ],
-                ),
-              ),
-            );
-          } else if (state is UserOrderDetailsErrorState) {
-            return Center(
-              child: Text("${state.error}"),
-            );
-          } else {
-            return CenterLoading();
-          }
-        })),
+    return Scaffold(
+      appBar: customAppBar(
+        context: context,
+        appBarTitle: "${"order_num".tr()} ${widget.orderId}",
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
       ),
+      body: CustomBackground(child:
+          BlocBuilder<UserOrderDetailsCubit, UserOrderDetailsState>(
+              builder: (context, state) {
+        if (state is UserOrderDetailsLoadingState) {
+          return CenterLoading();
+        } else if (state is UserOrderDetailsSuccessState) {
+          final cubit = state.userOrderDetailsModel;
+          RateCubit.get(context).ownerId = cubit.ownerId;
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: AnimatedWidgets(
+              verticalOffset: 150,
+              child: Column(
+                children: [
+                  //========================= orderDetails ============================
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Column(
+                      children: [
+                        _OrderDetail(
+                          image:
+                              "${ApiUtl.main_image_url}${cubit.imageOwner}",
+                          name: "${cubit.ownerName}",
+                          rate: 4,
+                          orderNumber: cubit.orderNumber,
+                        ),
+                        _OwnersDetails(
+                          companyName: "${cubit.ownerName}",
+                          minSalary: "${cubit.minSalary}",
+                          serviceName: context.locale.languageCode == "ar"
+                              ? "${cubit.servicesNameAr}"
+                              : "${cubit.servicesNameEn}",
+                          address: "${cubit.address}",
+                        ),
+                      ],
+                    ),
+                  ),
+    
+                  // OrderItemCard(
+                  //   image: "${ApiUtl.main_image_url}${cubit.image}",
+                  //   subService:  context.locale.languageCode == "ar"
+                  //       ? "${cubit.servicesNameAr}"
+                  //       : "${cubit.servicesNameEn}",
+                  //   quantity: "${cubit.quantity}",
+                  //   serviceName:  context.locale.languageCode == "ar"
+                  //       ? "${cubit.servicesNameAr}"
+                  //       : "${cubit.servicesNameEn}",
+                  //   price: "${cubit.price}",
+                  //   desc: "${cubit.serviceDesc}",
+                  //   note: (cubit.notes == "null" || cubit.notes == null)
+                  //       ? "there_are_no_note".tr()
+                  //       : "${cubit.notes}",
+                  // ),
+    
+                  //========================= details ============================
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomRichText(
+                            title: "total_order_price".tr(),
+                            subTitle: "${cubit.totalPrice} ${"sar".tr()}"),
+                        CustomRichText(
+                            title: "detailed_address".tr(),
+                            subTitle: "${cubit.address}"),
+                        CustomRichText(
+                            title: "date".tr(), subTitle: "${cubit.resDate}"),
+                        CustomRichText(
+                            title: "time".tr(), subTitle: "${cubit.resTime}"),
+                      ],
+                    ),
+                  ),
+    
+                  widget.isAccepted == true
+                      ? AcceptedButtons(
+                          ownerName: cubit.ownerName,
+                          ownerId: cubit.ownerId,
+                          totalPrice: cubit.totalPrice,
+                        )
+                      : widget.isWaiting == true
+                          ? SizedBox()
+                          : _RefusedButtons(),
+                ],
+              ),
+            ),
+          );
+        } else if (state is UserOrderDetailsErrorState) {
+          return Center(
+            child: Text("${state.error}"),
+          );
+        } else {
+          return CenterLoading();
+        }
+      })),
     );
   }
 }
@@ -357,7 +337,7 @@ class AcceptedButtons extends StatefulWidget {
 }
 
 class _AcceptedButtonsState extends State<AcceptedButtons> {
-  bool _isLoading = false;
+  // bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -371,8 +351,8 @@ class _AcceptedButtonsState extends State<AcceptedButtons> {
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) =>
-                        BankAccounts(widget.ownerName, widget.totalPrice))),
+                    builder: (_) => BankAccounts(
+                        widget.ownerName, widget.totalPrice, widget.ownerId))),
           ),
           CustomButton(
             text: "rate_provider".tr(),
@@ -387,31 +367,41 @@ class _AcceptedButtonsState extends State<AcceptedButtons> {
                   });
             },
           ),
-          _isLoading
-              ? CenterLoading()
-              : CustomButton(
+          BlocConsumer<ChatCubit, ChatState>(
+            listener: (context, state) {
+              if (state is ChatStartSuccess) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatView(
+                      name:
+                          "${widget.ownerName == null ? "" : widget.ownerName}",
+                      chatId: state.chatId,
+                    ),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is ChatLoading) {
+                return CenterLoading();
+              } else if (state is ChatError) {
+                return Center(child: Text(state.error));
+              } else if (state is ChatStartSuccess) {
+                return CenterMessage("chat_started".tr());
+              } else {
+                return CustomButton(
                   text: "chat_with_provider".tr(),
                   fontSize: 12,
                   width: MediaQuery.of(context).size.width / 3.5,
                   isFrame: true,
                   onTap: () async {
-                    setState(() => _isLoading = true);
-                    final id = await context
-                        .read<ChatCubit>()
-                        .startChat(widget.ownerId);
-                    setState(() => _isLoading = false);
                     context.read<ChatCubit>().startChat(widget.ownerId);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatView(
-                            name:
-                                "${widget.ownerName == null ? "" : widget.ownerName}",
-                            chatId: id,
-                          ),
-                        ));
                   },
-                ),
+                );
+              }
+            },
+          )
         ],
       ),
     );

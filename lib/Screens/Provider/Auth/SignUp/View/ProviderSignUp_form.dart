@@ -28,7 +28,7 @@ class ProviderSignUpForm extends StatefulWidget {
 
 class _ProviderSignUpFormState extends State<ProviderSignUpForm> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
+
   bool termsChecked = false;
 
   @override

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:esla7/API/api_utility.dart';
 import '../../../../../../API/api_error_handler.dart';
 import '../../../../../../API/api_result.dart';
 import '../model/AllChatsModel.dart';
@@ -9,7 +10,7 @@ class AllChatsRepo {
       {required FormData formData, bool isUser = true}) async {
     try {
       final Response response = await NetworkHelper().request(
-        "http://repaairsa.com/api/getConversationByUser_id",
+        "${ApiUtl.main_api_url}getConversationByUser_id",
         method: ServerMethods.POST,
         body: formData,
         isUser: isUser,

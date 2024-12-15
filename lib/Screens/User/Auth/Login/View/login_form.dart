@@ -24,7 +24,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final String language = translator.activeLanguageCode;
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +125,12 @@ class _PasswordTextField extends StatelessWidget {
 }
 
 class _ForgetPasswordButton extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment:
-          language == "ar" ? Alignment.centerLeft : Alignment.centerRight,
+      alignment: context.locale.languageCode == "ar"
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
       child: TextButton(
         onPressed: () {
           Navigator.push(
@@ -199,7 +197,6 @@ class _HaveAccount extends StatelessWidget {
 }
 
 class _SkipButton extends StatelessWidget {
-  final String language = translator.activeLanguageCode;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -213,15 +210,15 @@ class _SkipButton extends StatelessWidget {
               context, MaterialPageRoute(builder: (_) => MainPage()));
         },
         child: Row(
-          mainAxisAlignment: language == "ar"
+          mainAxisAlignment: context.locale.languageCode == "ar"
               ? MainAxisAlignment.start
               : MainAxisAlignment.end,
           children: [
-            language == "ar"
+            context.locale.languageCode == "ar"
                 ? skipButton(context)
                 : DrawHeaderText(text: "skip".tr()),
             SizedBox(width: 8),
-            language == "ar"
+            context.locale.languageCode == "ar"
                 ? DrawHeaderText(text: "skip".tr())
                 : skipButton(context),
           ],
@@ -239,7 +236,7 @@ class _SkipButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5)),
       child: Center(
         child: Icon(
-          language == "ar"
+          context.locale.languageCode == "ar"
               ? Icons.arrow_back_rounded
               : Icons.arrow_forward_outlined,
           color: Theme.of(context).primaryColor,
