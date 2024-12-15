@@ -95,8 +95,8 @@ class _RepairState extends State<Repair> {
           ],
           locale: context.locale,
           supportedLocales: [
-            const Locale('en'),
             const Locale('ar'),
+            const Locale('en'),
           ],
           theme: AppTheme.lightTheme,
           home: SplashScreen(screen: widget.screen),
