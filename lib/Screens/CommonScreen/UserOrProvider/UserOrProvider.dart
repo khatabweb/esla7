@@ -49,7 +49,7 @@ class UserOrProvider extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => LoginPage()));
                     FirebaseMessaging.instance.getToken().then((value) async {
-                      ;
+                      
                       CacheHelper.instance!.setData("user_google_token",
                           value: value.toString());
                       print("user_google_token this is fcm Token:: $value");

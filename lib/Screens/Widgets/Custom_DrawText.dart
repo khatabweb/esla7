@@ -58,7 +58,7 @@ class DrawHeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text ?? "",
-      textAlign: textAlign ?? TextAlign.start,
+      textAlign: textAlign ?? TextAlign.center,
       textDirection: textDirection,
       style: TextStyle(
         fontSize: fontSize ?? 15,

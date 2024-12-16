@@ -1,3 +1,4 @@
+import 'package:esla7/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,7 +49,9 @@ class FirebaseNotificationHelper {
   }
 
   Future<void> initialize() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     _showNotification(
         "repair-إصلاح", "You will find all the services you need easily");

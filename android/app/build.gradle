@@ -39,7 +39,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.kw4s.esla7"
+    namespace "com.KhatabWeb.esla7"
     // compileSdk flutter.compileSdkVersion
     compileSdk 34
     ndkVersion flutter.ndkVersion
@@ -57,7 +57,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.kw4s.esla7"
+        applicationId "com.KhatabWeb.esla7"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
@@ -66,19 +66,19 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['key_Alias']
-            keyPassword keystoreProperties['key_Password']
-            storeFile keystoreProperties['store_File'] ? file(keystoreProperties['store_File']) : null
-            storePassword keystoreProperties['store_Password']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // minifyEnabled true
+            // shrinkResources true
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         
     }
