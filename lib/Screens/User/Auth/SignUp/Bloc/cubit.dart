@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../../core/API/api_utility.dart';
 import '../../../../../core/local_storge/cache_helper.dart';
-import '../../../../Widgets/helper/network_screvies.dart';
+import '../../../../../core/API/network_screvies.dart';
 import 'state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {

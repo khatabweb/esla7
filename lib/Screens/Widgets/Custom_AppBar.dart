@@ -1,10 +1,8 @@
-import '../../core/local_storge/cache_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../../core/local_storge/cache_helper.dart';
 import '../User/Search/presentation/screen/Search_view.dart';
-// import '../../core/helper/cache_helper.dart';
 import 'login_dialog/custom_login_dialog.dart';
 
 PreferredSizeWidget? customAppBar({
