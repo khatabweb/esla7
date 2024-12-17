@@ -2,8 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
 import '../repo/owner_sign_up_repo.dart';
 import 'state.dart';
 

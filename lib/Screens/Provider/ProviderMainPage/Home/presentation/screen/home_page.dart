@@ -2,8 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
-import '../../../../../../API/api_utility.dart';
-import '../../../../../CommonScreen/Slider/presentation/slider_view.dart';
+
+import '../../../../../../core/API/api_utility.dart';
+import '../../../../../CommonScreen/Slider/presentation/view/slider_view.dart';
 import '../../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../../Widgets/CenterLoading.dart';
 import '../../../../../Widgets/Custom_AppBar.dart';

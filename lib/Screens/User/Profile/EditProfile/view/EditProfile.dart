@@ -15,7 +15,7 @@ import 'package:esla7/Screens/Widgets/Custom_CountryKey.dart';
 import 'package:esla7/Screens/Widgets/Custom_DrawText.dart';
 import 'package:esla7/Screens/Widgets/Custom_SnackBar.dart';
 import 'package:esla7/Screens/Widgets/Custom_TextFormField.dart';
-import 'package:esla7/Theme/color.dart';
+import 'package:esla7/core/Theme/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,15 +1,14 @@
-import '../buttons_bloc/data/refuse/cubit.dart';
-import '../buttons_bloc/data/refuse/state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../../../Widgets/CenterLoading.dart';
 import '../../../../../Widgets/Custom_Button.dart';
 import '../../../../../Widgets/Custom_SnackBar.dart';
 import '../../../../../Widgets/Custom_TextFormField.dart';
 import '../../../../../Widgets/Custom_dialog.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../buttons_bloc/data/refuse/cubit.dart';
+import '../buttons_bloc/data/refuse/state.dart';
 import 'endingOrder_dialog.dart';
 
 class RejectedAlert extends StatelessWidget {

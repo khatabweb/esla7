@@ -1,11 +1,11 @@
-import '../../../Widgets/CenterLoading.dart';
-import '../../../Widgets/Custom_Button.dart';
-import '../../../Widgets/Custom_SnackBar.dart';
-import '../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
+import '../../../Widgets/CenterLoading.dart';
+import '../../../Widgets/Custom_Button.dart';
+import '../../../Widgets/Custom_SnackBar.dart';
+import '../../../Widgets/Custom_dialog.dart';
 import 'delete_bloc/cubit.dart';
 import 'delete_bloc/state.dart';
 

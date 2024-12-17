@@ -1,5 +1,6 @@
-import '../../Theme/color.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/Theme/color.dart';
 
 class CustomRichText extends StatelessWidget {
   final String? title;

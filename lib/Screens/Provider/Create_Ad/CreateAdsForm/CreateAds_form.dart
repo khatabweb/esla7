@@ -10,7 +10,7 @@ import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_SnackBar.dart';
 import '../../../Widgets/Custom_TextFieldTap.dart';
 import '../../../Widgets/Custom_popover.dart';
-import '../ads_packages_apis/cubit/ads_packages_cubit.dart';
+import '../ads_packages_data/cubit/ads_packages_cubit.dart';
 import 'Ads_Subscripe_bloc/cubit.dart';
 import 'Ads_Subscripe_bloc/state.dart';
 import 'ads_subscrib_dialog.dart';

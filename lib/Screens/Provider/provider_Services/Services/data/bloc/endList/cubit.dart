@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../../core/local_storge/cache_helper.dart';
 import '../../model/endlist_model.dart';
 import '../../repo/sub_end_list_repo.dart';
 import 'state.dart';
@@ -12,7 +12,7 @@ class EndServiceListCubit extends Cubit<EndServiceListState> {
 
   static EndServiceListCubit get(context) => BlocProvider.of(context);
 
-  late EndServiceListModel endListModel ;
+  late EndServiceListModel endListModel;
 
   Future<void> endService(int? serviceId) async {
     emit(EndServiceListLoadingState());
@@ -28,12 +28,15 @@ class EndServiceListCubit extends Cubit<EndServiceListState> {
 
       final response =
           await SubAndEndListRepo.endServiceList(formData: formData);
-      response.when(success: (responseData) {
-        endListModel = responseData;
-        emit(EndServiceListSuccessState(endListModel: responseData));
-      }, failure: (error) {
-        emit(EndServiceListErrorState(error.apiErrorModel.message!));
-      },);
+      response.when(
+        success: (responseData) {
+          endListModel = responseData;
+          emit(EndServiceListSuccessState(endListModel: responseData));
+        },
+        failure: (error) {
+          emit(EndServiceListErrorState(error.apiErrorModel.message!));
+        },
+      );
     } catch (e) {
       print(
           "::::::::::: Owner Details catch error ::::::::::::::${e.toString()}");

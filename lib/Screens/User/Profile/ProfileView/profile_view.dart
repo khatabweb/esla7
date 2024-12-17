@@ -1,13 +1,14 @@
-import '../EditProfile/view/EditProfile.dart';
-import 'data/cubit/profile_cubit.dart';
-import 'profile_items.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_AppBar.dart';
 import '../../../Widgets/Custom_RoundedPhoto.dart';
 import '../../../Widgets/Custom_ShapeContainer.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../EditProfile/view/EditProfile.dart';
+import 'data/cubit/profile_cubit.dart';
+import 'profile_items.dart';
 
 class Profile extends StatefulWidget {
   @override

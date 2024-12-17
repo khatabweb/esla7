@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import '../../../../../../API/api_error_handler.dart';
-import '../../../../../../API/api_result.dart';
-import '../../../../../../API/api_utility.dart';
+import '../../../../../../core/API/api_error_handler.dart';
+import '../../../../../../core/API/api_result.dart';
+import '../../../../../../core/API/api_utility.dart';
 import '../model/model.dart';
-import '../../../../../Widgets/helper/cache_helper.dart';
-import '../../../../../Widgets/helper/network_screvies.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
+import '../../../../../../core/API/network_screvies.dart';
 
 abstract class OwnerUpdateRepo {
   static Future<ApiResult<OwnerUpdateModel>> ownerUpdate(

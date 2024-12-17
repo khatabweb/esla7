@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import '../repo/repo.dart';
 import '../model/AllChatsModel.dart';
-import '../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
 
 part 'allchats_state.dart';
 
@@ -32,8 +32,8 @@ class AllChatsCubit extends Cubit<AllChatsState> {
     };
 
     FormData _formData = FormData.fromMap(_body);
-    final response = await AllChatsRepo().getAllChats(formData: _formData,
-        isUser: isUser);
+    final response =
+        await AllChatsRepo().getAllChats(formData: _formData, isUser: isUser);
 
     response.when(
       success: (data) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../../../../Theme/color.dart';
+import '../../../../core/Theme/color.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_DrawText.dart';

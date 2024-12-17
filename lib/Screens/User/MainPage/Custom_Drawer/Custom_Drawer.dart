@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../../../../API/api_utility.dart';
-import '../../../../Theme/color.dart';
+import '../../../../core/API/api_utility.dart';
+import '../../../../core/Theme/color.dart';
 import '../../../CommonScreen/DrawerPages/Views/AboutUs/AboutUs.dart';
-import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/Complaints_and_suggestions.dart';
+import '../../../CommonScreen/DrawerPages/Views/Complaints_and_suggestions/presentation/screen/Complaints_and_suggestions.dart';
 import '../../../CommonScreen/DrawerPages/Views/Language/change_language.dart';
 import '../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
 import '../../../CommonScreen/DrawerPages/Views/helpScreen/help_screen.dart';
@@ -17,7 +17,7 @@ import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_DrawText.dart';
 import '../../../Widgets/Custom_RoundedPhoto.dart';
-import '../../../Widgets/helper/cache_helper.dart';
+import '../../../../core/local_storge/cache_helper.dart';
 import '../../../Widgets/login_dialog/custom_login_dialog.dart';
 import '../../Profile/ProfileView/data/cubit/profile_cubit.dart';
 import '../../Profile/ProfileView/profile_view.dart';
@@ -164,29 +164,27 @@ class _DrawerViewState extends State<DrawerView> {
                           }
                         },
                       ),
-    
+
                 SizedBox(height: 5),
                 Divider(),
-    
+
                 //============= drawer content =================
                 Container(
                   height: 58 * listHeight,
                   child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                     itemCount: listTileData.length,
                     itemBuilder: (context, item) {
                       return _DrawerItem(
                         title: listTileData[item]["title"] as String?,
-                        onTap:
-                            listTileData[item]["onTap"] as void Function()?,
+                        onTap: listTileData[item]["onTap"] as void Function()?,
                         imgSrc: listTileData[item]["icon"] as String?,
                       );
                     },
                   ),
                 ),
-    
+
                 Divider(),
                 _ShareContact(),
               ],

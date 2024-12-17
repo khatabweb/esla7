@@ -6,9 +6,9 @@ import '../../Widgets/CenterLoading.dart';
 import '../../Widgets/Custom_AppBar.dart';
 import '../../Widgets/Custom_Button.dart';
 import '../../Widgets/Custom_DrawText.dart';
-import 'Ad_features_terms/ad_terms_view.dart';
+import 'Ad_features_terms/presentation/screen/ad_terms_view.dart';
 import 'CreateAdsForm/CreateAds_form.dart';
-import 'ads_packages_apis/cubit/ads_packages_cubit.dart';
+import 'ads_packages_data/cubit/ads_packages_cubit.dart';
 
 class CreateAdvertising extends StatefulWidget {
   CreateAdvertising({Key? key}) : super(key: key);

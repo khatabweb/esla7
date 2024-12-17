@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../../../../../Theme/color.dart';
+import '../../../../../core/Theme/color.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_PhotoScreen.dart';
 import '../../../../Widgets/Custom_RichText.dart';

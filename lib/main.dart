@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
 import 'Screens/CommonScreen/Splash/Splash.dart';
 import 'Screens/CommonScreen/UserOrProvider/UserOrProvider.dart';
 import 'Screens/Provider/ProviderMainPage/main_page.dart';
 import 'Screens/User/MainPage/main_page.dart';
-import 'Screens/Widgets/helper/app_storg.dart';
-import 'Screens/Widgets/helper/bloc_observe.dart';
-import 'Screens/Widgets/helper/bloc_providers.dart';
-import 'Screens/Widgets/helper/cache_helper.dart';
+import 'core/local_storge/app_storg.dart';
+import 'core/bloc/bloc_observe.dart';
+import 'core/local_storge/cache_helper.dart';
 import 'Screens/Widgets/helper/network_screvies.dart';
-import 'Screens/Widgets/helper/notification_helper.dart';
-import 'Theme/app_themedate.dart';
+import 'core/Theme/app_themedate.dart';
+import 'core/helper/bloc_providers.dart';
+import 'core/helper/notification_helper.dart';
 
 GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
 Future<void> main() async {

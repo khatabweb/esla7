@@ -1,4 +1,4 @@
-import 'package:esla7/Screens/User/MainPage/UserOrders/OrderDetails/data/model/model.dart';
+import '../model/model.dart';
 
 abstract class UserOrderDetailsState {}
 

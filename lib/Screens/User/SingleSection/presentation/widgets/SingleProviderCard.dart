@@ -1,4 +1,4 @@
-import '../../../../../Theme/color.dart';
+import '../../../../../core/Theme/color.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_RoundedPhoto.dart';
 import 'package:flutter/material.dart';

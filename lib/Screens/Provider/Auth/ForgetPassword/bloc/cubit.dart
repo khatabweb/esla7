@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import '../../../../../API/api_utility.dart';
+import '../../../../../core/API/api_utility.dart';
 import 'state.dart';
-import '../../../../Widgets/helper/cache_helper.dart';
-import '../../../../Widgets/helper/network_screvies.dart';
+import '../../../../../core/local_storge/cache_helper.dart';
+import '../../../../../core/API/network_screvies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OwnerResetCubit extends Cubit<OwnerResetState> {

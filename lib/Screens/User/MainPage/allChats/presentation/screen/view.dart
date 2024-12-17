@@ -1,4 +1,4 @@
-import '../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
 
 import '../../../Custom_Drawer/Custom_Drawer.dart';
 import '../widget/chatsList.dart';
@@ -35,7 +35,7 @@ class _AllChatsState extends State<AllChats> {
   @override
   void initState() {
     // _getAllChats();
-    context.read<AllChatsCubit>().getAllChats(isUser: widget.isUser);
+    // context.read<AllChatsCubit>().getAllChats(isUser: widget.isUser);
     skipCase();
     super.initState();
   }
@@ -72,7 +72,7 @@ class _AllChatsState extends State<AllChats> {
                       );
                     }
                     return Center(
-                      child: Text("Something went wrong"),
+                      child: Text("Coaming soon"),
                     );
                   },
                 ),

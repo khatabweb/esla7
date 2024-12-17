@@ -1,15 +1,14 @@
-import '../bloc/cubit.dart';
-import '../bloc/state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/Custom_Button.dart';
 import '../../../../Widgets/Custom_SnackBar.dart';
 import '../../../../Widgets/Custom_TextFormField.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../bloc/cubit.dart';
+import '../bloc/state.dart';
 import '../successfully_update_dialog.dart';
 
 class SetProviderNewPasswordForm extends StatefulWidget {

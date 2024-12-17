@@ -16,26 +16,27 @@ void openCommonBottomSheet(BuildContext context,
     builder: (ctx) => ConstrainedBox(
       constraints: BoxConstraints.expand(width: 100, height: 77),
       child: DraggableScrollableSheet(
-          initialChildSize: 0.98,
-          minChildSize: 0.88,
-          builder: (ctx, scrollCtrl) => Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              /// Top dragging notch.
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 5),
-                child: Container(
-                  height: 5,
-                  width: MediaQuery.of(context).size.width / 5,
-                  decoration: const BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                ),
+        initialChildSize: 0.98,
+        minChildSize: 0.88,
+        builder: (ctx, scrollCtrl) => Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            /// Top dragging notch.
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Container(
+                height: 5,
+                width: MediaQuery.of(context).size.width / 5,
+                decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
               ),
-              Expanded(child: destination!),
-            ],
-          )),
+            ),
+            Expanded(child: destination!),
+          ],
+        ),
+      ),
     ),
   );
 }

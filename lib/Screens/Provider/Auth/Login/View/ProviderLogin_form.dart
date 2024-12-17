@@ -1,19 +1,20 @@
-import '../bloc/cubit.dart';
-import '../bloc/state.dart';
-import '../../../../Widgets/CenterLoading.dart';
-import '../../../../Widgets/Custom_SnackBar.dart';
-import '../../../../../Theme/color.dart';
-import '../../ForgetPassword/View/ForgetPassword_page.dart';
-import '../../SignUp/View/ProviderSignUp_page.dart';
-import '../../../ProviderMainPage/main_page.dart';
-import '../../../../Widgets/AnimatedWidgets.dart';
-import '../../../../Widgets/Custom_Button.dart';
-import '../../../../Widgets/Custom_CountryKey.dart';
-// import '../../../../Widgets/Custom_DrawText.dart';
-import '../../../../Widgets/Custom_TextFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
+import '../../../../../core/Theme/color.dart';
+import '../../../../Widgets/AnimatedWidgets.dart';
+import '../../../../Widgets/CenterLoading.dart';
+import '../../../../Widgets/Custom_Button.dart';
+import '../../../../Widgets/Custom_CountryKey.dart';
+import '../../../../Widgets/Custom_SnackBar.dart';
+// import '../../../../Widgets/Custom_DrawText.dart';
+import '../../../../Widgets/Custom_TextFormField.dart';
+import '../../../ProviderMainPage/main_page.dart';
+import '../../ForgetPassword/View/ForgetPassword_page.dart';
+import '../../SignUp/View/ProviderSignUp_page.dart';
+import '../bloc/cubit.dart';
+import '../bloc/state.dart';
 
 class ProviderLoginForm extends StatefulWidget {
   @override

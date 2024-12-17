@@ -1,11 +1,12 @@
-import '../ProviderDrawer/ProviderDrawer.dart';
-import 'CurrentOrders/CurrentOrders.dart';
-import 'FinishedOrders/FinishedOrders.dart';
+import 'package:flutter/material.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/Custom_AppBar.dart';
 import '../../../Widgets/Custom_Background.dart';
-import 'package:flutter/material.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
+import '../ProviderDrawer/ProviderDrawer.dart';
+import 'CurrentOrders/CurrentOrders.dart';
+import 'FinishedOrders/FinishedOrders.dart';
 
 class ProviderOrdersView extends StatefulWidget {
   @override

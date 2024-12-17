@@ -1,4 +1,4 @@
-import '../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
 import '../../data/cubit/user_notification_cubit.dart';
 import '../widget/notification_item.dart';
 import '../../../../../Widgets/CenterLoading.dart';
@@ -73,8 +73,7 @@ class _NotificationPageState extends State<NotificationPage> {
                               titles: context.locale.languageCode == "ar"
                                   ? "${model.notification?[index]?.body}"
                                   : "${model.notification?[index]?.bodyEn}",
-                              orderNumber:
-                                  model.notification?[index]?.orderId,
+                              orderNumber: model.notification?[index]?.orderId,
                             );
                           },
                         ),

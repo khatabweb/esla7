@@ -1,7 +1,7 @@
 import 'dart:io';
 import '../../../ProviderProfile/EndService/data/bloc/cubit.dart';
 import '../../../ProviderProfile/EndService/data/model/model.dart';
-import '../../../../../Theme/color.dart';
+import '../../../../../core/Theme/color.dart';
 import '../../../../Widgets/Custom_BottomSheet.dart';
 import '../../../../Widgets/Custom_DrawText.dart';
 import '../../../../Widgets/Custom_RichText.dart';

@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import '../../../../core/API/network_screvies.dart';
 
-import '../../../../API/api_utility.dart';
-import '../../../Widgets/helper/network_screvies.dart';
+import '../../../../core/API/api_utility.dart';
+
 import '../models/aboutus_model.dart';
 import '../models/helping_model.dart';
 import '../models/terms_model.dart';

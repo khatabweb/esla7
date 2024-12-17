@@ -1,6 +1,6 @@
 import '../../../../../Widgets/CenterLoading.dart';
 import '../../../../../Widgets/Custom_SnackBar.dart';
-import '../../../../../../Theme/color.dart';
+import '../../../../../../core/Theme/color.dart';
 import '../component/success_dialog.dart';
 import '../../../../../Widgets/Custom_Button.dart';
 import '../../../../../Widgets/Custom_dialog.dart';

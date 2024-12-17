@@ -1,8 +1,11 @@
-import 'SingleOrder.dart';
-import '../../data/bloc/cubit.dart';
-import '../component/CancelAlert.dart';
-import '../../../MainPage/main_page.dart';
-import '../../../ProviderProfile/EndService/data/bloc/cubit.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+
 import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/CenterLoading.dart';
 import '../../../../Widgets/Custom_AppBar.dart';
@@ -12,17 +15,13 @@ import '../../../../Widgets/Custom_Button.dart';
 // import '../../../../Widgets/Custom_RichText.dart';
 import '../../../../Widgets/Custom_SnackBar.dart';
 import '../../../../Widgets/Custom_TextFieldTap.dart';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
-
+import '../../../MainPage/main_page.dart';
+import '../../../ProviderProfile/EndService/data/bloc/cubit.dart';
+import '../../data/bloc/cubit.dart';
 import '../../data/bloc/state.dart';
+import '../component/CancelAlert.dart';
 import '../component/ConfirmAlert.dart';
+import 'SingleOrder.dart';
 
 class CartPage extends StatefulWidget {
   @override

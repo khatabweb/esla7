@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../../../../../Theme/color.dart';
-import '../../../../CommonScreen/CitiesDropDown/cities_dropdown.dart';
+import '../../../../../core/Theme/color.dart';
+import '../../../../CommonScreen/CitiesDropDown/presentation/screen/cities_dropdown.dart';
 import '../../../../CommonScreen/DrawerPages/Views/TermsAndCondition/TermsAndCondition.dart';
 import '../../../../Widgets/AnimatedWidgets.dart';
 import '../../../../Widgets/CenterLoading.dart';

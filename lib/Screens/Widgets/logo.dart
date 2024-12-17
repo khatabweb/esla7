@@ -1,10 +1,8 @@
-import 'AnimatedWidgets.dart';
 import 'package:flutter/material.dart';
-// import 'package:localize_and_translate/localize_and_translate.dart';
+import 'AnimatedWidgets.dart';
 
 class CustomLogo extends StatelessWidget {
   final double? verticalOffset, horizontalOffset, size;
-  // final String language = context.locale.languageCode;
 
   CustomLogo({this.verticalOffset, this.horizontalOffset, this.size});
 
@@ -21,7 +19,7 @@ class CustomLogo extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage("assets/images/android.png"),
             fit: BoxFit.cover,
-          )
+          ),
         ),
       ),
     );

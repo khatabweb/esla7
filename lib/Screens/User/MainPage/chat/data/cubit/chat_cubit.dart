@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import '../model/model.dart';
 import '../repo/chat_repo.dart';
-import '../../../../../Widgets/helper/cache_helper.dart';
+import '../../../../../../core/local_storge/cache_helper.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'chat_state.dart';

@@ -1,8 +1,9 @@
-import '../../../../../Widgets/Custom_Button.dart';
-import '../../../../../Widgets/Custom_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
+import '../../../../../Widgets/Custom_Button.dart';
+import '../../../../../Widgets/Custom_dialog.dart';
 
 class CancelOrderAlert extends StatelessWidget {
   @override

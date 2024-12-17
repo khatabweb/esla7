@@ -1,8 +1,9 @@
-import '../widget/SignUp_form.dart';
-import '../../../../../Widgets/Custom_ShapeContainer.dart';
-import '../../../../../Widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+
+import '../../../../../Widgets/Custom_ShapeContainer.dart';
+import '../../../../../Widgets/logo.dart';
+import '../widget/SignUp_form.dart';
 
 class SignUpPage extends StatelessWidget {
   @override

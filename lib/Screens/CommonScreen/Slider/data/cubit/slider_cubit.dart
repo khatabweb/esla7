@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../API/slider_controller.dart';
+import '../repo/slider_repo.dart';
 import '../model/slider_models.dart';
 
 part 'slider_state.dart';

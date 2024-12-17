@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
-import '../repo/search_repo.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/model.dart';
+import '../repo/search_repo.dart';
 import 'state.dart';
 
 class SearchCubit extends Cubit<SearchState> {

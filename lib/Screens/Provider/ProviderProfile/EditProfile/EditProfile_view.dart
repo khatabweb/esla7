@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
-import '../../../../API/api_utility.dart';
-import '../../../../Theme/color.dart';
+import '../../../../core/API/api_utility.dart';
+import '../../../../core/Theme/color.dart';
 import '../../../Widgets/AnimatedWidgets.dart';
 import '../../../Widgets/CenterLoading.dart';
 import '../../../Widgets/Custom_AppBar.dart';

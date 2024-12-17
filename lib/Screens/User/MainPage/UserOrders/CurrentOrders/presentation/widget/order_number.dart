@@ -1,5 +1,5 @@
 import '../../../../../../Widgets/Custom_DrawText.dart';
-import '../../../../../../../Theme/color.dart';
+import '../../../../../../../core/Theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 

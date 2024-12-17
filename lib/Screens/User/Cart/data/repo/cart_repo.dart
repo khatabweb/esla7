@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import '../../../../../API/api_error_handler.dart';
-import '../../../../../API/api_result.dart';
-import '../../../../../API/api_utility.dart';
-import '../../../../Widgets/helper/network_screvies.dart';
+import '../../../../../core/API/api_error_handler.dart';
+import '../../../../../core/API/api_result.dart';
+import '../../../../../core/API/api_utility.dart';
+import '../../../../../core/API/network_screvies.dart';
 
 abstract class CartRepo {
   static Future<ApiResult> addToCart({required FormData formData}) async {
